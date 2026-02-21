@@ -5,6 +5,9 @@
 - [ ] 3Sum
 - [ ] 4Sum
 - [ ] Merge Overlapping Subintervals 
+- [ ] Merge two sorted arrays without extra space
+- [ ] Reverse Pairs
+- [ ] Maximum Product Subarray in an Array
 
 ## 1️⃣7️⃣ Pascal’s Triangle
 
