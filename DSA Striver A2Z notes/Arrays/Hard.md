@@ -314,3 +314,112 @@ class Solution {
 
 
 ---
+## 1️⃣9️⃣ 3Sum
+
+### Core Insight
+
+Fix one element, then reduce the problem to **Two Sum on a sorted array** using two pointers.  
+Sorting enables duplicate handling and pointer movement logic.
+
+---
+
+### Algorithm
+
+1. Sort the array
+    
+2. For each index `i`:
+    
+    - Skip duplicates (`nums[i] == nums[i-1]`)
+        
+    - Use two pointers:
+        
+        - `j = i+1`
+            
+        - `k = n-1`
+            
+3. While `j < k`:
+    
+    - If sum < 0 → `j++`
+        
+    - If sum > 0 → `k--`
+        
+    - If sum == 0:
+        
+        - Add triplet
+            
+        - Move both pointers
+            
+        - Skip duplicates for `j` and `k`
+            
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        int n = nums.length;
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int j = i + 1, k = n - 1;
+
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+
+                if (sum < 0) j++;
+                else if (sum > 0) k--;
+                else {
+                    ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    j++; k--;
+
+                    while (j < k && nums[j] == nums[j - 1]) j++;
+                    while (j < k && nums[k] == nums[k + 1]) k--;
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[-1,0,1,2,-1,-4]`  
+**Output:** `[[-1,-1,2],[-1,0,1]]`
+
+---
+
+### Complexity
+
+- Time: **O(n²)**  
+    (Sorting O(n log n) + two-pointer O(n²))
+    
+- Space: **O(1)** (excluding output)
+    
+
+---
+
+### Interview Notes
+
+- Sorting is mandatory
+    
+- Skip duplicates at:
+    
+    - Fixed index `i`
+        
+    - After finding valid triplet
+        
+- Cannot do better than **O(n²)** (optimal)
+    
+- Pattern: **Sorting + Two Pointers**
+    
+
+---
+
