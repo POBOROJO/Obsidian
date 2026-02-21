@@ -8,7 +8,7 @@
 ## 🧠 Overall Progress
 
 ```dataviewjs
-const DSA_FOLDER = "DSA Striver A2Z notes";
+const DSA_FOLDER = "Obsidian/DSA Striver A2Z notes";
 
 const pages = dv.pages(`"${DSA_FOLDER}"`);
 
@@ -39,11 +39,11 @@ dv.paragraph(
 ## 📂 Progress by Step
 
 ```dataviewjs
-const DSA_FOLDER = "DSA Striver A2Z notes";
+const DSA_FOLDER = "Obsidian/DSA Striver A2Z notes";
 
 // ✏️ Add a new line here each time you create a new topic folder
 const steps = [
-  { folder: "Arrays",          label: "Step 03 · Arrays" },
+  { folder: "Arrays",           label: "Step 03 · Arrays" },
   // { folder: "Binary Search",   label: "Step 04 · Binary Search" },
   // { folder: "Strings",         label: "Step 05 · Strings" },
   // { folder: "Linked List",     label: "Step 06 · Linked List" },
@@ -92,7 +92,7 @@ dv.table(["", "Topic", "Progress", "Solved"], rows);
 
 ```dataview
 TASK
-FROM "DSA Striver A2Z notes"
+FROM "Obsidian/DSA Striver A2Z notes"
 WHERE !completed AND contains(tags, "revisit")
 SORT file.name ASC
 ```
@@ -103,7 +103,7 @@ SORT file.name ASC
 
 ```dataview
 TASK
-FROM "DSA Striver A2Z notes"
+FROM "Obsidian/DSA Striver A2Z notes"
 WHERE completed
 SORT file.mtime DESC
 LIMIT 10
@@ -115,7 +115,7 @@ LIMIT 10
 
 ```dataview
 TASK
-FROM "DSA Striver A2Z notes"
+FROM "Obsidian/DSA Striver A2Z notes"
 WHERE !completed AND contains(tags, "hard")
 SORT file.name ASC
 ```
@@ -126,7 +126,7 @@ SORT file.name ASC
 
 ```dataviewjs
 const today = dv.date("today");
-const pages = dv.pages('"DSA Striver A2Z notes"');
+const pages = dv.pages('"Obsidian/DSA Striver A2Z notes"');
 
 let solved = [];
 

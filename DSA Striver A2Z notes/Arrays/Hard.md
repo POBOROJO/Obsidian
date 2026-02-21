@@ -1,7 +1,10 @@
 --- tags: [arrays, hard] --- 
 ## ✅ Problem Tracker - 
 - [x] 1️⃣7️⃣ Pascal's Triangle  
-- [x] 1️⃣8️⃣ Majority Element II
+- [ ] 1️⃣8️⃣ Majority Element II
+- [ ] 3Sum
+- [ ] 4Sum
+- [ ] Merge Overlapping Subintervals 
 
 ## 1️⃣7️⃣ Pascal’s Triangle
 
