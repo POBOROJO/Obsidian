@@ -2,7 +2,7 @@
 ## ✅ Problem Tracker - 
 - [x] 1️⃣7️⃣ Pascal's Triangle  
 - [x] 1️⃣8️⃣ Majority Element II
-- [x] 3Sum
+- [ ] 3Sum
 - [ ] 4Sum
 - [ ] Merge Overlapping Subintervals 
 
