@@ -104,8 +104,8 @@ Remaining        : 455
 ### 1.6 · Learn Basic Hashing
 
 - [x] Hashing Theory
-- [ ] Count Frequency of Each Element
-- [ ] Find the Highest/Lowest Frequency Element
+- [x] Count Frequency of Each Element
+- [x] Find the Highest/Lowest Frequency Element
 
 ---
 
@@ -113,9 +113,9 @@ Remaining        : 455
 
 ### 2.1 · Sorting I
 
-- [ ] Selection Sort
-- [ ] Bubble Sort
-- [ ] Insertion Sort
+- [x] Selection Sort
+- [x] Bubble Sort
+- [x] Insertion Sort
 
 ### 2.2 · Sorting II
 

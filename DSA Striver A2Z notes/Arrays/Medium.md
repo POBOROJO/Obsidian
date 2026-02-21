@@ -1,4 +1,8 @@
---- tags: [arrays, medium] --- 
+---
+tags:
+  - arrays
+  - hard
+---
 ## ✅ Problem Tracker - 
 - [x] 6️⃣ Two Sum 
 - [x] 7️⃣ Sort Colors 

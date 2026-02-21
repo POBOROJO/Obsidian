@@ -41,23 +41,23 @@ dv.paragraph(
 ```dataviewjs
 const DSA_FOLDER = "Obsidian/DSA Striver A2Z notes";
 
-// ✏️ Add a new line here each time you create a new topic folder
+// ✏️ Uncomment a line when you create that folder
 const steps = [
-  { folder: "Arrays",           label: "Step 03 · Arrays" },
-  // { folder: "Binary Search",   label: "Step 04 · Binary Search" },
-  // { folder: "Strings",         label: "Step 05 · Strings" },
-  // { folder: "Linked List",     label: "Step 06 · Linked List" },
-  // { folder: "Recursion",       label: "Step 07 · Recursion & Backtracking" },
-  // { folder: "Bit Manipulation",label: "Step 08 · Bit Manipulation" },
-  // { folder: "Stacks Queues",   label: "Step 09 · Stacks & Queues" },
-  // { folder: "Sliding Window",  label: "Step 10 · Sliding Window" },
-  // { folder: "Heaps",           label: "Step 11 · Heaps" },
-  // { folder: "Greedy",          label: "Step 12 · Greedy" },
-  // { folder: "Binary Trees",    label: "Step 13 · Binary Trees" },
-  // { folder: "BST",             label: "Step 14 · BST" },
-  // { folder: "Graphs",          label: "Step 15 · Graphs" },
-  // { folder: "DP",              label: "Step 16 · Dynamic Programming" },
-  // { folder: "Tries",           label: "Step 17 · Tries" },
+  { folder: "Arrays",         label: "Step 03 · Arrays" },
+  { folder: "Binary Search",  label: "Step 04 · Binary Search" },
+  // { folder: "Strings",        label: "Step 05 · Strings" },
+  // { folder: "Linked List",    label: "Step 06 · Linked List" },
+  // { folder: "Recursion",      label: "Step 07 · Recursion & Backtracking" },
+  // { folder: "Bit Manipulation", label: "Step 08 · Bit Manipulation" },
+  // { folder: "Stacks Queues",  label: "Step 09 · Stacks & Queues" },
+  // { folder: "Sliding Window", label: "Step 10 · Sliding Window" },
+  // { folder: "Heaps",          label: "Step 11 · Heaps" },
+  // { folder: "Greedy",         label: "Step 12 · Greedy" },
+  // { folder: "Binary Trees",   label: "Step 13 · Binary Trees" },
+  // { folder: "BST",            label: "Step 14 · BST" },
+  // { folder: "Graphs",         label: "Step 15 · Graphs" },
+  // { folder: "DP",             label: "Step 16 · Dynamic Programming" },
+  // { folder: "Tries",          label: "Step 17 · Tries" },
 ];
 
 const rows = [];
@@ -150,4 +150,4 @@ if (solved.length === 0) {
 
 ---
 
-> 💡 **Tip:** When you create a new topic folder (e.g. `Binary Search`), just uncomment its line in the `steps` array above. Make sure the `folder` name matches exactly what you named it in Obsidian.
+> 💡 **Tip:** When you create a new topic folder, just uncomment its line in the `steps` array above. Make sure the folder name matches exactly what you named it in Obsidian.

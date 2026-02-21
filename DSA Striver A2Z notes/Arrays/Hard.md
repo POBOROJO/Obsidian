@@ -1,13 +1,22 @@
---- tags: [arrays, hard] --- 
-## ✅ Problem Tracker - 
-- [x] 1️⃣7️⃣ Pascal's Triangle  
-- [x] 1️⃣8️⃣ Majority Element II
-- [ ] 3Sum
-- [ ] 4Sum
-- [ ] Merge Overlapping Subintervals 
-- [ ] Merge two sorted arrays without extra space
-- [ ] Reverse Pairs
-- [ ] Maximum Product Subarray in an Array
+---
+tags:
+  - arrays
+  - hard
+---
+
+## ✅ Problem Tracker
+- [x] 1️⃣ Pascal's Triangle
+- [x] 2️⃣ Majority Element II (N/3 times)
+- [ ] 3️⃣ 3Sum
+- [ ] 4️⃣ 4Sum
+- [ ] 5️⃣ Largest Subarray with 0 Sum
+- [ ] 6️⃣ Count Subarrays with XOR = K
+- [ ] 7️⃣ Merge Overlapping Intervals
+- [ ] 8️⃣ Merge Two Sorted Arrays Without Extra Space
+- [ ] 9️⃣ Find Missing and Repeating Number
+- [ ] 🔟 Count Inversions (Merge Sort)
+- [ ] 1️⃣1️⃣ Reverse Pairs (Merge Sort)
+- [ ] 1️⃣2️⃣ Maximum Product Subarray
 
 ## 1️⃣7️⃣ Pascal’s Triangle
 

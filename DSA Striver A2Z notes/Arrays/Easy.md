@@ -1,4 +1,8 @@
---- tags: [arrays, easy] --- 
+---
+tags:
+  - arrays
+  - easy
+---
 ## ✅ Problem Tracker - 
 - [x] 1️⃣ Check if Array Is Sorted and Rotated
 - [x] 2️⃣ Remove Duplicates from Sorted Array 
