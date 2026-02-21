@@ -7,7 +7,7 @@ tags:
 ## ✅ Problem Tracker
 - [x] 1️⃣ Pascal's Triangle
 - [x] 2️⃣ Majority Element II (N/3 times)
-- [ ] 3️⃣ 3Sum
+- [x] 3️⃣ 3Sum
 - [ ] 4️⃣ 4Sum
 - [ ] 5️⃣ Largest Subarray with 0 Sum
 - [ ] 6️⃣ Count Subarrays with XOR = K
