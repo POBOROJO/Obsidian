@@ -318,8 +318,9 @@ class Solution {
 
 ### Core Insight
 
-Fix one element, then reduce the problem to **Two Sum on a sorted array** using two pointers.  
-Sorting enables duplicate handling and pointer movement logic.
+==Fix one element, then reduce the problem to **Two Sum on a sorted array** using two pointers==. 
+
+> Sorting enables duplicate handling and pointer movement logic.
 
 ---
 
