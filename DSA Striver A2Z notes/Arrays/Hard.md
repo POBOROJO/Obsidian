@@ -330,7 +330,7 @@ class Solution {
     
 2. For each index `i`:
     
-    - Skip duplicates (`nums[i] == nums[i-1]`)
+    - Skip duplicates (`nums[i] == nums[i-1]`) **i.e** ==`continue`==
         
     - Use two pointers:
         
@@ -365,7 +365,7 @@ class Solution {
         int n = nums.length;
 
         for (int i = 0; i < n; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue;
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicates
 
             int j = i + 1, k = n - 1;
 
@@ -373,7 +373,9 @@ class Solution {
                 int sum = nums[i] + nums[j] + nums[k];
 
                 if (sum < 0) j++;
+                
                 else if (sum > 0) k--;
+                
                 else {
                     ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
                     j++; k--;
