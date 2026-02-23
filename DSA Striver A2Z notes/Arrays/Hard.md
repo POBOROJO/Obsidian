@@ -8,7 +8,7 @@ tags:
 - [x] 1️⃣ Pascal's Triangle
 - [x] 2️⃣ Majority Element II (N/3 times)
 - [x] 3️⃣ 3Sum
-- [ ] 4️⃣ 4Sum
+- [x] 4️⃣ 4Sum
 - [ ] 5️⃣ Largest Subarray with 0 Sum
 - [ ] 6️⃣ Count Subarrays with XOR = K
 - [ ] 7️⃣ Merge Overlapping Intervals
@@ -426,3 +426,132 @@ class Solution {
 
 ---
 
+## 2️⃣0️⃣ 4Sum
+
+### Core Insight
+
+Fix **two elements**, then reduce the rest to a **Two Pointer search**.  
+This is a direct extension of **3Sum**.
+
+Sorting enables:
+
+- Duplicate skipping
+    
+- Efficient pointer movement
+    
+
+---
+
+### Algorithm
+
+1. Sort the array
+    
+2. Fix first index `i`
+    
+    - Skip duplicates
+        
+3. Fix second index `j`
+    
+    - Skip duplicates
+        
+4. Use two pointers:
+    
+    - `k = j+1`
+        
+    - `l = n-1`
+        
+5. While `k < l`:
+    
+    - Compute sum (use `long` to prevent overflow)
+        
+    - If sum < target → `k++`
+        
+    - If sum > target → `l--`
+        
+    - If equal:
+        
+        - Add quadruplet
+            
+        - Move both pointers
+            
+        - Skip duplicates
+            
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums.length;
+
+        for (int i = 0; i < n; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            for (int j = i + 1; j < n; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+
+                int k = j + 1, l = n - 1;
+
+                while (k < l) {
+                    long sum = (long) nums[i] + nums[j] + nums[k] + nums[l];
+
+                    if (sum < target) k++;
+                    else if (sum > target) l--;
+                    else {
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[k], nums[l]));
+                        k++; l--;
+
+                        while (k < l && nums[k] == nums[k - 1]) k++;
+                        while (k < l && nums[l] == nums[l + 1]) l--;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,0,-1,0,-2,2]`, target = `0`  
+**Output:** `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
+
+---
+
+### Complexity
+
+- Time: **O(n³)**
+    
+- Space: **O(1)** (excluding output)
+    
+
+---
+
+### Interview Notes
+
+- Must use `long` for sum (overflow risk)
+    
+- Skip duplicates at:
+    
+    - `i`
+        
+    - `j`
+        
+    - `k`
+        
+    - `l`
+        
+- Natural extension:  
+    2Sum → 3Sum → 4Sum → kSum
+    
+- Pattern: **Sorting + Two Pointers (Nested)**
+    
+
+---
