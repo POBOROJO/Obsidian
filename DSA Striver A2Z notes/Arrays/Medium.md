@@ -18,6 +18,12 @@ tags:
 
 ## 6️⃣ Two Sum
 
+### Problem
+
+Given an array `nums` and an integer `target`, return indices of two numbers such that they add up to `target`.
+Exactly one solution exists, and you cannot use the same element twice.
+
+---
 ### Core Insight
 
 For each number, check if its **complement** already exists using a hash map.
@@ -83,6 +89,11 @@ class Solution {
 
 ## 7️⃣ Sort Colors (Dutch National Flag)
 
+### Problem
+
+Given an array containing only `0,1,2`, sort it in-place so that same colors are adjacent.
+
+---
 ### Core Insight
 
 Only `0,1,2` → partition array into **three regions** in one pass.
@@ -168,6 +179,12 @@ class Solution {
 
 ## 8️⃣ Majority Element (Boyer–Moore Voting)
 
+### Problem
+
+Given an array, return the element appearing more than ⌊n/2⌋ times.
+It is guaranteed to exist.
+
+---
 ### Core Insight
 
 If an element appears **more than n/2 times**, it will **survive all pair cancellations**.  
@@ -263,7 +280,13 @@ class Solution {
 
 ## 9️⃣ Maximum Subarray (Kadane’s Algorithm)
 
-### ==Max sub arrays ka sum==
+#### ==Max sub arrays ka sum==
+
+### Problem
+
+Find the contiguous subarray with the largest sum and return its sum.
+
+---
 ### Core Insight
 
 A subarray with negative sum is **never worth extending**.  
@@ -344,6 +367,11 @@ class Solution {
 
 ## 🔟 Best Time to Buy and Sell Stock
 
+### Problem
+
+Choose one buy day and one later sell day to maximize profit.
+
+---
 ### Core Insight
 
 Maximum profit = **best future sell price − lowest price seen so far**.  
@@ -425,6 +453,11 @@ class Solution {
 
 ## 1️⃣1️⃣ Rearrange Array Elements by Sign
 
+### Problem
+
+Rearrange array so positives and negatives alternate, starting with positive, preserving order.
+
+---
 ### Core Insight
 
 Positives and negatives are **equal in count** and order must be preserved.  
@@ -511,6 +544,12 @@ class Solution {
 
 ## 1️⃣2️⃣ Next Permutation
 
+### Problem
+
+Transform array into the next lexicographically greater permutation.
+If not possible, return lowest permutation.
+
+---
 ### Core Insight
 
 The next lexicographical permutation is obtained by:
@@ -629,6 +668,11 @@ class Solution {
 ---
 ## 1️⃣3️⃣ Array Leaders
 
+### Problem
+
+Return all elements that are ≥ every element to their right.
+
+---
 ### Core Insight
 
 An element is a **leader** if it is **≥ every element to its right**.  
@@ -708,6 +752,11 @@ class Solution {
 
 ## 1️⃣4️⃣ Longest Consecutive Sequence
 
+### Problem
+
+Return length of longest consecutive integer sequence.
+
+---
 ### Core Insight
 
 Only start counting a sequence from a number **that has no predecessor** (`x-1`).  
@@ -817,6 +866,11 @@ class Solution {
 
 ## 1️⃣5️⃣ Rotate Image (90° Clockwise)
 
+### Problem
+
+Rotate an `n x n` matrix 90° clockwise in-place.
+
+----
 ### Core Insight
 
 A 90° clockwise rotation =  
@@ -918,10 +972,15 @@ This transformation appears to be a 90-degree counterclockwise rotation of the o
 
 ## 1️⃣6️⃣ Spiral Matrix
 
+### Problem
+
+Return all matrix elements in spiral order.
+
+---
+
 ### Core Insight
 
-Traverse the matrix layer by layer using **4 boundaries**.  
-Shrink boundaries after completing each direction.
+Use shrinking boundaries: top, bottom, left, right.
 
 ---
 
@@ -1028,3 +1087,4 @@ $$
 - Pattern: **Matrix Boundary Traversal**
 
 ---
+

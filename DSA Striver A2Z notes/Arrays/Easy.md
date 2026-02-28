@@ -10,7 +10,13 @@ tags:
 - [x] 4️⃣ Move Zeroes
 - [x] 5️⃣ Missing Number 
 
-## 1️⃣ Check if Array Is Sorted and Rotated
+# 1️⃣ Check if Array Is Sorted and Rotated
+
+### Problem
+
+Given an array `nums`, return `true` if it was originally sorted in non-decreasing order and then rotated any number of times (including 0). Otherwise return `false`.
+
+---
 
 ### Core Insight
 
@@ -20,13 +26,10 @@ A non-decreasing sorted array rotated any number of times has **at most one inve
 
 ### Algorithm
 
-- Count inversions in linear order
-    
-- Also compare `nums[n-1] > nums[0]` for circular break
-    
-- If total breaks ≤ 1 → **valid**  
-    
-- If > 1 → **not valid**   
+* Count inversions in linear order
+* Also compare `nums[n-1] > nums[0]` for circular break
+* If total breaks ≤ 1 → **valid**
+* If > 1 → **not valid**
 
 ---
 
@@ -52,48 +55,46 @@ class Solution {
 
 ### Example
 
-**Input:** `[3,4,5,1,2]`  
+**Input:** `[3,4,5,1,2]`
 **Output:** `true`
 
 ---
 
 ### Complexity
 
-- Time: **O(n)**
-    
-- Space: **O(1)**
-    
+* Time: **O(n)**
+* Space: **O(1)**
 
 ---
 
 ### Interview Notes
 
-- Duplicates allowed → use `>` not `>=`
-    
-- Missing circular check = **wrong**
-    
-- Pattern: **Rotated Sorted Array Validation**
-    
+* Duplicates allowed → use `>` not `>=`
+* Missing circular check = **wrong**
+* Pattern: **Rotated Sorted Array Validation**
 
 ---
 
-## 2️⃣ Remove Duplicates from Sorted Array
+# 2️⃣ Remove Duplicates from Sorted Array
+
+### Problem
+
+Given a sorted array `nums`, remove duplicates **in-place** such that each unique element appears once. Return the number of unique elements `k`.
+
+---
 
 ### Core Insight
 
-Sorted array ⇒ duplicates are adjacent.  
+Sorted array ⇒ duplicates are adjacent.
 Use **two pointers** to overwrite duplicates in-place.
 
 ---
 
 ### Algorithm
 
-- `i` → last unique index
-    
-- `j` → scan array
-    
-- On new value: increment `i`, overwrite
-    
+* `i` → last unique index
+* `j` → scan array
+* On new value: increment `i`, overwrite
 
 ---
 
@@ -120,32 +121,33 @@ class Solution {
 
 ### Example
 
-**Input:** `[0,0,1,1,2,2,3]`  
+**Input:** `[0,0,1,1,2,2,3]`
 **Output:** `k = 4`, array → `[0,1,2,3]`
 
 ---
 
 ### Complexity
 
-- Time: **O(n)**
-    
-- Space: **O(1)**
-    
+* Time: **O(n)**
+* Space: **O(1)**
 
 ---
 
 ### Interview Notes
 
-- Invariant: `nums[0..i]` always unique
-    
-- Overwriting equal values is safe
-    
-- Pattern: **Two Pointers / In-place Deduplication**
-    
+* Invariant: `nums[0..i]` always unique
+* Overwriting equal values is safe
+* Pattern: **Two Pointers / In-place Deduplication**
 
 ---
 
-## 3️⃣ Rotate Array (Right Rotation)
+# 3️⃣ Rotate Array (Right Rotation)
+
+### Problem
+
+Given an array `nums` and integer `k`, rotate the array to the right by `k` steps in-place.
+
+---
 
 ### Core Insight
 
@@ -156,13 +158,9 @@ Right rotation by `k` can be done using **three reversals**.
 ### Algorithm
 
 1. `k = k % n`
-    
 2. Reverse entire array
-    
 3. Reverse first `k` elements
-    
 4. Reverse remaining `n-k`
-    
 
 ---
 
@@ -195,48 +193,46 @@ class Solution {
 
 ### Example
 
-**Input:** `[1,2,3,4,5,6,7], k = 3`  
+**Input:** `[1,2,3,4,5,6,7], k = 3`
 **Output:** `[5,6,7,1,2,3,4]`
 
 ---
 
 ### Complexity
 
-- Time: **O(n)**
-    
-- Space: **O(1)**
-    
+* Time: **O(n)**
+* Space: **O(1)**
 
 ---
 
 ### Interview Notes
 
-- Forgetting `k % n` = rookie error
-    
-- Mandatory pattern
-    
-- Pattern: **Array Rotation via Reversal**
-    
+* Forgetting `k % n` = rookie error
+* Mandatory pattern
+* Pattern: **Array Rotation via Reversal**
 
 ---
 
-## 4️⃣ Move Zeroes
+# 4️⃣ Move Zeroes
+
+### Problem
+
+Move all `0`s to the end of the array while maintaining the relative order of non-zero elements. Must be done in-place.
+
+---
 
 ### Core Insight
 
-Don’t move zeros.  
+Don’t move zeros.
 **Shift non-zeros forward**, zeros fall to the end.
 
 ---
 
 ### Algorithm
 
-- Find first zero index
-    
-- Swap subsequent non-zeros forward
-    
-- Preserve order (stable)
-    
+* Find first zero index
+* Swap subsequent non-zeros forward
+* Preserve order (stable)
 
 ---
 
@@ -271,46 +267,45 @@ class Solution {
 
 ### Example
 
-**Input:** `[0,1,0,3,12]`  
+**Input:** `[0,1,0,3,12]`
 **Output:** `[1,3,12,0,0]`
 
 ---
 
 ### Complexity
 
-- Time: **O(n)**
-    
-- Space: **O(1)**
-    
+* Time: **O(n)**
+* Space: **O(1)**
 
 ---
 
 ### Interview Notes
 
-- Stable partition
-    
-- Two-pass but very safe
-    
-- Pattern: **Two Pointers / Stable Partition**
-    
+* Stable partition
+* Two-pass but very safe
+* Pattern: **Two Pointers / Stable Partition**
 
 ---
 
-## 5️⃣ Missing Number
+# 5️⃣ Missing Number
+
+### Problem
+
+Given `n` distinct numbers in range `[0, n]`, return the only missing number.
+
+---
 
 ### Core Insight
 
-Numbers are in range `[0,n]`.  
+Numbers are in range `[0,n]`.
 Missing number = **expected sum − actual sum**.
 
 ---
 
 ### Algorithm
 
-- Compute `n*(n+1)/2`
-    
-- Subtract array sum
-    
+* Compute `n*(n+1)/2`
+* Subtract array sum
 
 ---
 
@@ -333,25 +328,22 @@ class Solution {
 
 ### Example
 
-**Input:** `[3,0,1]`  
+**Input:** `[3,0,1]`
 **Output:** `2`
 
 ---
 
 ### Complexity
 
-- Time: **O(n)**
-    
-- Space: **O(1)**
-    
+* Time: **O(n)**
+* Space: **O(1)**
 
 ---
 
 ### Interview Notes
 
-- XOR version avoids overflow
-    
-- Pattern: **Math / Range Sum Difference**
-    
+* XOR version avoids overflow
+* Pattern: **Math / Range Sum Difference**
 
 ---
+

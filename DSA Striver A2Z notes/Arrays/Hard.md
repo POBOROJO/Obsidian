@@ -5,27 +5,36 @@ tags:
 ---
 
 ## ✅ Problem Tracker
-- [x] 1️⃣ Pascal's Triangle
-- [x] 2️⃣ Majority Element II (N/3 times)
-- [x] 3️⃣ 3Sum
-- [x] 4️⃣ 4Sum
-- [ ] 5️⃣ Largest Subarray with 0 Sum
-- [ ] 6️⃣ Count Subarrays with XOR = K
-- [ ] 7️⃣ Merge Overlapping Intervals
-- [ ] 8️⃣ Merge Two Sorted Arrays Without Extra Space
-- [ ] 9️⃣ Find Missing and Repeating Number
-- [ ] 🔟 Count Inversions (Merge Sort)
-- [ ] 1️⃣1️⃣ Reverse Pairs (Merge Sort)
-- [ ] 1️⃣2️⃣ Maximum Product Subarray
+- [x] 1️⃣7️⃣ Pascal's Triangle
+- [x] 1️⃣8️⃣ Majority Element II (N/3 times)
+- [x] 1️⃣9️⃣ 3Sum
+- [x] 2️⃣0️⃣ 4Sum
+- [x] 2️⃣1️⃣ Largest Subarray with 0 Sum
+- [ ] 2️⃣2️⃣ Count Subarrays with XOR = K
+- [ ] 2️⃣3️⃣ Merge Overlapping Intervals
+- [ ] 2️⃣4️⃣ Merge Two Sorted Arrays Without Extra Space
+- [ ] 2️⃣5️⃣ Find Missing and Repeating Number
+- [ ] 2️⃣6️⃣ Count Inversions (Merge Sort)
+- [ ] 2️⃣7️⃣ Reverse Pairs (Merge Sort)
+- [ ] 2️⃣8️⃣ Maximum Product Subarray
 
-## 1️⃣7️⃣ Pascal’s Triangle
+# 1️⃣7️⃣ Pascal’s Triangle
+
+### Problem
+
+Given an integer `numRows`, return the first `numRows` of Pascal’s Triangle.
+Each number is the sum of the two numbers directly above it.
+
+---
 
 ### Core Insight
 
-Each row follows **nCr (binomial coefficients)**.  
+Each row follows **nCr (binomial coefficients)**.
 Next value can be computed from previous using:
 
-$$ C = C \times \frac{(row-col)}{col} $$
+$$
+C = C \times \frac{(row - col)}{col}
+$$
 
 Avoids recomputing sums and stays efficient.
 
@@ -35,12 +44,9 @@ Avoids recomputing sums and stays efficient.
 
 For each row `r` from `1 → numRows`:
 
-- Start with `1`
-    
-- Use formula to generate next elements
-    
-- Add row to result
-    
+* Start with `1`
+* Use formula to generate next elements
+* Add row to result
 
 No need to look at previous rows.
 
@@ -76,70 +82,68 @@ class Solution {
 
 ### Example
 
-  ```
+```
             1
           1   1
         1   2   1
       1   3   3   1
     1   4   6   4   1
   1   5  10  10   5   1
-  ```
+```
 
-**Input:** `5`  
-**Output:**  
-`[[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]`
+Input: `5`
+Output: `[[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]`
 
 ---
 
 ### Complexity
 
-- Time: **O(n²)**
-    
-- Space: **O(n²)** (output storage)
-    
+* Time: **O(n²)**
+* Space: **O(n²)** (output storage)
 
 ---
 
 ### Interview Notes
 
-- Uses combinatorics instead of DP
-    
-- `long` prevents overflow during computation
-    
-- Row always starts and ends with `1`
-    
-- Pattern: **Combinatorics / Binomial Coefficients**
-    
+* Uses combinatorics instead of DP
+* `long` prevents overflow
+* First and last elements are always `1`
+* Pattern: **Combinatorics / Binomial Coefficients**
 
 ---
-## 1️⃣8️⃣ Majority Element II (Boyer–Moore n/3)
+
+# 1️⃣8️⃣ Majority Element II (n/3 Version)
+
+### Problem
+
+Given an array of size `n`, return all elements that appear more than ⌊n/3⌋ times.
+
+Follow-up: Solve in **O(n)** time and **O(1)** space.
+
+---
 
 ### Core Insight
 
-More than ⌊n/3⌋ ⇒ **at most 2 majority elements** can exist.  
+More than ⌊n/3⌋ ⇒ **at most 2 such elements** can exist.
 So track **two candidates** and cancel others.
+
+> If 3 numbers each appeared > n/3 → total > n → impossible.
 
 ---
 
 ### Algorithm
 
-**Phase 1: Find candidates**
+Phase 1: Find candidates
 
-- Maintain `(el1,cnt1)` and `(el2,cnt2)`
-    
-- If number matches candidate → increment
-    
-- If count is 0 → assign new candidate
-    
-- Otherwise decrement both counts
-    
+* Maintain `(el1,cnt1)` and `(el2,cnt2)`
+* If number matches candidate → increment
+* If count becomes 0 → assign new candidate
+* Otherwise decrement both
 
-**Phase 2: Verify**
+Phase 2: Verify
 
-- Count occurrences of candidates
-    
-- Add those > ⌊n/3⌋
-    
+* Count occurrences
+* Add elements > n/3
 
 ---
 
@@ -151,7 +155,6 @@ class Solution {
         int cnt1 = 0, cnt2 = 0;
         int el1 = 0, el2 = 0;
 
-        // Phase 1: candidates
         for (int x : nums) {
             if (el1 == x) cnt1++;
             else if (el2 == x) cnt2++;
@@ -160,7 +163,6 @@ class Solution {
             else { cnt1--; cnt2--; }
         }
 
-        // Phase 2: verify
         cnt1 = 0; cnt2 = 0;
         for (int x : nums) {
             if (x == el1) cnt1++;
@@ -182,176 +184,68 @@ class Solution {
 
 ### Example
 
-**Input:** `[1,2,1,2,1,3]`  
-**Output:** `[1]`
+Input: `[1,2,1,2,1,3]`
+Output: `[1]`
 
 ---
 
 ### Complexity
 
-- Time: **O(n)**
-    
-- Space: **O(1)**
-    
+* Time: **O(n)**
+* Space: **O(1)**
 
 ---
 
 ### Interview Notes
 
-- Extension of Boyer–Moore (n/2 → n/3)
-    
-- Max 2 valid answers
-    
-- Second pass is mandatory (no guarantee)
-    
-- Sorting result not required
-    
-- Pattern: **Extended Boyer–Moore Voting**
-    
-
----
-Key reasoning:
-
-> If 3 numbers each appear > n/3 → total > n → impossible.
-
-This is a **concept test**, not just coding.
-
----## 1️⃣8️⃣ Majority Element II (Boyer–Moore n/3)
-
-### Core Insight
-
-More than ⌊n/3⌋ ⇒ **at most 2 majority elements** can exist.  
-So track **two candidates** and cancel others.
+* Extension of Boyer–Moore
+* Maximum 2 valid answers
+* Verification pass required
+* Pattern: **Extended Boyer–Moore Voting**
 
 ---
 
-### Algorithm
+# 1️⃣9️⃣ 3Sum
 
-**Phase 1: Find candidates**
+### Problem
 
-- Maintain `(el1,cnt1)` and `(el2,cnt2)`
-    
-- If number matches candidate → increment
-    
-- If count is 0 → assign new candidate
-    
-- Otherwise decrement both counts
-    
+Given an integer array `nums`, return all unique triplets `[a,b,c]` such that:
 
-**Phase 2: Verify**
-
-- Count occurrences of candidates
-    
-- Add those > ⌊n/3⌋
-    
-
----
-
-### Code (Java)
-
-```java
-class Solution {
-    public List<Integer> majorityElement(int[] nums) {
-        int cnt1 = 0, cnt2 = 0;
-        int el1 = 0, el2 = 0;
-
-        // Phase 1: candidates
-        for (int x : nums) {
-            if (el1 == x) cnt1++;
-            else if (el2 == x) cnt2++;
-            else if (cnt1 == 0) { el1 = x; cnt1 = 1; }
-            else if (cnt2 == 0) { el2 = x; cnt2 = 1; }
-            else { cnt1--; cnt2--; }
-        }
-
-        // Phase 2: verify
-        cnt1 = 0; cnt2 = 0;
-        for (int x : nums) {
-            if (x == el1) cnt1++;
-            else if (x == el2) cnt2++;
-        }
-
-        List<Integer> ans = new ArrayList<>();
-        int limit = nums.length / 3;
-
-        if (cnt1 > limit) ans.add(el1);
-        if (cnt2 > limit) ans.add(el2);
-
-        return ans;
-    }
-}
+```
+a + b + c = 0
 ```
 
----
-
-### Example
-
-**Input:** `[1,2,1,2,1,3]`  
-**Output:** `[1]`
+Triplets must be unique.
 
 ---
-
-### Complexity
-
-- Time: **O(n)**
-    
-- Space: **O(1)**
-    
-
----
-
-### Interview Notes
-
-- Extension of Boyer–Moore (n/2 → n/3)
-    
-- Max 2 valid answers
-    
-- Second pass is mandatory (no guarantee)
-    
-- Sorting result not required
-    
-- Pattern: **Extended Boyer–Moore Voting**
-
-
----
-## 1️⃣9️⃣ 3Sum
 
 ### Core Insight
 
-==Fix one element, then reduce the problem to **Two Sum on a sorted array** using two pointers==. 
+Fix one element, then reduce to **Two Sum on a sorted array**.
 
-> Sorting enables duplicate handling and pointer movement logic.
+Sorting enables:
+
+* Duplicate skipping
+* Efficient pointer movement
 
 ---
 
 ### Algorithm
 
 1. Sort the array
-    
 2. For each index `i`:
-    
-    - Skip duplicates (`nums[i] == nums[i-1]`) **i.e** ==`continue`==
-        
-    - Use two pointers:
-        
-        - `j = i+1`
-            
-        - `k = n-1`
-            
+
+   * Skip duplicates
+   * Use two pointers `j = i+1`, `k = n-1`
 3. While `j < k`:
-    
-    - If sum < 0 → `j++`
-        
-    - If sum > 0 → `k--`
-        
-    - If sum == 0:
-        
-        - Add triplet
-            
-        - Move both pointers
-            
-        - Skip duplicates for `j` and `k`
-            
+
+   * If sum < 0 → `j++`
+   * If sum > 0 → `k--`
+   * If sum == 0:
+
+     * Add triplet
+     * Move both
+     * Skip duplicates
 
 ---
 
@@ -365,7 +259,7 @@ class Solution {
         int n = nums.length;
 
         for (int i = 0; i < n; i++) {
-            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicates
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
 
             int j = i + 1, k = n - 1;
 
@@ -373,9 +267,7 @@ class Solution {
                 int sum = nums[i] + nums[j] + nums[k];
 
                 if (sum < 0) j++;
-                
                 else if (sum > 0) k--;
-                
                 else {
                     ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
                     j++; k--;
@@ -394,88 +286,64 @@ class Solution {
 
 ### Example
 
-**Input:** `[-1,0,1,2,-1,-4]`  
-**Output:** `[[-1,-1,2],[-1,0,1]]`
+Input: `[-1,0,1,2,-1,-4]`
+Output: `[[-1,-1,2],[-1,0,1]]`
 
 ---
 
 ### Complexity
 
-- Time: **O(n²)**  
-    (Sorting O(n log n) + two-pointer O(n²))
-    
-- Space: **O(1)** (excluding output)
-    
+* Time: **O(n²)**
+* Space: **O(1)** (excluding output)
 
 ---
 
 ### Interview Notes
 
-- Sorting is mandatory
-    
-- Skip duplicates at:
-    
-    - Fixed index `i`
-        
-    - After finding valid triplet
-        
-- Cannot do better than **O(n²)** (optimal)
-    
-- Pattern: **Sorting + Two Pointers**
-    
+* Sorting mandatory
+* Skip duplicates at all levels
+* Optimal complexity is O(n²)
+* Pattern: **Sorting + Two Pointers**
 
 ---
 
-## 2️⃣0️⃣ 4Sum
+# 2️⃣0️⃣ 4Sum
+
+### Problem
+
+Given array `nums` and integer `target`, return all unique quadruplets `[a,b,c,d]` such that:
+
+```
+a + b + c + d = target
+```
+
+---
 
 ### Core Insight
 
-Fix **two elements**, then reduce the rest to a **Two Pointer search**.  
-This is a direct extension of **3Sum**.
-
-Sorting enables:
-
-- Duplicate skipping
-    
-- Efficient pointer movement
-    
+Fix two elements → reduce to **Two Pointer search**.
+Extension of 3Sum.
 
 ---
 
 ### Algorithm
 
-1. Sort the array
-    
-2. Fix first index `i`
-    
-    - Skip duplicates
-        
-3. Fix second index `j`
-    
-    - Skip duplicates
-        
+1. Sort array
+2. Fix `i`
+
+   * Skip duplicates
+3. Fix `j`
+
+   * Skip duplicates
 4. Use two pointers:
-    
-    - `k = j+1`
-        
-    - `l = n-1`
-        
-5. While `k < l`:
-    
-    - Compute sum (use `long` to prevent overflow)
-        
-    - If sum < target → `k++`
-        
-    - If sum > target → `l--`
-        
-    - If equal:
-        
-        - Add quadruplet
-            
-        - Move both pointers
-            
-        - Skip duplicates
-            
+
+   * `k = j+1`
+   * `l = n-1`
+5. Compare sum:
+
+   * < target → `k++`
+   * > target → `l--`
+   * == target → add & skip duplicates
 
 ---
 
@@ -520,38 +388,147 @@ class Solution {
 
 ### Example
 
-**Input:** `[1,0,-1,0,-2,2]`, target = `0`  
-**Output:** `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
+Input: `[1,0,-1,0,-2,2]`, `target = 0
+Output: `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
 
 ---
 
 ### Complexity
 
-- Time: **O(n³)**
+* Time: **O(n³)**
+* Space: **O(1)** (excluding output)
+
+---
+
+### Interview Notes
+
+* Use `long` to avoid overflow
+* Skip duplicates at all levels
+* Natural extension: 2Sum → 3Sum → 4Sum → kSum
+* Pattern: **Sorting + Nested Two Pointers**
+
+---
+
+Good. You’re right.  
+From now on: **Description + Core Insight + Algorithm + Code + Example + Complexity + Interview Notes.**
+
+Here’s the updated version for:
+
+---
+
+## 2️⃣1️⃣ Largest Subarray with 0 Sum
+
+### Description
+
+Given an array containing positive and negative integers, find the **length of the longest contiguous subarray** whose sum is equal to `0`.
+
+A subarray must be continuous (not a subset).
+
+---
+
+### Core Insight
+
+If two prefix sums are equal at indices `i` and `j`,  
+then the subarray between them has **sum = 0**.
+
+Why?  
+Because:
+
+```
+prefix[j] - prefix[i] = 0
+```
+
+So store the **first occurrence** of each prefix sum.
+
+---
+
+### Algorithm
+
+- Initialize:
     
-- Space: **O(1)** (excluding output)
+    - `sum = 0`
+        
+    - `maxi = 0`
+        
+    - `HashMap<sum, firstIndex>`
+        
+- Traverse array:
+    
+    - Add current element to `sum`
+        
+    - If `sum == 0` → update `maxi = i+1`
+        
+    - If `sum` already seen:
+        
+        - Length = `i - firstIndex`
+            
+        - Update `maxi`
+            
+    - Else:
+        
+        - Store `sum → i` (first occurrence only)
+            
+- Return `maxi`
+    
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    int maxLength(int arr[]) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int sum = 0, maxi = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+
+            if (sum == 0) {
+                maxi = i + 1;
+            } 
+            else if (map.containsKey(sum)) {
+                maxi = Math.max(maxi, i - map.get(sum));
+            } 
+            else {
+                map.put(sum, i); // store first occurrence only
+            }
+        }
+        return maxi;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:**  
+`[15, -2, 2, -8, 1, 7, 10, 23]`
+
+**Output:**  
+`5`
+
+Subarray: `[-2, 2, -8, 1, 7]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+    
+- Space: **O(n)**
     
 
 ---
 
 ### Interview Notes
 
-- Must use `long` for sum (overflow risk)
+- Works because negatives are allowed → sliding window fails
     
-- Skip duplicates at:
+- Must store **first occurrence only**
     
-    - `i`
-        
-    - `j`
-        
-    - `k`
-        
-    - `l`
-        
-- Natural extension:  
-    2Sum → 3Sum → 4Sum → kSum
+- Prefix sum collision = zero-sum subarray
     
-- Pattern: **Sorting + Two Pointers (Nested)**
-    
-
+- Pattern: **Prefix Sum + HashMap**
 ---
