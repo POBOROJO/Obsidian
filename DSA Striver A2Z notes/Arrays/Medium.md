@@ -263,6 +263,7 @@ class Solution {
 
 ## 9️⃣ Maximum Subarray (Kadane’s Algorithm)
 
+### ==Max sub arrays ka sum==
 ### Core Insight
 
 A subarray with negative sum is **never worth extending**.  
