@@ -3,7 +3,6 @@ tags:
   - arrays
   - hard
 ---
-
 ## ✅ Problem Tracker
 - [x] 1️⃣7️⃣ Pascal's Triangle
 - [x] 1️⃣8️⃣ Majority Element II (N/3 times)
@@ -416,7 +415,7 @@ Here’s the updated version for:
 
 ---
 
-## 2️⃣1️⃣ Largest Subarray with 0 Sum
+## 2️⃣1️⃣ Largest Subarray with 0 Sum (GFG Question)
 
 ### Description
 

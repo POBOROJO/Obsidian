@@ -3,27 +3,30 @@ tags:
   - arrays
   - hard
 ---
-## ✅ Problem Tracker - 
-- [x] 6️⃣ Two Sum 
-- [x] 7️⃣ Sort Colors 
-- [x] 8️⃣ Majority Element 
-- [x] 9️⃣ Maximum Subarray 
-- [x] 🔟 Best Time to Buy and Sell Stock 
-- [x] 1️⃣1️⃣ Rearrange Array Elements by Sign 
-- [x] 1️⃣2️⃣ Next Permutation 
-- [x] 1️⃣3️⃣ Array Leaders 
-- [x] 1️⃣4️⃣ Longest Consecutive Sequence 
-- [x] 1️⃣5️⃣ Rotate Image 
-- [x] 1️⃣6️⃣ Spiral Matrix 
+## ✅ Problem Tracker -
+
+- [x] 6️⃣ Two Sum
+- [x] 7️⃣ Sort Colors
+- [x] 8️⃣ Majority Element
+- [x] 9️⃣ Maximum Subarray
+- [x] 🔟 Best Time to Buy and Sell Stock
+- [x] 1️⃣1️⃣ Rearrange Array Elements by Sign
+- [x] 1️⃣2️⃣ Next Permutation
+- [x] 1️⃣3️⃣ Array Leaders
+- [x] 1️⃣4️⃣ Longest Consecutive Sequence
+- [x] 1️⃣5️⃣ Rotate Image
+- [x] 1️⃣6️⃣ Spiral Matrix
 
 ## 6️⃣ Two Sum
 
+🔗 [LeetCode 1](https://leetcode.com/problems/two-sum/)
+
 ### Problem
 
-Given an array `nums` and an integer `target`, return indices of two numbers such that they add up to `target`.
-Exactly one solution exists, and you cannot use the same element twice.
+Given an array `nums` and an integer `target`, return indices of two numbers such that they add up to `target`. Exactly one solution exists, and you cannot use the same element twice.
 
 ---
+
 ### Core Insight
 
 For each number, check if its **complement** already exists using a hash map.
@@ -89,11 +92,14 @@ class Solution {
 
 ## 7️⃣ Sort Colors (Dutch National Flag)
 
+🔗 [LeetCode 75](https://leetcode.com/problems/sort-colors/)
+
 ### Problem
 
 Given an array containing only `0,1,2`, sort it in-place so that same colors are adjacent.
 
 ---
+
 ### Core Insight
 
 Only `0,1,2` → partition array into **three regions** in one pass.
@@ -117,7 +123,7 @@ Rules:
     
 - `1` → move `mid`
     
-- `2` → swap with `high` (don’t move `mid`)
+- `2` → swap with `high` (don't move `mid`)
     
 
 ---
@@ -179,12 +185,14 @@ class Solution {
 
 ## 8️⃣ Majority Element (Boyer–Moore Voting)
 
+🔗 [LeetCode 169](https://leetcode.com/problems/majority-element/)
+
 ### Problem
 
-Given an array, return the element appearing more than ⌊n/2⌋ times.
-It is guaranteed to exist.
+Given an array, return the element appearing more than ⌊n/2⌋ times. It is guaranteed to exist.
 
 ---
+
 ### Core Insight
 
 If an element appears **more than n/2 times**, it will **survive all pair cancellations**.  
@@ -278,7 +286,9 @@ class Solution {
 
 ---
 
-## 9️⃣ Maximum Subarray (Kadane’s Algorithm)
+## 9️⃣ Maximum Subarray (Kadane's Algorithm)
+
+🔗 [LeetCode 53](https://leetcode.com/problems/maximum-subarray/)
 
 #### ==Max sub arrays ka sum==
 
@@ -287,6 +297,7 @@ class Solution {
 Find the contiguous subarray with the largest sum and return its sum.
 
 ---
+
 ### Core Insight
 
 A subarray with negative sum is **never worth extending**.  
@@ -358,7 +369,7 @@ class Solution {
     
 - Reset happens **after** updating `maxi` (critical)
     
-- This is **Kadane’s Algorithm** — mandatory to know
+- This is **Kadane's Algorithm** — mandatory to know
     
 - Pattern: **Prefix Sum / Greedy Optimization**
     
@@ -367,11 +378,14 @@ class Solution {
 
 ## 🔟 Best Time to Buy and Sell Stock
 
+🔗 [LeetCode 121](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
 ### Problem
 
 Choose one buy day and one later sell day to maximize profit.
 
 ---
+
 ### Core Insight
 
 Maximum profit = **best future sell price − lowest price seen so far**.  
@@ -453,11 +467,14 @@ class Solution {
 
 ## 1️⃣1️⃣ Rearrange Array Elements by Sign
 
+🔗 [LeetCode 2149](https://leetcode.com/problems/rearrange-array-elements-by-sign/)
+
 ### Problem
 
 Rearrange array so positives and negatives alternate, starting with positive, preserving order.
 
 ---
+
 ### Core Insight
 
 Positives and negatives are **equal in count** and order must be preserved.  
@@ -544,12 +561,14 @@ class Solution {
 
 ## 1️⃣2️⃣ Next Permutation
 
+🔗 [LeetCode 31](https://leetcode.com/problems/next-permutation/)
+
 ### Problem
 
-Transform array into the next lexicographically greater permutation.
-If not possible, return lowest permutation.
+Transform array into the next lexicographically greater permutation. If not possible, return lowest permutation.
 
 ---
+
 ### Core Insight
 
 The next lexicographical permutation is obtained by:
@@ -665,14 +684,19 @@ class Solution {
     
 - Pattern: **Lexicographical Permutation / Greedy**
     
+
 ---
+
 ## 1️⃣3️⃣ Array Leaders
+
+🔗 [GFG - Array Leaders](https://www.geeksforgeeks.org/problems/leaders-in-an-array-1587115620/1)
 
 ### Problem
 
 Return all elements that are ≥ every element to their right.
 
 ---
+
 ### Core Insight
 
 An element is a **leader** if it is **≥ every element to its right**.  
@@ -752,11 +776,14 @@ class Solution {
 
 ## 1️⃣4️⃣ Longest Consecutive Sequence
 
+🔗 [LeetCode 128](https://leetcode.com/problems/longest-consecutive-sequence/)
+
 ### Problem
 
 Return length of longest consecutive integer sequence.
 
 ---
+
 ### Core Insight
 
 Only start counting a sequence from a number **that has no predecessor** (`x-1`).  
@@ -805,7 +832,7 @@ class Solution {
         /* Loop through each element in the set to find 
            the starting point of consecutive sequences */
         for (int it : st) {
-            // If there is no number before 'it', it’s the start of a sequence
+            // If there is no number before 'it', it's the start of a sequence
             if (!st.contains(it - 1)) {
                 // Start the count for this sequence
                 int cnt = 1; 
@@ -866,11 +893,14 @@ class Solution {
 
 ## 1️⃣5️⃣ Rotate Image (90° Clockwise)
 
+🔗 [LeetCode 48](https://leetcode.com/problems/rotate-image/)
+
 ### Problem
 
 Rotate an `n x n` matrix 90° clockwise in-place.
 
-----
+---
+
 ### Core Insight
 
 A 90° clockwise rotation =  
@@ -885,11 +915,9 @@ This converts rows → columns, then fixes orientation.
 1. **Transpose matrix**
     
     - Swap `matrix[i][j]` with `matrix[j][i]` for `j > i`
-        
 2. **Reverse each row**
     
     - Two-pointer swap from ends
-        
 
 Done in-place.
 
@@ -928,32 +956,26 @@ class Solution {
 ---
 
 ### Example
+
 #### Input Matrix:
-$$
-\begin{bmatrix}
-1 & 2 & 3 \\
-4 & 5 & 6 \\
-7 & 8 & 9
-\end{bmatrix}
-$$
+
+$$ \begin{bmatrix} 1 & 2 & 3 \ 4 & 5 & 6 \ 7 & 8 & 9 \end{bmatrix} $$
 
 #### Output Matrix:
-$$
-\begin{bmatrix}
-7 & 4 & 1 \\
-8 & 5 & 2 \\
-9 & 6 & 3
-\end{bmatrix}
-$$
+
+$$ \begin{bmatrix} 7 & 4 & 1 \ 8 & 5 & 2 \ 9 & 6 & 3 \end{bmatrix} $$
 
 This transformation appears to be a 90-degree counterclockwise rotation of the original matrix. The first column of the input becomes the last row of the output, the second column becomes the middle row, and so on.
 
 ---
+
 ### Complexity
 
 - Time: **O(n²)**
     
 - Space: **O(1)**
+    
+
 ---
 
 ### Interview Notes
@@ -967,10 +989,13 @@ This transformation appears to be a 90-degree counterclockwise rotation of the o
 - Anti-clockwise = transpose + column-reverse
     
 - Pattern: **Matrix Transformation**
+    
 
 ---
 
 ## 1️⃣6️⃣ Spiral Matrix
+
+🔗 [LeetCode 54](https://leetcode.com/problems/spiral-matrix/)
 
 ### Problem
 
@@ -1050,20 +1075,9 @@ class Solution {
 ### Example
 
 **Input:**  
-$$
-\begin{bmatrix}
-1 & 2 & 3 \\
-4 & 5 & 6 \\
-7 & 8 & 9
-\end{bmatrix}
-$$
+$$ \begin{bmatrix} 1 & 2 & 3 \ 4 & 5 & 6 \ 7 & 8 & 9 \end{bmatrix} $$
 
-**Output:** 
-$$
-\begin{bmatrix}
-1 & 2 & 3 & 6 & 9 & 8 & 7 & 4 & 5
-\end{bmatrix}
-$$
+**Output:** $$ \begin{bmatrix} 1 & 2 & 3 & 6 & 9 & 8 & 7 & 4 & 5 \end{bmatrix} $$
 
 ---
 
@@ -1085,6 +1099,5 @@ $$
 - Works for non-square matrices
     
 - Pattern: **Matrix Boundary Traversal**
-
+    
 ---
-
