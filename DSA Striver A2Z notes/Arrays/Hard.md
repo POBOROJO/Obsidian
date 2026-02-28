@@ -4,6 +4,7 @@ tags:
   - hard
 ---
 ## ✅ Problem Tracker
+
 - [x] 1️⃣7️⃣ Pascal's Triangle
 - [x] 1️⃣8️⃣ Majority Element II (N/3 times)
 - [x] 1️⃣9️⃣ 3Sum
@@ -17,23 +18,21 @@ tags:
 - [ ] 2️⃣7️⃣ Reverse Pairs (Merge Sort)
 - [ ] 2️⃣8️⃣ Maximum Product Subarray
 
-# 1️⃣7️⃣ Pascal’s Triangle
+# 1️⃣7️⃣ Pascal's Triangle
+
+🔗 [LeetCode 118](https://leetcode.com/problems/pascals-triangle/)
 
 ### Problem
 
-Given an integer `numRows`, return the first `numRows` of Pascal’s Triangle.
-Each number is the sum of the two numbers directly above it.
+Given an integer `numRows`, return the first `numRows` of Pascal's Triangle. Each number is the sum of the two numbers directly above it.
 
 ---
 
 ### Core Insight
 
-Each row follows **nCr (binomial coefficients)**.
-Next value can be computed from previous using:
+Each row follows **nCr (binomial coefficients)**. Next value can be computed from previous using:
 
-$$
-C = C \times \frac{(row - col)}{col}
-$$
+$$ C = C \times \frac{(row - col)}{col} $$
 
 Avoids recomputing sums and stays efficient.
 
@@ -43,9 +42,9 @@ Avoids recomputing sums and stays efficient.
 
 For each row `r` from `1 → numRows`:
 
-* Start with `1`
-* Use formula to generate next elements
-* Add row to result
+- Start with `1`
+- Use formula to generate next elements
+- Add row to result
 
 No need to look at previous rows.
 
@@ -90,28 +89,29 @@ class Solution {
   1   5  10  10   5   1
 ```
 
-Input: `5`
-Output: `[[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]`
+Input: `5` Output: `[[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]`
 
 ---
 
 ### Complexity
 
-* Time: **O(n²)**
-* Space: **O(n²)** (output storage)
+- Time: **O(n²)**
+- Space: **O(n²)** (output storage)
 
 ---
 
 ### Interview Notes
 
-* Uses combinatorics instead of DP
-* `long` prevents overflow
-* First and last elements are always `1`
-* Pattern: **Combinatorics / Binomial Coefficients**
+- Uses combinatorics instead of DP
+- `long` prevents overflow
+- First and last elements are always `1`
+- Pattern: **Combinatorics / Binomial Coefficients**
 
 ---
 
 # 1️⃣8️⃣ Majority Element II (n/3 Version)
+
+🔗 [LeetCode 229](https://leetcode.com/problems/majority-element-ii/)
 
 ### Problem
 
@@ -123,8 +123,7 @@ Follow-up: Solve in **O(n)** time and **O(1)** space.
 
 ### Core Insight
 
-More than ⌊n/3⌋ ⇒ **at most 2 such elements** can exist.
-So track **two candidates** and cancel others.
+More than ⌊n/3⌋ ⇒ **at most 2 such elements** can exist. So track **two candidates** and cancel others.
 
 > If 3 numbers each appeared > n/3 → total > n → impossible.
 
@@ -134,15 +133,15 @@ So track **two candidates** and cancel others.
 
 Phase 1: Find candidates
 
-* Maintain `(el1,cnt1)` and `(el2,cnt2)`
-* If number matches candidate → increment
-* If count becomes 0 → assign new candidate
-* Otherwise decrement both
+- Maintain `(el1,cnt1)` and `(el2,cnt2)`
+- If number matches candidate → increment
+- If count becomes 0 → assign new candidate
+- Otherwise decrement both
 
 Phase 2: Verify
 
-* Count occurrences
-* Add elements > n/3
+- Count occurrences
+- Add elements > n/3
 
 ---
 
@@ -183,28 +182,29 @@ class Solution {
 
 ### Example
 
-Input: `[1,2,1,2,1,3]`
-Output: `[1]`
+Input: `[1,2,1,2,1,3]` Output: `[1]`
 
 ---
 
 ### Complexity
 
-* Time: **O(n)**
-* Space: **O(1)**
+- Time: **O(n)**
+- Space: **O(1)**
 
 ---
 
 ### Interview Notes
 
-* Extension of Boyer–Moore
-* Maximum 2 valid answers
-* Verification pass required
-* Pattern: **Extended Boyer–Moore Voting**
+- Extension of Boyer–Moore
+- Maximum 2 valid answers
+- Verification pass required
+- Pattern: **Extended Boyer–Moore Voting**
 
 ---
 
 # 1️⃣9️⃣ 3Sum
+
+🔗 [LeetCode 15](https://leetcode.com/problems/3sum/)
 
 ### Problem
 
@@ -224,27 +224,30 @@ Fix one element, then reduce to **Two Sum on a sorted array**.
 
 Sorting enables:
 
-* Duplicate skipping
-* Efficient pointer movement
+- Duplicate skipping
+- Efficient pointer movement
 
 ---
 
 ### Algorithm
 
 1. Sort the array
+    
 2. For each index `i`:
-
-   * Skip duplicates
-   * Use two pointers `j = i+1`, `k = n-1`
+    
+    - Skip duplicates
+    - Use two pointers `j = i+1`, `k = n-1`
 3. While `j < k`:
-
-   * If sum < 0 → `j++`
-   * If sum > 0 → `k--`
-   * If sum == 0:
-
-     * Add triplet
-     * Move both
-     * Skip duplicates
+    
+    - If sum < 0 → `j++`
+        
+    - If sum > 0 → `k--`
+        
+    - If sum == 0:
+        
+        - Add triplet
+        - Move both
+        - Skip duplicates
 
 ---
 
@@ -285,28 +288,29 @@ class Solution {
 
 ### Example
 
-Input: `[-1,0,1,2,-1,-4]`
-Output: `[[-1,-1,2],[-1,0,1]]`
+Input: `[-1,0,1,2,-1,-4]` Output: `[[-1,-1,2],[-1,0,1]]`
 
 ---
 
 ### Complexity
 
-* Time: **O(n²)**
-* Space: **O(1)** (excluding output)
+- Time: **O(n²)**
+- Space: **O(1)** (excluding output)
 
 ---
 
 ### Interview Notes
 
-* Sorting mandatory
-* Skip duplicates at all levels
-* Optimal complexity is O(n²)
-* Pattern: **Sorting + Two Pointers**
+- Sorting mandatory
+- Skip duplicates at all levels
+- Optimal complexity is O(n²)
+- Pattern: **Sorting + Two Pointers**
 
 ---
 
 # 2️⃣0️⃣ 4Sum
+
+🔗 [LeetCode 18](https://leetcode.com/problems/4sum/)
 
 ### Problem
 
@@ -320,29 +324,30 @@ a + b + c + d = target
 
 ### Core Insight
 
-Fix two elements → reduce to **Two Pointer search**.
-Extension of 3Sum.
+Fix two elements → reduce to **Two Pointer search**. Extension of 3Sum.
 
 ---
 
 ### Algorithm
 
 1. Sort array
+    
 2. Fix `i`
-
-   * Skip duplicates
+    
+    - Skip duplicates
 3. Fix `j`
-
-   * Skip duplicates
+    
+    - Skip duplicates
 4. Use two pointers:
-
-   * `k = j+1`
-   * `l = n-1`
+    
+    - `k = j+1`
+    - `l = n-1`
 5. Compare sum:
-
-   * < target → `k++`
-   * > target → `l--`
-   * == target → add & skip duplicates
+    
+    - < target → `k++`
+    - > target → `l--`
+        
+    - == target → add & skip duplicates
 
 ---
 
@@ -387,35 +392,36 @@ class Solution {
 
 ### Example
 
-Input: `[1,0,-1,0,-2,2]`, `target = 0
-Output: `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
+Input: `[1,0,-1,0,-2,2]`, `target = 0` Output: `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
 
 ---
 
 ### Complexity
 
-* Time: **O(n³)**
-* Space: **O(1)** (excluding output)
+- Time: **O(n³)**
+- Space: **O(1)** (excluding output)
 
 ---
 
 ### Interview Notes
 
-* Use `long` to avoid overflow
-* Skip duplicates at all levels
-* Natural extension: 2Sum → 3Sum → 4Sum → kSum
-* Pattern: **Sorting + Nested Two Pointers**
+- Use `long` to avoid overflow
+- Skip duplicates at all levels
+- Natural extension: 2Sum → 3Sum → 4Sum → kSum
+- Pattern: **Sorting + Nested Two Pointers**
 
 ---
 
-Good. You’re right.  
+Good. You're right.  
 From now on: **Description + Core Insight + Algorithm + Code + Example + Complexity + Interview Notes.**
 
-Here’s the updated version for:
+Here's the updated version for:
 
 ---
 
 ## 2️⃣1️⃣ Largest Subarray with 0 Sum (GFG Question)
+
+🔗 [GFG - Largest Subarray with 0 Sum](https://www.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1)
 
 ### Description
 
@@ -466,7 +472,6 @@ So store the **first occurrence** of each prefix sum.
     - Else:
         
         - Store `sum → i` (first occurrence only)
-            
 - Return `maxi`
     
 
@@ -530,4 +535,6 @@ Subarray: `[-2, 2, -8, 1, 7]`
 - Prefix sum collision = zero-sum subarray
     
 - Pattern: **Prefix Sum + HashMap**
+    
+
 ---
