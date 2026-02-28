@@ -261,7 +261,7 @@ class Solution {
 
 ---
 
-## 9️⃣ Maximum Subarray (Kadane’s Algorithm) (max sub array ka sum)
+## 9️⃣ Maximum Subarray (Kadane’s Algorithm)
 
 ### Core Insight
 
