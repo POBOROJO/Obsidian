@@ -20,7 +20,7 @@ tags:
 
 ### Core Insight
 
-For each number, check if its **complement** already exists using a hash map.
+For each number, check if its **complement** already exists using a hash map
 
 ---
 
