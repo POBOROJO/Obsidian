@@ -10,7 +10,7 @@ tags:
 - [x] 2️⃣0️⃣ 3Sum
 - [x] 2️⃣1️⃣ 4Sum
 - [x] 2️⃣2️⃣ Largest Subarray with 0 Sum
-- [ ] 2️⃣3️⃣ Count Subarrays with XOR = K
+- [x] 2️⃣3️⃣ Count Subarrays with XOR = K
 - [ ] 2️⃣4️⃣ Merge Overlapping Intervals
 - [ ] 2️⃣5️⃣ Merge Two Sorted Arrays Without Extra Space
 - [ ] 2️⃣6️⃣ Find Missing and Repeating Number
@@ -492,7 +492,7 @@ class Solution {
 - Pattern: **Prefix Sum + HashMap**
 
 ---
-## 2️⃣3️⃣ Count Subarrays with Given XOR
+# 2️⃣3️⃣ Count Subarrays with Given XOR
 
 🔗 [GFG - Count Subarrays with Given XOR](https://www.geeksforgeeks.org/problems/count-subarray-with-given-xor/1)
 
@@ -536,15 +536,15 @@ This is the **XOR version of Subarray Sum Equals K**.
         
 - Initialize:
     
-    - `mpp.put(0,1)` (important)
+    - `mpp.put(0,1)` ==(important)==
         
 - Traverse array:
     
     - `curr_xor ^= element`
         
-    - Compute `required = curr_xor ^ k`
+    - Compute `remove = curr_xor ^ k`
         
-    - Add `frequency(required)` to `count`
+    - Add `frequency(remove)` to `count`
         
     - Update frequency of `curr_xor`
         
@@ -570,7 +570,7 @@ class Solution {
 
             int remove = curr_xor ^ k;
 
-            count += mpp.getOrDefault(remove, 0); // cou
+            count += mpp.getOrDefault(remove, 0); // count++ => if remove is there in the mpp 
 
             mpp.put(curr_xor, mpp.getOrDefault(curr_xor, 0) + 1); // This line is mpp[curr_xor]++.
         }
