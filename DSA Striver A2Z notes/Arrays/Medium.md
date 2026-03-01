@@ -16,6 +16,7 @@ tags:
 - [x] 1️⃣4️⃣ Longest Consecutive Sequence
 - [x] 1️⃣5️⃣ Rotate Image
 - [x] 1️⃣6️⃣ Spiral Matrix
+- [x] 1️⃣7️⃣ Count Subarrays with Given Sum 
 
 ## 6️⃣ Two Sum
 
@@ -1100,4 +1101,85 @@ $$ \begin{bmatrix} 1 & 2 & 3 \ 4 & 5 & 6 \ 7 & 8 & 9 \end{bmatrix} $$
     
 - Pattern: **Matrix Boundary Traversal**
     
+---
+Here's the formatted entry ready to append to your notes:
+
+---
+
+## 1️⃣7️⃣ Count Subarrays with Given Sum
+
+🔗 [LeetCode 560](https://leetcode.com/problems/subarray-sum-equals-k/)
+
+### Problem
+
+Given an array `nums` and an integer `k`, return the total number of subarrays whose sum equals `k`.
+
+---
+
+### Core Insight
+
+If `prefixSum[j] - prefixSum[i] = k`, then subarray `[i+1...j]` has sum `k`.  
+So for each prefix sum, check how many **earlier prefix sums equal `prefixSum - k`** using a hash map.
+
+---
+
+### Algorithm
+
+- Initialize map with `{0 → 1}` (empty prefix sum exists once)
+- Maintain running `preSum`
+- At each index:
+    - Compute `remove = preSum - k`
+    - Add `map[remove]` to count
+    - Update `map[preSum]`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+
+        int preSum = 0, count = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            preSum += nums[i];
+            int remove = preSum - k;
+            count += map.getOrDefault(remove, 0);
+            map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+        }
+
+        return count;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,1,1], k = 2`  
+**Output:** `2`
+
+**Input:** `[1,2,3], k = 3`  
+**Output:** `2`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(n)**
+
+---
+
+### Interview Notes
+
+- `map.put(0, 1)` is **critical** — handles subarrays starting from index 0
+- Works with **negative numbers** (unlike sliding window)
+- `getOrDefault` avoids null checks cleanly
+- Pattern: **Prefix Sum + Hashing**
+
 ---

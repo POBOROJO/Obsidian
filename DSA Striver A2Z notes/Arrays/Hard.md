@@ -5,20 +5,22 @@ tags:
 ---
 ## ✅ Problem Tracker
 
-- [x] 1️⃣7️⃣ Pascal's Triangle
-- [x] 1️⃣8️⃣ Majority Element II (N/3 times)
-- [x] 1️⃣9️⃣ 3Sum
-- [x] 2️⃣0️⃣ 4Sum
-- [x] 2️⃣1️⃣ Largest Subarray with 0 Sum
-- [ ] 2️⃣2️⃣ Count Subarrays with XOR = K
-- [ ] 2️⃣3️⃣ Merge Overlapping Intervals
-- [ ] 2️⃣4️⃣ Merge Two Sorted Arrays Without Extra Space
-- [ ] 2️⃣5️⃣ Find Missing and Repeating Number
-- [ ] 2️⃣6️⃣ Count Inversions (Merge Sort)
-- [ ] 2️⃣7️⃣ Reverse Pairs (Merge Sort)
-- [ ] 2️⃣8️⃣ Maximum Product Subarray
+- [x] 1️⃣8️⃣ Pascal's Triangle
+- [x] 1️⃣9️⃣ Majority Element II (N/3 times)
+- [x] 2️⃣0️⃣ 3Sum
+- [x] 2️⃣1️⃣ 4Sum
+- [x] 2️⃣2️⃣ Largest Subarray with 0 Sum
+- [ ] 2️⃣3️⃣ Count Subarrays with XOR = K
+- [ ] 2️⃣4️⃣ Merge Overlapping Intervals
+- [ ] 2️⃣5️⃣ Merge Two Sorted Arrays Without Extra Space
+- [ ] 2️⃣6️⃣ Find Missing and Repeating Number
+- [ ] 2️⃣7️⃣ Count Inversions (Merge Sort)
+- [ ] 2️⃣8️⃣ Reverse Pairs (Merge Sort)
+- [ ] 2️⃣9️⃣ Maximum Product Subarray
 
-# 1️⃣7️⃣ Pascal's Triangle
+---
+
+# 1️⃣8️⃣ Pascal's Triangle
 
 🔗 [LeetCode 118](https://leetcode.com/problems/pascals-triangle/)
 
@@ -32,7 +34,7 @@ Given an integer `numRows`, return the first `numRows` of Pascal's Triangle. Eac
 
 Each row follows **nCr (binomial coefficients)**. Next value can be computed from previous using:
 
-$$ C = C \times \frac{(row - col)}{col} $$
+$$C = C \times \frac{(row - col)}{col}$$
 
 Avoids recomputing sums and stays efficient.
 
@@ -109,7 +111,7 @@ Input: `5` Output: `[[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]`
 
 ---
 
-# 1️⃣8️⃣ Majority Element II (n/3 Version)
+# 1️⃣9️⃣ Majority Element II (n/3 Version)
 
 🔗 [LeetCode 229](https://leetcode.com/problems/majority-element-ii/)
 
@@ -202,7 +204,7 @@ Input: `[1,2,1,2,1,3]` Output: `[1]`
 
 ---
 
-# 1️⃣9️⃣ 3Sum
+# 2️⃣0️⃣ 3Sum
 
 🔗 [LeetCode 15](https://leetcode.com/problems/3sum/)
 
@@ -232,19 +234,13 @@ Sorting enables:
 ### Algorithm
 
 1. Sort the array
-    
 2. For each index `i`:
-    
     - Skip duplicates
     - Use two pointers `j = i+1`, `k = n-1`
 3. While `j < k`:
-    
     - If sum < 0 → `j++`
-        
     - If sum > 0 → `k--`
-        
     - If sum == 0:
-        
         - Add triplet
         - Move both
         - Skip duplicates
@@ -308,7 +304,7 @@ Input: `[-1,0,1,2,-1,-4]` Output: `[[-1,-1,2],[-1,0,1]]`
 
 ---
 
-# 2️⃣0️⃣ 4Sum
+# 2️⃣1️⃣ 4Sum
 
 🔗 [LeetCode 18](https://leetcode.com/problems/4sum/)
 
@@ -331,19 +327,14 @@ Fix two elements → reduce to **Two Pointer search**. Extension of 3Sum.
 ### Algorithm
 
 1. Sort array
-    
 2. Fix `i`
-    
     - Skip duplicates
 3. Fix `j`
-    
     - Skip duplicates
 4. Use two pointers:
-    
     - `k = j+1`
     - `l = n-1`
 5. Compare sum:
-    
     - < target → `k++`
     - > target → `l--`
         
@@ -412,31 +403,20 @@ Input: `[1,0,-1,0,-2,2]`, `target = 0` Output: `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,
 
 ---
 
-Good. You're right.  
-From now on: **Description + Core Insight + Algorithm + Code + Example + Complexity + Interview Notes.**
-
-Here's the updated version for:
-
----
-
-## 2️⃣1️⃣ Largest Subarray with 0 Sum (GFG Question)
+# 2️⃣2️⃣ Largest Subarray with 0 Sum
 
 🔗 [GFG - Largest Subarray with 0 Sum](https://www.geeksforgeeks.org/problems/largest-subarray-with-0-sum/1)
 
-### Description
+### Problem
 
 Given an array containing positive and negative integers, find the **length of the longest contiguous subarray** whose sum is equal to `0`.
-
-A subarray must be continuous (not a subset).
 
 ---
 
 ### Core Insight
 
-If two prefix sums are equal at indices `i` and `j`,  
-then the subarray between them has **sum = 0**.
+If two prefix sums are equal at indices `i` and `j`, then the subarray between them has **sum = 0**.
 
-Why?  
 Because:
 
 ```
@@ -450,30 +430,18 @@ So store the **first occurrence** of each prefix sum.
 ### Algorithm
 
 - Initialize:
-    
     - `sum = 0`
-        
     - `maxi = 0`
-        
     - `HashMap<sum, firstIndex>`
-        
 - Traverse array:
-    
     - Add current element to `sum`
-        
     - If `sum == 0` → update `maxi = i+1`
-        
     - If `sum` already seen:
-        
         - Length = `i - firstIndex`
-            
         - Update `maxi`
-            
     - Else:
-        
         - Store `sum → i` (first occurrence only)
 - Return `maxi`
-    
 
 ---
 
@@ -490,12 +458,10 @@ class Solution {
 
             if (sum == 0) {
                 maxi = i + 1;
-            } 
-            else if (map.containsKey(sum)) {
+            } else if (map.containsKey(sum)) {
                 maxi = Math.max(maxi, i - map.get(sum));
-            } 
-            else {
-                map.put(sum, i); // store first occurrence only
+            } else {
+                map.put(sum, i);
             }
         }
         return maxi;
@@ -507,34 +473,22 @@ class Solution {
 
 ### Example
 
-**Input:**  
-`[15, -2, 2, -8, 1, 7, 10, 23]`
-
-**Output:**  
-`5`
-
-Subarray: `[-2, 2, -8, 1, 7]`
+**Input:** `[15, -2, 2, -8, 1, 7, 10, 23]` **Output:** `5` **Subarray:** `[-2, 2, -8, 1, 7]`
 
 ---
 
 ### Complexity
 
 - Time: **O(n)**
-    
 - Space: **O(n)**
-    
 
 ---
 
 ### Interview Notes
 
 - Works because negatives are allowed → sliding window fails
-    
 - Must store **first occurrence only**
-    
 - Prefix sum collision = zero-sum subarray
-    
 - Pattern: **Prefix Sum + HashMap**
-    
 
 ---
