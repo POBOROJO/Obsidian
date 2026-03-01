@@ -3,7 +3,7 @@ tags:
   - arrays
   - hard
 ---
-## ✅ Problem Tracker
+	## ✅ Problem Tracker
 
 - [x] 1️⃣8️⃣ Pascal's Triangle
 - [x] 1️⃣9️⃣ Majority Element II (N/3 times)
@@ -490,5 +490,141 @@ class Solution {
 - Must store **first occurrence only**
 - Prefix sum collision = zero-sum subarray
 - Pattern: **Prefix Sum + HashMap**
+
+---
+## 2️⃣3️⃣ Count Subarrays with Given XOR
+
+🔗 [GFG - Count Subarrays with Given XOR](https://www.geeksforgeeks.org/problems/count-subarray-with-given-xor/1)
+
+### Description
+
+Given an array of integers `arr[]` and an integer `k`, return the **number of subarrays** whose XOR of all elements equals `k`.
+
+A subarray must be contiguous.
+
+---
+### Core Insight
+
+If:
+
+```
+prefixXor[j] ^ prefixXor[i-1] = k
+```
+
+Then:
+
+```
+prefixXor[i-1] = prefixXor[j] ^ k
+```
+
+So for every current prefix XOR, check how many times  
+`currXor ^ k` has appeared before.
+
+This is the **XOR version of Subarray Sum Equals K**.
+
+---
+
+### Algorithm
+
+- Maintain:
+    
+    - `curr_xor`
+        
+    - `HashMap<prefixXor, frequency>`
+        
+    - `count`
+        
+- Initialize:
+    
+    - `mpp.put(0,1)` (important)
+        
+- Traverse array:
+    
+    - `curr_xor ^= element`
+        
+    - Compute `required = curr_xor ^ k`
+        
+    - Add `frequency(required)` to `count`
+        
+    - Update frequency of `curr_xor`
+        
+- Return `count`
+    
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public long subarrayXor(int arr[], int k) {
+
+        HashMap<Integer, Integer> mpp = new HashMap<>();
+        int curr_xor = 0;
+        long count = 0;
+
+        mpp.put(0, 1); // base case
+
+        for (int x : arr) {
+            curr_xor ^= x;
+
+            int remove = curr_xor ^ k;
+
+            count += mpp.getOrDefault(remove, 0); // cou
+
+            mpp.put(curr_xor, mpp.getOrDefault(curr_xor, 0) + 1); // This line is mpp[curr_xor]++.
+        }
+
+        return count;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:**  
+`arr = [4,2,2,6,4], k = 6`
+
+**Output:**  
+`4`
+
+Subarrays:
+
+- `[4,2]`
+    
+- `[4,2,2,6,4]`
+    
+- `[2,2,6]`
+    
+- `[6]`
+    
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+    
+- Space: **O(n)**
+    
+
+---
+
+### Interview Notes
+
+- Initialize `mpp.put(0,1)` → critical
+    
+- Works because XOR has this property:
+    
+    ```
+    A ^ B ^ B = A
+    ```
+    
+- Sliding window does NOT work (XOR is not monotonic)
+    
+- Pattern: **Prefix XOR + HashMap**
+    
 
 ---
