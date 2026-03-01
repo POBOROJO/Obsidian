@@ -1115,12 +1115,18 @@ Here's the formatted entry ready to append to your notes:
 Given an array `nums` and an integer `k`, return the total number of subarrays whose sum equals `k`.
 
 ---
-
 ### Core Insight
 
 If `prefixSum[j] - prefixSum[i] = k`, then subarray `[i+1...j]` has sum `k`.  
 So for each prefix sum, check how many **earlier prefix sums equal `prefixSum - k`** using a hash map.
 
+![[Pasted image 20260301200701.png]]
+
+- If ==till a point== the `prefixSum = S` 
+- and ==we are looking for `k`==
+- so ==inorder to figure out how many `k` are there== 
+- ==we will look out how many `s-k` are there==
+- since looking middle sum is a bit difficult than prefix sum
 ---
 
 ### Algorithm
