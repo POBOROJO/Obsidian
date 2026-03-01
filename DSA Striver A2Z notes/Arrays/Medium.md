@@ -1155,7 +1155,7 @@ class Solution {
             preSum += nums[i];
             int remove = preSum - k;
             count += map.getOrDefault(remove, 0);
-            map.put(preSum, map.getOrDefault(preSum, 0) + 1);
+            map.put(preSum, map.getOrDefault(preSum, 0) + 1);  // This line is mpp[preSum]++.
         }
 
         return count;
