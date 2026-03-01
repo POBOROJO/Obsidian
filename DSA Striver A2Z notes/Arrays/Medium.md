@@ -1126,7 +1126,8 @@ So for each prefix sum, check how many **earlier prefix sums equal `prefixSum - 
 - and ==we are looking for `k`==
 - so ==inorder to figure out how many `k` are there== 
 - ==we will look out how many `s-k` are there==
-- since looking middle sum is a bit difficult than prefix sum
+-  **==WHY a prefixSum - k / opposite direction==**
+	- **==since looking between sum is a bit difficult than prefix sum==**
 ---
 
 ### Algorithm
