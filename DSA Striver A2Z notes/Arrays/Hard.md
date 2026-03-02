@@ -3,7 +3,7 @@ tags:
   - arrays
   - hard
 ---
-	## ✅ Problem Tracker
+## ✅ Problem Tracker
 
 - [x] 1️⃣8️⃣ Pascal's Triangle
 - [x] 1️⃣9️⃣ Majority Element II (N/3 times)
