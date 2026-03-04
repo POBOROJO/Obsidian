@@ -11,7 +11,7 @@ tags:
 - [x] 2️⃣1️⃣ 4Sum
 - [x] 2️⃣2️⃣ Largest Subarray with 0 Sum
 - [x] 2️⃣3️⃣ Count Subarrays with XOR = K
-- [ ] 2️⃣4️⃣ Merge Overlapping Intervals
+- [x] 2️⃣4️⃣ Merge Overlapping Intervals
 - [ ] 2️⃣5️⃣ Merge Two Sorted Arrays Without Extra Space
 - [ ] 2️⃣6️⃣ Find Missing and Repeating Number
 - [ ] 2️⃣7️⃣ Count Inversions (Merge Sort)
@@ -625,6 +625,161 @@ Subarrays:
 - Sliding window does NOT work (XOR is not monotonic)
     
 - Pattern: **Prefix XOR + HashMap**
+    
+
+---
+## 2️⃣4️⃣ Merge Intervals
+
+### Description
+
+Given an array of intervals `intervals[i] = [start, end]`, merge all **overlapping intervals** and return the resulting non-overlapping intervals.
+
+Two intervals overlap if:
+
+```
+start2 ≤ end1
+```
+
+The merged interval becomes:
+
+```
+[min(start1,start2), max(end1,end2)]
+```
+
+---
+
+### Core Insight
+
+If intervals are **sorted by start time**, overlapping intervals will appear **next to each other**.
+
+So:
+
+- Sort intervals
+    
+- Merge greedily with the last interval in the answer
+    
+
+---
+
+### Algorithm
+
+1. Sort intervals by `start`
+    
+2. Iterate through intervals
+    
+3. If:
+    
+    - result empty OR
+        
+    - current start > last merged end  
+        → add new interval
+        
+4. Otherwise:
+    
+    - merge by updating end  
+        `lastEnd = max(lastEnd, currentEnd)`
+        
+
+---
+### Code (Java)
+
+```java
+class Solution {
+    public int[][] merge(int[][] intervals) {
+
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+
+        List<int[]> ans = new ArrayList<>();
+
+        for (int[] current : intervals) {
+
+            if (ans.isEmpty() || current[0] > ans.get(ans.size() - 1)[1]) {
+                ans.add(current);
+            } 
+            else {
+                int[] last = ans.get(ans.size() - 1);
+                last[1] = Math.max(last[1], current[1]);
+            }
+        }
+
+        return ans.toArray(new int[ans.size()][]);
+    }
+}
+```
+
+---
+
+### Example
+
+**Input**
+
+```
+[[1,3],[2,6],[8,10],[15,18]]
+```
+
+**Output**
+
+```
+[[1,6],[8,10],[15,18]]
+```
+
+Explanation:
+
+```
+[1,3] overlaps [2,6] → merge → [1,6]
+```
+
+---
+
+### Complexity
+
+- Time: **O(n log n)** (sorting dominates)
+    
+- Space: **O(n)** (result storage)
+    
+
+---
+
+### Interview Notes
+
+- Sorting by start is the **key step**
+    
+- Overlap condition:
+    
+
+```
+current.start ≤ last.end
+```
+
+- Adjacent intervals `[1,4]` and `[4,5]` **do merge**
+    
+- Pattern: **Greedy + Sorting**
+    
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Try checking all pairs → **O(n²)** garbage
+    
+- Forget sorting → broken logic
+    
+- Mis-handle boundary `start == end` → wrong merges
+    
+
+This is a **core greedy pattern**.
+
+Once you master this, you automatically unlock:
+
+- **Insert Interval (57)**
+    
+- **Meeting Rooms**
+    
+- **Minimum Number of Platforms**
+    
+- **Non-overlapping Intervals**
     
 
 ---
