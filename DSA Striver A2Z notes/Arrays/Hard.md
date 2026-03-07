@@ -12,11 +12,12 @@ tags:
 - [x] 2️⃣2️⃣ Largest Subarray with 0 Sum
 - [x] 2️⃣3️⃣ Count Subarrays with XOR = K
 - [x] 2️⃣4️⃣ Merge Overlapping Intervals
-- [ ] 2️⃣5️⃣ Merge Two Sorted Arrays Without Extra Space 
-- [ ] 2️⃣6️⃣ Find Missing and Repeating Number
-- [ ] 2️⃣7️⃣ Count Inversions (Merge Sort)
-- [ ] 2️⃣8️⃣ Reverse Pairs (Merge Sort)
-- [ ] 2️⃣9️⃣ Maximum Product Subarray
+- [x] 2️⃣5️⃣ Merge Two Sorted Arrays Without Extra Space
+- [x] 2️⃣6️⃣ Merge Sorted Array
+- [ ] 2️⃣7️⃣ Find Missing and Repeating Number
+- [ ] 2️⃣8️⃣ Count Inversions (Merge Sort)
+- [ ] 2️⃣9️⃣ Reverse Pairs (Merge Sort)
+- [ ] 3️⃣0️⃣ Maximum Product Subarray
 
 ---
 
@@ -336,9 +337,11 @@ Fix two elements → reduce to **Two Pointer search**. Extension of 3Sum.
     - `l = n-1`
 5. Compare sum:
     - < target → `k++`
+        
     - > target → `l--`
         
     - == target → add & skip duplicates
+        
 
 ---
 
@@ -492,6 +495,7 @@ class Solution {
 - Pattern: **Prefix Sum + HashMap**
 
 ---
+
 # 2️⃣3️⃣ Count Subarrays with Given XOR
 
 🔗 [GFG - Count Subarrays with Given XOR](https://www.geeksforgeeks.org/problems/count-subarray-with-given-xor/1)
@@ -503,6 +507,7 @@ Given an array of integers `arr[]` and an integer `k`, return the **number of su
 A subarray must be contiguous.
 
 ---
+
 ### Core Insight
 
 If:
@@ -537,7 +542,6 @@ This is the **XOR version of Subarray Sum Equals K**.
 - Initialize:
     
     - `mpp.put(0,1)` ==(important)==
-        
 - Traverse array:
     
     - `curr_xor ^= element`
@@ -628,7 +632,10 @@ Subarrays:
     
 
 ---
+
 ## 2️⃣4️⃣ Merge Intervals
+
+🔗 [LeetCode 56](https://leetcode.com/problems/merge-intervals/)
 
 ### Description
 
@@ -678,9 +685,9 @@ So:
     
     - merge by updating end  
         `lastEnd = max(lastEnd, currentEnd)`
-        
 
 ---
+
 ### Code (Java)
 
 ```java
@@ -754,39 +761,206 @@ current.start ≤ last.end
 - Adjacent intervals `[1,4]` and `[4,5]` **do merge**
     
 - Pattern: **Greedy + Sorting**
-    
-
+     
 ---
 
-### Brutal Truth
-
-If you:
-
-- Try checking all pairs → **O(n²)** garbage
-    
-- Forget sorting → broken logic
-    
-- Mis-handle boundary `start == end` → wrong merges
-    
-
-This is a **core greedy pattern**.
-
-Once you master this, you automatically unlock:
-
-- **Insert Interval (57)**
-    
-- **Meeting Rooms**
-    
-- **Minimum Number of Platforms**
-    
-- **Non-overlapping Intervals**
-    
-
----
-Below are the notes in **exactly your format**, with **two patterns explicitly called out** for each problem.
-
----
 ## 2️⃣5️⃣ Merge Without Extra Space
+
+🔗 [GFG - Merge Without Extra Space](https://www.geeksforgeeks.org/problems/merge-two-sorted-arrays-without-extra-space/1)
+
+### Description
+
+Given two **sorted arrays** `a[]` and `b[]` of sizes `n` and `m`, merge them into sorted order **without using extra space**.
+
+After merging:
+
+- `a[]` should contain the **first n elements**
+    
+- `b[]` should contain the **last m elements**
+    
+
+---
+
+### Core Insight
+
+The largest elements of `a` might belong in `b`.
+
+So compare:
+
+```
+a[n-1] with b[0]
+```
+
+If `a[n-1] > b[0]`, swap them.
+
+This pushes larger elements to the second array.
+
+Then re-sort both arrays.
+
+---
+
+### Algorithm
+
+1. Set:
+
+```
+left = n-1
+right = 0
+```
+
+2. While `left >= 0` and `right < m`:
+
+- If `a[left] > b[right]`
+    
+    → swap them
+    
+- Move pointers
+    
+
+3. Sort both arrays.
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+
+    static void swap(int [] a, int i, int [] b, int j){
+        int temp = a[i];
+        a[i] = b[j];
+        b[j] = temp;
+    }
+
+    public void mergeArrays(int a[], int b[]) {
+
+        int n = a.length;
+        int m = b.length;
+
+        int left = n - 1;
+        int right = 0;
+
+        while (left >= 0 && right < m) {
+
+            if (a[left] > b[right]) {
+                swap(a, left, b, right);
+                left--;
+                right++;
+            } 
+            else {
+                break;
+            }
+        }
+
+        Arrays.sort(a);
+        Arrays.sort(b);
+    }
+}
+```
+
+---
+
+### Example
+
+**Input**
+
+```
+a = [1,5,9,10,15,20]
+b = [2,3,8,13]
+```
+
+**Output**
+
+```
+a = [1,2,3,5,8,9]
+b = [10,13,15,20]
+```
+
+---
+
+### Complexity
+
+- Time: **O((n+m) log(n+m))** (because of sorting)
+    
+- Space: **O(1)**
+    
+
+---
+
+### Interview Notes
+
+Pattern 1:
+
+```
+Two Pointer Boundary Swap
+```
+
+Pattern 2:
+
+```
+In-place Merge (Gap Method is the optimal version)
+```
+
+Important follow-up:
+
+Interviewers often expect the **Shell Sort Gap Method** for **O((n+m) log(n+m)) without sorting individually**.
+
+---
+
+## 2️⃣6️⃣ Merge Sorted Array
+
+🔗 [LeetCode 88](https://leetcode.com/problems/merge-sorted-array/)
+
+Same idea but `nums1` has extra space at the back to hold the merged result. Merge **from the back** to avoid overwriting elements.
+
+**Three pointers:**
+
+```
+i = m-1      (end of valid nums1)
+j = n-1      (end of nums2)
+k = m+n-1    (end of nums1 total)
+```
+
+```java
+class Solution {
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+
+        while (i >= 0 && j >= 0) {
+
+            if (nums1[i] > nums2[j]) {
+                nums1[k] = nums1[i];
+                i--;
+            } 
+            else {
+                nums1[k] = nums2[j];
+                j--;
+            }
+
+            k--;
+        }
+
+        while (j >= 0) {
+            nums1[k] = nums2[j];
+            j--;
+            k--;
+        }
+    }
+}
+```
+
+**Complexity:** Time **O(m+n)** · Space **O(1)**
+
+Pattern: **Reverse Fill Strategy**
+
+---Below are the notes in **exactly your format**, with **two patterns explicitly called out** for each problem.
+
+---
+
+# 2️⃣5️⃣ Merge Without Extra Space
 
 ### Description
 
@@ -947,7 +1121,7 @@ Problems unlocked by this pattern:
 
 ---
 
-## 2️⃣6️⃣ Merge Sorted Array
+# 2️⃣6️⃣ Merge Sorted Array
 
 ### Description
 
@@ -1076,20 +1250,5 @@ This is the same idea used in:
     
 - **External sorting**
     
-
----
-
-### Brutal Truth
-
-If you try to merge from the front:
-
-- you overwrite data
-    
-- you create extra shifting
-    
-- complexity becomes worse
-    
-
-The **backward merge trick** is what interviewers want.
 
 ---
