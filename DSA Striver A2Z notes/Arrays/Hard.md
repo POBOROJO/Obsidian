@@ -907,10 +907,29 @@ Interviewers often expect the **Shell Sort Gap Method** for **O((n+m) log(n+m)) 
 
 ---
 
-## 2️⃣6️⃣ Merge Sorted Array
+# 2️⃣6️⃣ Merge Sorted Array
 
 🔗 [LeetCode 88](https://leetcode.com/problems/merge-sorted-array/)
 
+### Description
+
+You are given two sorted arrays:
+
+```
+nums1 (size m+n)
+nums2 (size n)
+```
+
+The first `m` elements of `nums1` are valid, and the last `n` are placeholders (`0`).
+
+Merge `nums2` into `nums1` **in-place** so that `nums1` becomes fully sorted.
+
+After merging:
+
+- `a[]` should contain the **first n elements**
+    
+- `b[]` should contain the **last m elements**
+    
 Same idea but `nums1` has extra space at the back to hold the merged result. Merge **from the back** to avoid overwriting elements.
 
 **Three pointers:**
@@ -921,57 +940,6 @@ j = n-1      (end of nums2)
 k = m+n-1    (end of nums1 total)
 ```
 
-```java
-class Solution {
-    public void merge(int[] nums1, int m, int[] nums2, int n) {
-
-        int i = m - 1;
-        int j = n - 1;
-        int k = m + n - 1;
-
-        while (i >= 0 && j >= 0) {
-
-            if (nums1[i] > nums2[j]) {
-                nums1[k] = nums1[i];
-                i--;
-            } 
-            else {
-                nums1[k] = nums2[j];
-                j--;
-            }
-
-            k--;
-        }
-
-        while (j >= 0) {
-            nums1[k] = nums2[j];
-            j--;
-            k--;
-        }
-    }
-}
-```
-
-**Complexity:** Time **O(m+n)** · Space **O(1)**
-
-Pattern: **Reverse Fill Strategy**
-
----Below are the notes in **exactly your format**, with **two patterns explicitly called out** for each problem.
-
----
-
-# 2️⃣5️⃣ Merge Without Extra Space
-
-### Description
-
-Given two **sorted arrays** `a[]` and `b[]` of sizes `n` and `m`, merge them into sorted order **without using extra space**.
-
-After merging:
-
-- `a[]` should contain the **first n elements**
-    
-- `b[]` should contain the **last m elements**
-    
 
 ---
 
@@ -990,159 +958,6 @@ If `a[n-1] > b[0]`, swap them.
 This pushes larger elements to the second array.
 
 Then re-sort both arrays.
-
----
-
-### Algorithm
-
-1. Set:
-    
-
-```
-left = n-1
-right = 0
-```
-
-2. While `left >= 0` and `right < m`:
-    
-
-- If `a[left] > b[right]`
-    
-    → swap them
-    
-- Move pointers
-    
-
-3. Sort both arrays.
-    
-
----
-
-### Code (Java)
-
-```java
-class Solution {
-
-    static void swap(int [] a, int i, int [] b, int j){
-        int temp = a[i];
-        a[i] = b[j];
-        b[j] = temp;
-    }
-
-    public void mergeArrays(int a[], int b[]) {
-
-        int n = a.length;
-        int m = b.length;
-
-        int left = n - 1;
-        int right = 0;
-
-        while (left >= 0 && right < m) {
-
-            if (a[left] > b[right]) {
-                swap(a, left, b, right);
-                left--;
-                right++;
-            } 
-            else {
-                break;
-            }
-        }
-
-        Arrays.sort(a);
-        Arrays.sort(b);
-    }
-}
-```
-
----
-
-### Example
-
-**Input**
-
-```
-a = [1,5,9,10,15,20]
-b = [2,3,8,13]
-```
-
-**Output**
-
-```
-a = [1,2,3,5,8,9]
-b = [10,13,15,20]
-```
-
----
-
-### Complexity
-
-- Time: **O((n+m) log(n+m))** (because of sorting)
-    
-- Space: **O(1)**
-    
-
----
-
-### Interview Notes
-
-Pattern 1:
-
-```
-Two Pointer Boundary Swap
-```
-
-Pattern 2:
-
-```
-In-place Merge (Gap Method is the optimal version)
-```
-
-Important follow-up:
-
-Interviewers often expect the **Shell Sort Gap Method** for **O((n+m) log(n+m)) without sorting individually**.
-
----
-
-### Brutal Truth
-
-This solution works but **is not the optimal expected one**.
-
-The real expected answer in interviews is the **Gap Method**.
-
-Problems unlocked by this pattern:
-
-- **Merge Without Extra Space**
-    
-- **Shell Sort Gap Technique**
-    
-- **In-place Array Merging**
-    
-
----
-
-# 2️⃣6️⃣ Merge Sorted Array
-
-### Description
-
-You are given two sorted arrays:
-
-```
-nums1 (size m+n)
-nums2 (size n)
-```
-
-The first `m` elements of `nums1` are valid, and the last `n` are placeholders (`0`).
-
-Merge `nums2` into `nums1` **in-place** so that `nums1` becomes fully sorted.
-
----
-
-### Core Insight
-
-If we merge from the **front**, we overwrite elements.
-
-So we merge **from the back**, filling the array from the largest element.
 
 ---
 
