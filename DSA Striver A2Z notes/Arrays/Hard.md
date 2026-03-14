@@ -14,7 +14,7 @@ tags:
 - [x] 2️⃣4️⃣ Merge Overlapping Intervals
 - [x] 2️⃣5️⃣ Merge Two Sorted Arrays Without Extra Space
 - [x] 2️⃣6️⃣ Merge Sorted Array
-- [ ] 2️⃣7️⃣ Find Missing and Repeating Number
+- [x] 2️⃣7️⃣ Find Missing and Repeating Number
 - [ ] 2️⃣8️⃣ Count Inversions (Merge Sort)
 - [ ] 2️⃣9️⃣ Reverse Pairs (Merge Sort)
 - [ ] 3️⃣0️⃣ Maximum Product Subarray
@@ -1065,5 +1065,212 @@ This is the same idea used in:
     
 - **External sorting**
     
+
+---
+## 2️⃣7️⃣ Missing and Repeating Number
+
+### Description
+
+Given an array `arr[]` of size `n` containing numbers from **1 to n**, one number is **missing** and one number **appears twice**.
+
+Find both:
+
+- the **repeating number**
+    
+- the **missing number**
+    
+
+Return them as:
+
+```
+[repeating, missing]
+```
+
+---
+
+### Core Insight
+
+Use the formulas for:
+
+```
+Sum of first n numbers
+```
+
+and
+
+```
+Sum of squares of first n numbers
+```
+
+Let:
+
+```
+x = repeating number
+y = missing number
+```
+
+From array:
+
+```
+S  = actual sum
+S2 = actual square sum
+```
+
+Expected values:
+
+```
+SN  = n(n+1)/2
+S2N = n(n+1)(2n+1)/6
+```
+
+Then:
+
+```
+x - y = S - SN
+x² - y² = S2 - S2N
+```
+
+And:
+
+```
+x² - y² = (x-y)(x+y)
+```
+
+So we can compute both numbers.
+
+---
+
+### Algorithm
+
+1. Compute:
+    
+
+```
+S  = sum(arr)
+S2 = sum(arr²)
+```
+
+2. Compute expected values:
+    
+
+```
+SN  = n(n+1)/2
+S2N = n(n+1)(2n+1)/6
+```
+
+3. Find:
+    
+
+```
+val1 = x - y = S - SN
+```
+
+```
+val2 = x + y = (S2 - S2N) / val1
+```
+
+4. Solve:
+    
+
+```
+x = (val1 + val2) / 2
+```
+
+```
+y = val2 - x
+```
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    ArrayList<Integer> findTwoElement(int arr[]) {
+
+        long n = arr.length;
+
+        long S = 0, S2 = 0;
+
+        long SN = (n * (n + 1)) / 2;
+        long S2N = (n * (n + 1) * (2 * n + 1)) / 6;
+
+        for (int x : arr) {
+            S += x;
+            S2 += (long)x * x;
+        }
+
+        long val1 = S - SN;             // x - y
+        long val2 = (S2 - S2N) / val1;  // x + y
+
+        long x = (val1 + val2) / 2;     // repeating
+        long y = val2 - x;              // missing
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        ans.add((int)x);
+        ans.add((int)y);
+
+        return ans;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input**
+
+```
+[4,3,6,2,1,1]
+```
+
+**Output**
+
+```
+[1,5]
+```
+
+Explanation:
+
+```
+1 → repeating
+5 → missing
+```
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+    
+- Space: **O(1)**
+    
+
+---
+
+### Interview Notes
+
+Pattern 1:
+
+```
+Mathematical Equation System
+```
+
+Pattern 2:
+
+```
+Sum + Sum of Squares Technique
+```
+
+Other possible approaches:
+
+- **XOR trick**
+    
+- **Cyclic Sort**
+    
+- **Hashing**
+
+Most interviewers like **Math or XOR solution**.
 
 ---
