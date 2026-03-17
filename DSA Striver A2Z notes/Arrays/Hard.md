@@ -1273,4 +1273,226 @@ Other possible approaches:
 
 Most interviewers like **Math or XOR solution**.
 
+---## 2️⃣8️⃣ Count Inversions
+
+### Description
+
+Given an array `arr[]`, count the number of **inversions**.
+
+An inversion is a pair:
+
+```
+(i, j)
+```
+
+such that:
+
+```
+i < j  AND  arr[i] > arr[j]
+```
+
+It measures **how far the array is from being sorted**.
+
+Example:
+
+```
+[2,4,1,3,5]
+```
+
+Inversions:
+
+```
+(2,1)
+(4,1)
+(4,3)
+```
+
+Answer = **3**
+
+---
+
+### Core Insight
+
+Brute force checks every pair:
+
+```
+O(n²)
+```
+
+But we can count inversions **during Merge Sort**.
+
+Key observation:
+
+During merge step:
+
+```
+if left[i] > right[j]
+```
+
+then **all remaining elements in left half** are also greater.
+
+So inversions added:
+
+```
+(mid - left + 1)
+```
+
+---
+
+### Algorithm
+
+1. Use **Merge Sort**
+    
+2. Recursively divide array
+    
+3. Count inversions in:
+    
+    - left half
+        
+    - right half
+        
+4. During merge:
+    
+    - if `arr[left] > arr[right]`
+        
+    - add inversions:
+        
+
+```
+mid - left + 1
+```
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+
+    public long inversionCount(int arr[]) {
+        return mergeSort(arr, 0, arr.length - 1);
+    }
+
+    int merge(int[] arr, int low, int mid, int high) {
+
+        int[] temp = new int[high - low + 1];
+        int left = low;
+        int right = mid + 1;
+        int k = 0;
+        int cnt = 0;
+
+        while (left <= mid && right <= high) {
+
+            if (arr[left] <= arr[right]) {
+                temp[k++] = arr[left++];
+            } 
+            else {
+                temp[k++] = arr[right++];
+                cnt += (mid - left + 1);
+            }
+        }
+
+        while (left <= mid) {
+            temp[k++] = arr[left++];
+        }
+
+        while (right <= high) {
+            temp[k++] = arr[right++];
+        }
+
+        for (int i = low; i <= high; i++) {
+            arr[i] = temp[i - low];
+        }
+
+        return cnt;
+    }
+
+    int mergeSort(int[] arr, int low, int high) {
+
+        int cnt = 0;
+
+        if (low >= high) return cnt;
+
+        int mid = (low + high) / 2;
+
+        cnt += mergeSort(arr, low, mid);
+        cnt += mergeSort(arr, mid + 1, high);
+        cnt += merge(arr, low, mid, high);
+
+        return cnt;
+    }
+}
+```
+
+---
+
+### Example
+
+Input:
+
+```
+[2,4,1,3,5]
+```
+
+Merge step detects:
+
+```
+4 > 1
+```
+
+Remaining elements in left:
+
+```
+[2,4]
+```
+
+So inversions counted.
+
+Output:
+
+```
+3
+```
+
+---
+
+### Complexity
+
+```
+Time  : O(n log n)
+Space : O(n)
+```
+
+Brute force comparison:
+
+```
+O(n²)
+```
+
+which is impossible for `n = 10⁵`.
+
+---
+
+### Interview Notes
+
+Pattern 1:
+
+```
+Merge Sort Modification
+```
+
+Pattern 2:
+
+```
+Divide and Conquer Counting
+```
+
+This technique also appears in:
+
+```
+Reverse Pairs (LeetCode)
+Count Smaller After Self
+Number of Smaller Elements
+```
+
 ---
