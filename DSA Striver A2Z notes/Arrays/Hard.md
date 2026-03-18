@@ -15,8 +15,8 @@ tags:
 - [x] 2️⃣5️⃣ Merge Two Sorted Arrays Without Extra Space
 - [x] 2️⃣6️⃣ Merge Sorted Array
 - [x] 2️⃣7️⃣ Find Missing and Repeating Number
-- [ ] 2️⃣8️⃣ Count Inversions (Merge Sort)
-- [ ] 2️⃣9️⃣ Reverse Pairs (Merge Sort)
+- [x] 2️⃣8️⃣ Count Inversions (Merge Sort)
+- [x] 2️⃣9️⃣ Reverse Pairs (Merge Sort)
 - [ ] 3️⃣0️⃣ Maximum Product Subarray
 
 ---
@@ -1493,6 +1493,187 @@ This technique also appears in:
 Reverse Pairs (LeetCode)
 Count Smaller After Self
 Number of Smaller Elements
+```
+
+---
+Got it — from now on **links will be included at the top**.
+
+Here’s the updated note in your exact format 👇
+
+---
+
+## 2️⃣9️⃣ Reverse Pairs
+
+🔗 LeetCode: [https://leetcode.com/problems/reverse-pairs/](https://leetcode.com/problems/reverse-pairs/)  
+🔗 GFG: [https://www.geeksforgeeks.org/problems/count-reverse-pairs/1](https://www.geeksforgeeks.org/problems/count-reverse-pairs/1)
+
+---
+
+### Description
+
+Given an array `nums`, count the number of **reverse pairs**.
+
+A reverse pair is:
+
+```java
+i < j  AND  nums[i] > 2 * nums[j]
+```
+
+---
+
+### Core Insight
+
+This is a variation of **inversion count**, but with condition:
+
+```java
+arr[i] > 2 * arr[j]
+```
+
+We use **Merge Sort + Two Pointer counting**.
+
+Key idea:
+
+- Left and right halves are sorted
+    
+- For each `i`, move `right` pointer only forward
+    
+
+---
+
+### Algorithm
+
+1. Apply **merge sort**
+    
+2. Before merging:
+    
+    - Count reverse pairs across halves
+        
+3. For each `i` in left:
+    
+    - Move `right` while:
+        
+
+```java
+arr[i] > 2L * arr[right]
+```
+
+4. Add:
+    
+
+```java
+right - (mid + 1)
+```
+
+5. Merge both halves
+    
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+
+    public void merge(int[] arr, int low, int mid, int high) {
+        List<Integer> temp = new ArrayList<>();
+        int left = low, right = mid + 1;
+
+        while (left <= mid && right <= high) {
+            if (arr[left] <= arr[right]) temp.add(arr[left++]);
+            else temp.add(arr[right++]);
+        }
+
+        while (left <= mid) temp.add(arr[left++]);
+        while (right <= high) temp.add(arr[right++]);
+
+        for (int i = low; i <= high; i++) {
+            arr[i] = temp.get(i - low);
+        }
+    }
+
+    int countPairs(int[] arr, int low, int mid, int high) {
+        int count = 0;
+        int right = mid + 1;
+
+        for (int i = low; i <= mid; i++) {
+            while (right <= high && arr[i] > 2L * arr[right]) right++;
+            count += (right - (mid + 1));
+        }
+
+        return count;
+    }
+
+    public int mergeSort(int[] arr, int low, int high) {
+        if (low >= high) return 0;
+
+        int mid = (low + high) / 2;
+        int count = 0;
+
+        count += mergeSort(arr, low, mid);
+        count += mergeSort(arr, mid + 1, high);
+        count += countPairs(arr, low, mid, high);
+        merge(arr, low, mid, high);
+
+        return count;
+    }
+
+    public int reversePairs(int[] nums) {
+        return mergeSort(nums, 0, nums.length - 1);
+    }
+}
+```
+
+---
+
+### Example
+
+**Input**
+
+```java
+[2,4,3,5,1]
+```
+
+**Output**
+
+```java
+3
+```
+
+Pairs:
+
+```java
+(4,1), (3,1), (5,1)
+```
+
+---
+
+### Complexity
+
+- Time: **O(n log n)**
+    
+- Space: **O(n)**
+    
+
+---
+
+### Interview Notes
+
+Pattern 1:
+
+```java
+Merge Sort Modification
+```
+
+Pattern 2:
+
+```java
+Two Pointer Counting on Sorted Halves
+```
+
+Critical:
+
+```java
+use 2L to avoid overflow
 ```
 
 ---
