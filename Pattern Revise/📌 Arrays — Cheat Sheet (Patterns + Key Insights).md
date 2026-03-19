@@ -132,6 +132,14 @@
         
 
 ---
+### **Pattern 3 — Prefix + Suffix Traversal**
+
+**Use when:** product subarray, negatives can flip the answer, zero resets **Core:** scan both ends simultaneously — covers what single direction misses after a flip
+
+- **Maximum Product Subarray**
+    - Insight: negative flips min↔max — prefix + suffix together cover all cases
+    - Remember: reset to `1` when product hits `0`, not after
+---
 
 ## 🔹 Sorting-Based Patterns
 

@@ -1190,3 +1190,188 @@ class Solution {
 - Pattern: **Prefix Sum + Hashing**
 
 ---
+## 3️⃣0️⃣ Maximum Product Subarray
+
+🔗 LeetCode: [https://leetcode.com/problems/maximum-product-subarray/](https://leetcode.com/problems/maximum-product-subarray/)
+
+---
+
+### Description
+
+Given an integer array `nums`, find the **subarray with the maximum product**, and return that product.
+
+A subarray must be **contiguous**.
+
+---
+
+### Core Insight
+
+Unlike sum, product behaves differently:
+
+- Negative × Negative → Positive
+    
+- Zero resets the product
+    
+
+So:
+
+- You must track **both directions** OR
+    
+- Track **max and min product**
+    
+
+Your approach uses:
+
+```java
+Prefix Product + Suffix Product
+```
+
+to handle negative flips.
+
+---
+
+### Algorithm
+
+- Initialize:
+    
+    - `prefix = 1`
+        
+    - `suffix = 1`
+        
+    - `maxi = -∞`
+        
+- Traverse:
+    
+    - Multiply prefix from left
+        
+    - Multiply suffix from right
+        
+- If product becomes `0`, reset to `1`
+    
+- Track maximum of both
+    
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int maxProduct(int[] arr) {
+        int n = arr.length;
+        int prefix = 1, suffix = 1;
+        int maxi = Integer.MIN_VALUE;
+
+        for (int i = 0; i < n; i++) {
+
+            if (prefix == 0) prefix = 1;
+            if (suffix == 0) suffix = 1;
+
+            prefix *= arr[i];
+            suffix *= arr[n - i - 1];
+
+            maxi = Math.max(maxi, Math.max(prefix, suffix));
+        }
+        return maxi;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input**
+
+```java
+[2,3,-2,4]
+```
+
+**Output**
+
+```java
+6
+```
+
+Subarray:
+
+```java
+[2,3]
+```
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+    
+- Space: **O(1)**
+    
+
+---
+
+### Interview Notes
+
+Pattern 1:
+
+```java
+Prefix + Suffix Traversal
+```
+
+Pattern 2:
+
+```java
+Greedy Product Tracking
+```
+
+Alternative approach:
+
+```java
+Track maxProduct and minProduct (Kadane variant)
+```
+
+Why both?
+
+- Negative flips min ↔ max
+    
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Try Kadane directly → fails (product ≠ sum behavior)
+    
+- Ignore negatives → wrong answers
+    
+- Forget reset on zero → broken logic
+    
+
+This problem tests whether you understand:
+
+```java
+Products behave differently from sums
+```
+
+---
+
+### Extra Insight (Important)
+
+Two valid approaches:
+
+### 1️⃣ Your approach (Prefix + Suffix)
+
+- Easier to implement
+    
+- Very interview-friendly
+    
+
+### 2️⃣ DP approach (max & min tracking)
+
+- More “textbook”
+    
+- Slightly harder to think
+    
+
+---
