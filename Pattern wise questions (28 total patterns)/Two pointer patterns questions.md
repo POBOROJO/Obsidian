@@ -164,3 +164,185 @@ Why two pointers works:
     
 
 ---
+## 2️⃣ Remove Duplicates from Sorted Array
+
+🔗 LeetCode: [https://leetcode.com/problems/remove-duplicates-from-sorted-array/](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+
+---
+
+### Description
+
+Given a **sorted array** `nums`, remove duplicates **in-place** such that:
+
+- Each unique element appears **only once**
+    
+- Maintain **relative order**
+    
+- Return number of unique elements `k`
+    
+
+Final expectation:
+
+```java
+First k elements → unique
+Rest → irrelevant
+```
+
+---
+
+### Core Insight
+
+Sorted array → duplicates are **adjacent**
+
+So:
+
+```java
+Two Pointer (Slow + Fast)
+```
+
+- `i` → last unique element position
+    
+- `j` → scans array
+    
+
+---
+
+### Algorithm
+
+- Initialize:
+    
+    - `i = 0` (points to last unique)
+        
+    - `j = 1` (scanner)
+        
+- Traverse:
+    
+    - If `nums[j] != nums[i]`:
+        
+        - Move `i`
+            
+        - Place new unique element at `i`
+            
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+
+        int i = 0;
+
+        for (int j = 1; j < n; j++) {
+            if (nums[j] != nums[i]) {
+                i++;
+                nums[i] = nums[j];
+            }
+        }
+
+        return i + 1;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input**
+
+```java
+[0,0,1,1,1,2,2,3,3,4]
+```
+
+**Output**
+
+```java
+5
+```
+
+Modified array:
+
+```java
+[0,1,2,3,4,_,_,_,_,_]
+```
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+    
+- Space: **O(1)**
+    
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```java
+Two Pointer (In-place overwrite)
+```
+
+Use when:
+
+- Sorted array
+    
+- Remove / compress elements
+    
+- No extra space allowed
+    
+
+---
+
+### Brutal Truth
+
+Your code works — but you overcomplicated it.
+
+Problems in your version:
+
+- `ans` variable → redundant (you already have `i`)
+    
+- Comparing `nums[j] == nums[j-1]` → unnecessary dependency
+    
+- Extra branching → more chances to screw up in interviews
+    
+
+Cleaner logic:
+
+```java
+Compare with nums[i], not nums[j-1]
+```
+
+Why?
+
+- `i` always tracks last valid unique
+    
+- Keeps logic consistent and scalable
+    
+
+---
+
+### Extra Insight
+
+Return value:
+
+```java
+i + 1
+```
+
+Not `i`
+
+Because:
+
+- `i` is index
+    
+- length = index + 1
+    
+
+---
