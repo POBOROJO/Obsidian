@@ -346,3 +346,107 @@ Because:
     
 
 ---
+
+## 3️⃣ Squares of a Sorted Array
+
+🔗 LeetCode: [https://leetcode.com/problems/squares-of-a-sorted-array/](https://leetcode.com/problems/squares-of-a-sorted-array/)
+
+---
+
+### Description
+
+Given an integer array `nums` sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
+
+---
+
+### Core Insight
+
+Sorted array with negatives → after squaring, largest values are always at **one of the two ends**.
+
+So fill the result array **from back to front** using two pointers.
+
+---
+
+### Algorithm
+
+- Initialize:
+    - `i = 0` (left end)
+    - `j = n - 1` (right end)
+    - `k = n - 1` (fill position)
+- While `i <= j`:
+    - Square both ends
+    - Place the larger one at `res[k]`, move that pointer inward
+    - `k--`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+        int n = nums.length;
+        int[] res = new int[n];
+        int i = 0, j = n - 1, k = n - 1;
+
+        while (i <= j) {
+            int left = nums[i] * nums[i];
+            int right = nums[j] * nums[j];
+
+            if (left > right) {
+                res[k--] = left;
+                i++;
+                //(means) 
+                // res[k] = left;
+                // k--;
+                // i++
+            } else {
+                res[k--] = right;
+                j--;
+            }
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[-4,-1,0,3,10]` **Output:** `[0,1,9,16,100]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(n)** (result array)
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Two Pointer (Opposite Ends) + Reverse Fill
+```
+
+Key condition:
+
+```
+Array is sorted — largest square is always at one of the two ends
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Squared everything and sorted → O(n log n), misses the follow-up entirely
+- Separated negatives and positives → works but overcomplicated, extra space
+- Forgot `i <= j` (used `i < j`) → drops the middle element when array has odd length
+
+---
