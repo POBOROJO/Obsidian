@@ -563,3 +563,114 @@ If you:
 - Use HashSet instead of sorting → works but misses the pattern entirely
 
 ---
+
+## 5️⃣ 3Sum Closest
+
+🔗 LeetCode: [https://leetcode.com/problems/3sum-closest/](https://leetcode.com/problems/3sum-closest/)
+
+---
+
+### Description
+
+Given an integer array `nums` and a `target`, find three integers such that their sum is closest to `target`. Return that sum. Exactly one solution guaranteed.
+
+---
+
+### Core Insight
+
+Same structure as 3Sum — fix one, two pointers on the rest.
+
+Difference: instead of checking `== 0`, track **minimum absolute difference** from target.
+
+---
+
+### Algorithm
+
+- Sort the array
+- Initialize `cloSum = nums[0] + nums[1] + nums[2]`
+- For each `i` from `0` to `n-2`:
+    - `j = i+1`, `k = n-1`
+    - While `j < k`:
+        - Compute `currSum`
+        - If `currSum == target` → return immediately
+        - If `|currSum - target| < |cloSum - target|` → update `cloSum`
+        - If `currSum < target` → `j++`
+        - If `currSum > target` → `k--`
+- Return `cloSum`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        int cloSum = nums[0] + nums[1] + nums[2];
+
+        for (int i = 0; i < n - 2; i++) {
+            int j = i + 1;
+            int k = n - 1;
+
+            while (j < k) {
+                int currSum = nums[i] + nums[j] + nums[k];
+
+                if (currSum == target) return currSum;
+
+                if (Math.abs(currSum - target) < Math.abs(cloSum - target)) {
+                    cloSum = currSum;
+                }
+                else if (currSum < target) {
+                    j++;
+                }
+                else {
+                    k--;
+                }
+            }
+        }
+        return cloSum;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[-1,2,1,-4], target = 1` **Output:** `2` **Triplet:** `-1 + 2 + 1 = 2`
+
+---
+
+### Complexity
+
+- Time: **O(n²)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Sort + Fix One + Two Pointers (Closest variant)
+```
+
+Key condition:
+
+```
+Update closest BEFORE moving pointers — not inside the else branch
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Put `cloSum` update inside `else if` or `else` → misses updates when difference is smaller but sum isn't in the right direction
+- Initialize `cloSum` to `Integer.MAX_VALUE` → works but cleaner to init with first triplet
+- Forget early return on `currSum == target` → wastes time, answer can't get better than 0 diff
+
+---
