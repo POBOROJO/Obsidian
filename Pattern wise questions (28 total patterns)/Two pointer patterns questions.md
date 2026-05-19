@@ -450,3 +450,116 @@ If you:
 - Forgot `i <= j` (used `i < j`) → drops the middle element when array has odd length
 
 ---
+## 4️⃣ 3Sum
+
+🔗 LeetCode: [https://leetcode.com/problems/3sum/](https://leetcode.com/problems/3sum/)
+
+---
+
+### Description
+
+Given an integer array `nums`, return all unique triplets `[nums[i], nums[j], nums[k]]` such that they sum to `0`. No duplicate triplets allowed.
+
+---
+
+### Core Insight
+
+Fix one element → reduce to **Two Sum on sorted array**.
+
+Sorting enables:
+
+- Pointer movement based on sum comparison
+- Duplicate skipping without a HashSet
+
+---
+
+### Algorithm
+
+- Sort the array
+- For each `i` from `0` to `n-2`:
+    - Skip if duplicate (`nums[i] == nums[i-1]`)
+    - Set `target = -nums[i]`
+    - Two pointers: `j = i+1`, `k = n-1`
+    - While `j < k`:
+        - sum == target → add triplet, move both, skip duplicates
+        - sum < target → `j++`
+        - sum > target → `k--`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+
+        for (int i = 0; i < n - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int j = i + 1;
+            int k = n - 1;
+            int target = -nums[i];
+
+            while (j < k) {
+                int sum = nums[j] + nums[k];
+
+                if (sum == target) {
+                    ans.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                    j++;
+                    k--;
+                    while (j < n && nums[j] == nums[j - 1]) j++;
+                    while (k >= 0 && nums[k] == nums[k + 1]) k--;
+                }
+                else if (sum < target) j++;
+                else k--;
+            }
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[-1,0,1,2,-1,-4]` **Output:** `[[-1,-1,2],[-1,0,1]]`
+
+---
+
+### Complexity
+
+- Time: **O(n²)**
+- Space: **O(1)** (excluding output)
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Sort + Fix One + Two Pointers
+```
+
+Key condition:
+
+```
+Sorting is mandatory — enables both pointer movement and duplicate skipping
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Skip duplicate check for `i` → duplicate triplets in output
+- Skip duplicate skip after finding triplet → duplicate triplets again
+- Use `i < n` in inner while guards instead of `j < n` and `k >= 0` → index out of bounds
+- Use HashSet instead of sorting → works but misses the pattern entirely
+
+---
