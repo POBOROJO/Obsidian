@@ -674,3 +674,114 @@ If you:
 - Forget early return on `currSum == target` → wastes time, answer can't get better than 0 diff
 
 ---
+
+## 6️⃣ Sort Colors
+
+🔗 LeetCode: [https://leetcode.com/problems/sort-colors/](https://leetcode.com/problems/sort-colors/)
+
+---
+
+### Description
+
+Given an array `nums` with `n` objects colored `0` (red), `1` (white), or `2` (blue), sort them in-place so same colors are adjacent in order `0 → 1 → 2`. No library sort allowed.
+
+---
+
+### Core Insight
+
+Only 3 possible values → partition into **3 regions** in one pass.
+
+```
+Dutch National Flag Algorithm
+```
+
+Three pointers:
+
+- `low` → boundary of 0s
+- `mid` → current element being examined
+- `high` → boundary of 2s
+
+---
+
+### Algorithm
+
+- Initialize: `low = 0`, `mid = 0`, `high = n-1`
+- While `mid <= high`:
+    - `nums[mid] == 0` → swap with `low`, `low++`, `mid++`
+    - `nums[mid] == 1` → `mid++`
+    - `nums[mid] == 2` → swap with `high`, `high--` (do NOT move `mid`)
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        int low = 0, mid = 0, high = n - 1;
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                swap(nums, low, mid);
+                low++;
+                mid++;
+            }
+            else if (nums[mid] == 1) {
+                mid++;
+            }
+            else {
+                swap(nums, mid, high);
+                high--;
+            }
+        }
+    }
+
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[2,0,2,1,1,0]` **Output:** `[0,0,1,1,2,2]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Dutch National Flag (3-way partition)
+```
+
+Key condition:
+
+```
+Only 3 distinct values → 3 pointer regions in one pass
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Move `mid` after swapping with `high` → unexamined element gets skipped, wrong output
+- Use counting sort (count 0s, 1s, 2s, refill) → works but misses the follow-up entirely
+- Use `mid < high` instead of `mid <= high` → last element never processed
+
+---
