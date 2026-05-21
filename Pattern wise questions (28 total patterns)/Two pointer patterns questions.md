@@ -1,6 +1,9 @@
 ### **NOTE ❗❗❗ -   ==When is a question of 2 pointer**== 
 
-
+1. **When ARRAY OR Linked List** 
+2. **Sorted  / Can be easy if sorted** 
+3. **Merge / Remove Duplicate / Rearrange / in place / Detach Cycle**
+4. **Find Pair / Triplets / Quadruples / Or more**
 
 ## 1️⃣ Two Sum II – Input Array Is Sorted
 
