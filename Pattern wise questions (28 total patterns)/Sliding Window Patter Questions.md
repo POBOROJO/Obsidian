@@ -116,3 +116,105 @@ If you:
 - Remove `arr[i]` instead of `arr[i-k]` → removing wrong element, window corrupted
 
 ---
+## 2️⃣ Minimum Size Subarray Sum
+
+🔗 LeetCode: [https://leetcode.com/problems/minimum-size-subarray-sum/](https://leetcode.com/problems/minimum-size-subarray-sum/)
+
+---
+
+### Description
+
+Given an array of positive integers `nums` and a positive integer `target`, return the minimal length of a subarray whose sum is `>= target`. Return `0` if no such subarray exists.
+
+---
+
+### Core Insight
+
+Window size is **not fixed** — shrink from left whenever condition is met.
+
+```
+Variable Size Sliding Window
+```
+
+Expand right always, shrink left while sum satisfies condition — track minimum length at each valid state.
+
+---
+
+### Algorithm
+
+- `low = 0`, `sum = 0`, `minLen = MAX`
+- Expand `high` from `0` to `n-1`:
+    - `sum += nums[high]`
+    - While `sum >= target`:
+        - Update `minLen = min(minLen, high - low + 1)`
+        - `sum -= nums[low]`
+        - `low++`
+- Return `minLen == MAX ? 0 : minLen`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        int n = nums.length;
+        int sum = 0;
+        int minLen = Integer.MAX_VALUE;
+        int low = 0;
+
+        for (int high = 0; high < n; high++) {
+            sum += nums[high];
+
+            while (sum >= target) {
+                int len = high - low + 1;
+                minLen = Math.min(minLen, len);
+                sum -= nums[low];
+                low++;
+            }
+        }
+        return (minLen == Integer.MAX_VALUE) ? 0 : minLen;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `target = 7, nums = [2,3,1,2,4,3]` **Output:** `2` **Subarray:** `[4,3]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Variable Size Sliding Window (Shrink on condition)
+```
+
+Key condition:
+
+```
+All elements positive → sum is monotonic → sliding window works
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Use `if` instead of `while` for shrinking → misses smaller valid windows inside current window
+- Return `minLen` directly without checking `MAX` → returns garbage when no valid subarray exists
+- Try this with negative numbers → sliding window breaks, need prefix sum instead
+
+---
