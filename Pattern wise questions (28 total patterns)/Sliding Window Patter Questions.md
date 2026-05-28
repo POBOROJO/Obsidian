@@ -218,3 +218,110 @@ If you:
 - Try this with negative numbers → sliding window breaks, need prefix sum instead
 
 ---
+## 3️⃣ Longest Substring with K Uniques
+
+🔗 GFG: [https://www.geeksforgeeks.org/problems/longest-k-unique-characters-substring/1](https://www.geeksforgeeks.org/problems/longest-k-unique-characters-substring/1)
+
+---
+
+### Description
+
+Given a string `s` and integer `k`, find the length of the longest substring that contains **exactly** `k` distinct characters. Return `-1` if no such substring exists.
+
+---
+
+### Core Insight
+
+Variable window + character frequency condition → **Sliding Window + HashMap**.
+
+Expand right always, shrink left when distinct count exceeds `k`, update answer only when distinct count is **exactly** `k`.
+
+---
+
+### Algorithm
+
+- `low = 0`, `res = -1`, `map = {}`
+- Expand `high` from `0` to `n-1`:
+    - Add `s[high]` to map, increment frequency
+    - While `map.size() > k`:
+        - Decrement frequency of `s[low]`
+        - If frequency hits `0` → remove from map
+        - `low++`
+    - If `map.size() == k` → update `res = max(res, high - low + 1)`
+- Return `res`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int longestKSubstr(String s, int k) {
+        int n = s.length();
+        int low = 0;
+        int res = -1;
+
+        Map<Character, Integer> f = new HashMap<>();
+
+        for (int high = 0; high < n; high++) {
+            char c = s.charAt(high);
+            f.put(c, f.getOrDefault(c, 0) + 1);
+
+            while (f.size() > k) {
+                char leftChar = s.charAt(low);
+                f.put(leftChar, f.get(leftChar) - 1);
+                if (f.get(leftChar) == 0) {
+                    f.remove(leftChar);
+                }
+                low++;
+            }
+
+            if (f.size() == k) {
+                res = Math.max(res, high - low + 1);
+            }
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `s = "aabacbebebe", k = 3` **Output:** `7` **Substring:** `"cbebebe"`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(k)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Variable Size Sliding Window + HashMap (Exactly K condition)
+```
+
+Key condition:
+
+```
+Track distinct count via map.size() — shrink when > k, record only when == k
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Update `res` inside the `while` loop → window is still invalid there, wrong length
+- Use `map.size() >= k` to update res → captures `< k` cases too, wrong answer
+- Forget to `remove` key when frequency hits `0` → map size never decreases, window never shrinks correctly
+
+---
