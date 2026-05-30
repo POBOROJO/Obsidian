@@ -325,3 +325,118 @@ If you:
 - Forget to `remove` key when frequency hits `0` → map size never decreases, window never shrinks correctly
 
 ---
+
+## 4️⃣ Fruit Into Baskets
+
+🔗 LeetCode: [https://leetcode.com/problems/fruit-into-baskets/](https://leetcode.com/problems/fruit-into-baskets/)
+
+---
+
+### Description
+
+Given an array `fruits` where `fruits[i]` is the fruit type at tree `i`, find the maximum number of fruits you can pick with exactly **2 baskets** (each basket holds only one fruit type, unlimited quantity).
+
+---
+
+### Core Insight
+
+"2 baskets, each holds 1 type" = **longest subarray with at most 2 distinct values**.
+
+Same pattern as Longest Substring with K Uniques — just `k = 2` hardcoded.
+
+---
+
+### Algorithm
+
+- `low = 0`, `maxLen = 0`, `freq = {}`
+- Expand `high` from `0` to `n-1`:
+    - Add `fruits[high]` to freq map
+    - While `freq.size() > 2`:
+        - Decrement freq of `fruits[low]`
+        - If freq hits `0` → remove from map
+        - `low++`
+    - Update `maxLen = max(maxLen, high - low + 1)`
+- Return `maxLen`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int totalFruit(int[] fruits) {
+        int n = fruits.length;
+        int low = 0, maxLen = 0;
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        for (int high = 0; high < n; high++) {
+            int x = fruits[high];
+            freq.put(x, freq.getOrDefault(x, 0) + 1);
+
+            while (freq.size() > 2) {
+                int leftFruit = fruits[low];
+                freq.put(leftFruit, freq.get(leftFruit) - 1);
+                if (freq.get(leftFruit) == 0)
+                    freq.remove(leftFruit);
+                low++;
+            }
+            maxLen = Math.max(maxLen, high - low + 1);
+        }
+        return maxLen;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,2,3,2,2]` **Output:** `4` **Subarray:** `[2,3,2,2]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)** — map holds at most 3 entries at any time
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Variable Size Sliding Window + HashMap (At Most K distinct)
+```
+
+Key condition:
+
+```
+"At most 2 distinct" → update maxLen OUTSIDE while loop, not inside
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Update `maxLen` inside the `while` → window is shrinking there, never a valid max
+- Confuse this with "exactly 2" → here `<= 2` is valid, update res whenever window is valid
+- Miss that this is just K Uniques with `k = 2` → you'll solve both from scratch instead of recognising the same pattern
+
+---
+
+### Extra Insight
+
+Pattern family comparison:
+
+```
+Exactly K distinct   → update res only when map.size() == k  (Longest K Uniques)
+At most K distinct   → update res whenever map.size() <= k   (Fruit Into Baskets)
+```
+
+Recognising this difference saves you in any variant of this problem.
+
+---
