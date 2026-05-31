@@ -440,3 +440,123 @@ At most K distinct   → update res whenever map.size() <= k   (Fruit Into Baske
 Recognising this difference saves you in any variant of this problem.
 
 ---
+## 5️⃣ Longest Substring Without Repeating Characters
+
+🔗 LeetCode: [https://leetcode.com/problems/longest-substring-without-repeating-characters/](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+
+---
+
+### Description
+
+Given a string `s`, find the length of the longest substring without any duplicate characters.
+
+---
+
+### Core Insight
+
+No duplicates = all characters in window must be unique = `map.size() == window length`.
+
+Shrink from left whenever a duplicate enters the window.
+
+---
+
+### Algorithm
+
+- `low = 0`, `res = 0`, `freq = {}`
+- Expand `high` from `0` to `n-1`:
+    - Add `s[high]` to freq map
+    - While `freq.size() < window size` (duplicate exists):
+        - Decrement freq of `s[low]`
+        - If freq hits `0` → remove from map
+        - `low++`
+    - Update `res = max(res, high - low + 1)`
+- Return `res`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length();
+        int res = 0;
+        int low = 0;
+        Map<Character, Integer> f = new HashMap<>();
+
+        for (int high = 0; high < n; high++) {
+            char c = s.charAt(high);
+            f.put(c, f.getOrDefault(c, 0) + 1);
+
+            int k = high - low + 1;
+
+            while (f.size() < k) {
+                char leftChar = s.charAt(low);
+                f.put(leftChar, f.get(leftChar) - 1);
+                if (f.get(leftChar) == 0) {
+                    f.remove(leftChar);
+                }
+                low++;
+                k = high - low + 1;
+            }
+            res = Math.max(res, k);
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `"abcabcbb"` **Output:** `3` **Substring:** `"abc"`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(min(n, 26))**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Variable Size Sliding Window (All Unique condition)
+```
+
+Key condition:
+
+```
+No duplicates = map.size() must equal window length — shrink whenever they diverge
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Initialize `res = Integer.MIN_VALUE` → unnecessary, no valid window returns `MIN_VALUE` not `0`, just init to `0`
+- Forget to update `k` inside the `while` loop → stale window size, wrong shrink condition
+- Use a `Set` instead of map → cleaner actually, `set.size() == window length` is the same check with less code
+
+---
+
+### Extra Insight
+
+Cleaner alternative using `Set`:
+
+```java
+Set<Character> set = new HashSet<>();
+// shrink when set already contains s[high]
+// set naturally has no duplicates — no size comparison needed
+```
+
+Condition becomes: if `set.contains(s[high])` → shrink until removed, then add. Easier to think about in interviews.
+
+---
