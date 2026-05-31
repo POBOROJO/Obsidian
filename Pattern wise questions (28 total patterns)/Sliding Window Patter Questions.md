@@ -560,3 +560,123 @@ Set<Character> set = new HashSet<>();
 Condition becomes: if `set.contains(s[high])` → shrink until removed, then add. Easier to think about in interviews.
 
 ---
+## 6️⃣ Subarray Product Less Than K
+
+🔗 LeetCode: [https://leetcode.com/problems/subarray-product-less-than-k/](https://leetcode.com/problems/subarray-product-less-than-k/)
+🔗 GFG: https://www.geeksforgeeks.org/problems/count-the-subarrays-having-product-less-than-k1708/1
+
+---
+
+### Description
+
+Given an array of integers `nums` and integer `k`, return the count of contiguous subarrays where the product of all elements is **strictly less than** `k`.
+
+---
+
+### Core Insight
+
+For every valid window ending at `high`, the number of new valid subarrays added is exactly `high - low + 1`.
+
+Why? Every subarray ending at `high` and starting anywhere from `low` to `high` is valid.
+
+---
+
+### Algorithm
+
+- `low = 0`, `product = 1`, `count = 0`
+- Edge case: if `k <= 1` → return `0` immediately
+- Expand `high` from `0` to `n-1`:
+    - `product *= nums[high]`
+    - While `product >= k`:
+        - `product /= nums[low]`
+        - `low++`
+    - `count += high - low + 1`
+- Return `count`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int numSubarrayProductLessThanK(int[] nums, int k) {
+        int n = nums.length;
+        int count = 0;
+        int product = 1;
+        int low = 0;
+
+        if (k <= 1) return 0;
+
+        for (int high = 0; high < n; high++) {
+            product *= nums[high];
+
+            while (product >= k) {
+                product /= nums[low];
+                low++;
+            }
+            count += high - low + 1;
+        }
+        return count;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[10,5,2,6], k = 100` **Output:** `8`
+
+Valid subarrays: `[10],[5],[2],[6],[10,5],[5,2],[2,6],[5,2,6]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Variable Size Sliding Window (Count subarrays via window size)
+```
+
+Key condition:
+
+```
+Each valid window of size (high - low + 1) contributes exactly that many new subarrays
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Miss `k <= 1` edge case → `product >= k` never becomes false when `k = 0` or `k = 1`, infinite loop
+- Count `1` per window instead of `high - low + 1` → undercounts, misses all sub-windows inside current window
+- Try prefix sum approach → product doesn't have the clean subtraction property that sum has, division works only because all elements are positive
+
+---
+
+### Extra Insight
+
+The counting trick `high - low + 1` appears whenever:
+
+```
+every subarray ending at high and starting at [low..high] is valid
+```
+
+You'll see this same trick in:
+
+- Count subarrays with sum <= k
+- Count subarrays with at most k distinct
+
+Recognise the shape, not just this problem.
+
+---
