@@ -680,3 +680,131 @@ You'll see this same trick in:
 Recognise the shape, not just this problem.
 
 ---
+## 7️⃣ Longest Repeating Character Replacement
+
+🔗 LeetCode: [https://leetcode.com/problems/longest-repeating-character-replacement/](https://leetcode.com/problems/longest-repeating-character-replacement/) 🔗 GFG: [https://www.geeksforgeeks.org/problems/longest-repeating-character-replacement/1](https://www.geeksforgeeks.org/problems/longest-repeating-character-replacement/1)
+
+---
+
+### Description
+
+Given a string `s` and integer `k`, you can replace any character at most `k` times. Return the length of the longest substring containing the same letter after at most `k` replacements.
+
+---
+
+### Core Insight
+
+In any valid window, characters to replace = `window size - count of most frequent character`.
+
+If `(len - maxCount) <= k` → window is valid.
+
+---
+
+### Algorithm
+
+- `low = 0`, `res = 0`, `freq[256] = {}`
+- Expand `high` from `0` to `n-1`:
+    - Increment `freq[s[high]]`
+    - Compute `maxCount = max frequency in window`
+    - While `(len - maxCount) > k`:
+        - Decrement `freq[s[low]]`
+        - `low++`
+        - Recompute `maxCount` and `len`
+    - Update `res = max(res, high - low + 1)`
+- Return `res`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+
+    public int find(int[] a) {
+        int maxc = -1;
+        for (int i = 0; i < 256; i++) {
+            maxc = Math.max(maxc, a[i]);
+        }
+        return maxc;
+    }
+
+    public int characterReplacement(String s, int k) {
+        int n = s.length();
+        int res = 0;
+        int[] f = new int[256];
+        int low = 0;
+
+        for (int high = 0; high < n; high++) {
+            f[s.charAt(high)]++;
+            int maxCnt = find(f);
+            int len = high - low + 1;
+            int diff = len - maxCnt;
+
+            while (diff > k) {
+                f[s.charAt(low)]--;
+                low++;
+                maxCnt = find(f);
+                len = high - low + 1;
+                diff = len - maxCnt;
+            }
+
+            res = Math.max(res, high - low + 1);
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `s = "AABABBA", k = 1` **Output:** `4` **Substring:** `"AABA"` or `"ABBB"` after replacement
+
+---
+
+### Complexity
+
+- Time: **O(n × 256)** → effectively **O(n)**
+- Space: **O(256)** → **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Variable Size Sliding Window (Replacement budget condition)
+```
+
+Key condition:
+
+```
+window valid when: (window size - maxFrequency) <= k
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Initialize `res = Integer.MIN_VALUE` → unnecessary, just use `0`
+- Skip recomputing `maxCnt` inside `while` → stale max causes window to shrink incorrectly
+- Use `HashMap` instead of `int[256]` → works but slower, array is cleaner here since input is uppercase only
+- Forget that `find()` runs 256 iterations every step → for strict O(n) optimization, track `maxCount` as a running variable instead of rescanning
+
+---
+
+### Extra Insight
+
+Optimized `maxCount` tracking — no need to rescan array every time:
+
+```java
+maxCount = Math.max(maxCount, f[s.charAt(high)]);
+```
+
+Only update upward on expand. On shrink, `maxCount` may be stale but it never causes wrong answers — window only grows when a genuinely better max is found. This brings it to true **O(n)**.
+
+---
