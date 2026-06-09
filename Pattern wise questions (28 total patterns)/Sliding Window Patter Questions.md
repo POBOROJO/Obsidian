@@ -16,6 +16,19 @@
 	4. New Window information nikalo.
 
 
+
+# FIXED SIZE WINDOW TEMPLATE : 
+
+![[Pasted image 20260609230321.png]]
+
+
+
+
+
+
+
+
+
 ## 1️⃣ Max Sum Subarray of Size K
 
 🔗 GFG: [https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1](https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1)
