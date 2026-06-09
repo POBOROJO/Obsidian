@@ -30,6 +30,12 @@
 ![[Pasted image 20260610004209.png]]
 
 
+
+# MINIMUM WINDOW QUESTION : 
+
+![[Pasted image 20260610021354.png]]
+
+
 ## 1️⃣ Max Sum Subarray of Size K
 
 🔗 GFG: [https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1](https://www.geeksforgeeks.org/problems/max-sum-subarray-of-size-k5313/1)
