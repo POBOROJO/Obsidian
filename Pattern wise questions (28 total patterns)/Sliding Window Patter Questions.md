@@ -21,12 +21,13 @@
 
 ![[Pasted image 20260609230321.png]]
 
+### The max above is for if there is a scenario if we need to find the max
 
 
 
+# VARIABLE SIZE WINDOW TEMPLATE : 
 
-
-
+![[Pasted image 20260610004209.png]]
 
 
 ## 1️⃣ Max Sum Subarray of Size K
