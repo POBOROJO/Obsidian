@@ -828,3 +828,4 @@ maxCount = Math.max(maxCount, f[s.charAt(high)]);
 Only update upward on expand. On shrink, `maxCount` may be stale but it never causes wrong answers — window only grows when a genuinely better max is found. This brings it to true **O(n)**.
 
 ---
+
