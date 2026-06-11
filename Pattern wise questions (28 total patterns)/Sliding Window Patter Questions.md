@@ -829,3 +829,137 @@ Only update upward on expand. On shrink, `maxCount` may be stale but it never ca
 
 ---
 
+## 8️⃣ Minimum Window Substring
+
+🔗 LeetCode: [https://leetcode.com/problems/minimum-window-substring/](https://leetcode.com/problems/minimum-window-substring/)
+
+---
+
+### Description
+
+Given strings `s` and `t`, return the minimum window substring of `s` that contains every character of `t` (including duplicates). Return `""` if no such window exists.
+
+---
+
+### Core Insight
+
+Expand until window is valid (contains all of `t`), then shrink from left to minimize — track the smallest valid window seen.
+
+Two frequency arrays: `need` (from `t`) and `have` (current window). Window is valid when `have[i] >= need[i]` for all characters.
+
+---
+
+### Algorithm
+
+- Build `need[]` from `t`
+- `low = 0`, `res = MAX`, `start = -1`
+- Expand `high` from `0` to `n-1`:
+    - Increment `have[s[high]]`
+    - While window is valid (`have >= need` for all chars):
+        - Update `res` and `start` if current window is smaller
+        - Decrement `have[s[low]]`
+        - `low++`
+- Return `res == MAX ? "" : s.substring(start, start + res)`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+
+    private boolean fun(int[] have, int[] need) {
+        for (int i = 0; i < 256; i++) {
+            if (have[i] < need[i]) return false;
+        }
+        return true;
+    }
+
+    public String minWindow(String s, String t) {
+        int n = s.length();
+        int m = t.length();
+        int res = Integer.MAX_VALUE;
+        int start = -1;
+        int low = 0;
+
+        if (m > n) return "";
+
+        int[] need = new int[256];
+        int[] have = new int[256];
+
+        for (int i = 0; i < m; i++) {
+            need[t.charAt(i)]++;
+        }
+
+        for (int high = 0; high < n; high++) {
+            have[s.charAt(high)]++;
+
+            while (fun(have, need)) {
+                int len = high - low + 1;
+                if (len < res) {
+                    res = len;
+                    start = low;
+                }
+                have[s.charAt(low)]--;
+                low++;
+            }
+        }
+        return res == Integer.MAX_VALUE ? "" : s.substring(start, start + res);
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `s = "ADOBECODEBANC", t = "ABC"` **Output:** `"BANC"`
+
+---
+
+### Complexity
+
+- Time: **O(n × 256)** → effectively **O(n)**
+- Space: **O(256)** → **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Variable Size Sliding Window (Shrink on valid, minimize window)
+```
+
+Key condition:
+
+```
+Shrink while valid — opposite of most sliding window problems where you shrink while invalid
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Shrink while invalid instead of while valid → never finds minimum, wrong approach entirely
+- Forget to track `start` index separately → can't reconstruct the substring even if length is right
+- Call `fun()` every iteration with 256 loop → works but O(256n); optimized version tracks a `formed` counter instead of scanning full array each time
+- Return `s.substring(start, start + res)` when `start = -1` → crash, always guard with `res == MAX` check first
+
+---
+
+### Extra Insight
+
+Optimized approach avoids the 256-scan using a `formed` counter:
+
+```
+formed = number of unique chars in t whose frequency is satisfied in window
+when formed == required (unique chars in t) → window is valid
+```
+
+Increment `formed` when `have[c] == need[c]`, decrement when it drops below. Brings it to true **O(n)**.
+
+---
