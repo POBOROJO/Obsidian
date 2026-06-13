@@ -792,3 +792,120 @@ If you:
 - Use `mid < high` instead of `mid <= high` → last element never processed
 
 ---
+## 7️⃣ 4Sum
+
+🔗 LeetCode: [https://leetcode.com/problems/4sum/](https://leetcode.com/problems/4sum/)
+
+---
+
+### Description
+
+Given an array `nums` and integer `target`, return all unique quadruplets `[a,b,c,d]` such that they sum to `target`. No duplicate quadruplets allowed.
+
+---
+
+### Core Insight
+
+Same as 3Sum — fix two elements, reduce to **Two Pointers on the rest**.
+
+Natural extension: 2Sum → 3Sum → 4Sum → kSum
+
+---
+
+### Algorithm
+
+- Sort the array
+- For each `i` from `0` to `n-3`:
+    - Skip if duplicate
+    - For each `j` from `i+1` to `n-2`:
+        - Skip if duplicate
+        - `k = j+1`, `l = n-1`
+        - While `k < l`:
+            - sum == target → add quadruplet, move both, skip duplicates
+            - sum < target → `k++`
+            - sum > target → `l--`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        int n = nums.length;
+        List<List<Integer>> ans = new ArrayList<>();
+
+        if (n < 4) return ans;
+
+        Arrays.sort(nums);
+
+        for (int i = 0; i < n - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            for (int j = i + 1; j < n - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue;
+
+                int k = j + 1;
+                int l = n - 1;
+
+                while (k < l) {
+                    long sum = (long) nums[i] + nums[j] + nums[k] + nums[l];
+
+                    if (sum == target) {
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[k], nums[l]));
+                        k++;
+                        l--;
+                        while (k < l && nums[k] == nums[k - 1]) k++;
+                        while (k < l && nums[l] == nums[l + 1]) l--;
+                    }
+                    else if (sum < target) k++;
+                    else l--;
+                }
+            }
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,0,-1,0,-2,2], target = 0` **Output:** `[[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]`
+
+---
+
+### Complexity
+
+- Time: **O(n³)**
+- Space: **O(1)** (excluding output)
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Sort + Fix Two + Two Pointers
+```
+
+Key condition:
+
+```
+Duplicate skip at ALL levels — i, j, and after finding valid quadruplet
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Use `int` instead of `long` for sum → silent overflow for large values, wrong answers
+- Skip `n < 4` guard → `n-3` becomes negative index, crashes
+- Duplicate skip for `j` uses `j > i` instead of `j > i+1` → skips valid `j` on first iteration of each `i`
+- Miss inner duplicate skips after adding quadruplet → duplicate results in output
+
+---
