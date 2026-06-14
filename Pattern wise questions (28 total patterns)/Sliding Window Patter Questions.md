@@ -3,7 +3,7 @@
 
 ---
 tags:
-  - sliding_w  - 
+  - sliding_window
 ---
 
 1. **When ARRAY OR String**, NOT IN LINKED LIST
