@@ -1,5 +1,11 @@
 ### **NOTE ❗❗❗ -   ==When is a question of Sliding Window**== 
 
+
+---
+tags:
+  - sliding_w  - 
+---
+
 1. **When ARRAY OR String**, NOT IN LINKED LIST
 2. **[ Subarray / Substring ] -> means they are Continuos and [ Subsequence ] --> this is not cause its non continuous**
 3. **Are we finding :**
@@ -14,9 +20,6 @@
 	2. Window Type -> [Fixed / Varaible]
 	3. Data/Info
 	4. New Window information nikalo.
-
-
-
 # FIXED SIZE WINDOW TEMPLATE : 
 
 ![[Pasted image 20260609230321.png]]
