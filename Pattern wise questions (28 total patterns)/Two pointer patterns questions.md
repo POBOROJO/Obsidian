@@ -1,5 +1,10 @@
 ### **NOTE ❗❗❗ -   ==When is a question of 2 pointer**== 
 
+---
+tags:
+  - two pointers
+---
+
 1. **When ARRAY OR Linked List** 
 2. **Sorted  / Can be easy if sorted** 
 3. **Merge / Remove Duplicate / Rearrange / in place / Detach Cycle**
