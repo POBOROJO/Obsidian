@@ -914,3 +914,144 @@ If you:
 - Miss inner duplicate skips after adding quadruplet → duplicate results in output
 
 ---
+## 8️⃣ Backspace String Compare
+
+🔗 LeetCode: [https://leetcode.com/problems/backspace-string-compare/](https://leetcode.com/problems/backspace-string-compare/)
+
+---
+
+### Description
+
+Given two strings `s` and `t`, return `true` if they're equal when typed into empty text editors, where `#` means backspace.
+
+---
+
+### Core Insight
+
+Process from the **right end** — a `#` only affects characters that come before it, so working backward lets you resolve backspaces without building the final string.
+
+```
+O(1) space by walking right-to-left with a skip counter
+```
+
+---
+
+### Algorithm
+
+- Two pointers `i = s.length-1`, `j = t.length-1`
+- While `i >= 0` or `j >= 0`:
+    - For `s`: skip characters using `skipS` counter
+        - `#` → `skipS++`, move left
+        - `skipS > 0` → consume one skip, move left
+        - else → stop, this is a real character
+    - Do the same for `t` with `skipT`
+    - Compare current valid characters at `i` and `j`
+        - mismatch → `false`
+        - one ran out, other didn't → `false`
+    - Move both pointers left
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public boolean backspaceCompare(String s, String t) {
+        int i = s.length() - 1;
+        int j = t.length() - 1;
+
+        int skipS = 0;
+        int skipT = 0;
+
+        while (i >= 0 || j >= 0) {
+            while (i >= 0) {
+                if (s.charAt(i) == '#') {
+                    skipS++;
+                    i--;
+                }
+                else if (skipS > 0) {
+                    skipS--;
+                    i--;
+                }
+                else {
+                    break;
+                }
+            }
+
+            while (j >= 0) {
+                if (t.charAt(j) == '#') {
+                    skipT++;
+                    j--;
+                }
+                else if (skipT > 0) {
+                    skipT--;
+                    j--;
+                }
+                else {
+                    break;
+                }
+            }
+
+            if (i >= 0 && j >= 0 && s.charAt(i) != t.charAt(j)) {
+                return false;
+            }
+            else if ((i >= 0) != (j >= 0)) {
+                return false;
+            }
+
+            i--;
+            j--;
+        }
+        return true;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `s = "ab#c", t = "ad#c"` **Output:** `true` **Both become:** `"ac"`
+
+---
+
+### Complexity
+
+- Time: **O(n + m)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Two Pointer (Right to Left) + Skip Counter
+```
+
+Key condition:
+
+```
+Process from the end — backspaces only ever cancel what's already behind them
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Use a stack to build the actual string → works, O(n) space, fails the follow-up
+- Forget the `(i >= 0) != (j >= 0)` check → misses the case where one string still has valid chars and the other doesn't
+- Try to process left-to-right → backspace effect isn't known until you see the `#`, forces a second pass or stack anyway
+
+---
+
+**New pattern alert:** this doesn't fit your existing Pattern 1 (Opposite Ends) or Pattern 2 (Slow+Fast). It's a distinct sub-pattern — **Two Pointer from the Right with a state counter**. Worth its own slot under Two Pointers:
+
+```
+Pattern 3 — Right-to-Left with Skip State
+Use when: undo/cancel operations (backspace, bracket matching from end), need to resolve state before comparing
+Core: walk backward, use a counter to track pending "cancellations", only compare real characters
+```
