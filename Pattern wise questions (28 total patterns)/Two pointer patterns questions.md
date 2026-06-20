@@ -1055,3 +1055,240 @@ Pattern 3 — Right-to-Left with Skip State
 Use when: undo/cancel operations (backspace, bracket matching from end), need to resolve state before comparing
 Core: walk backward, use a counter to track pending "cancellations", only compare real characters
 ```
+
+---
+## 9️⃣ Shortest Unsorted Continuous Subarray
+
+🔗 LeetCode: [https://leetcode.com/problems/shortest-unsorted-continuous-subarray/](https://leetcode.com/problems/shortest-unsorted-continuous-subarray/)
+
+---
+
+### Description
+
+Given an integer array `nums`, find the shortest continuous subarray such that if only that subarray is sorted, the entire array becomes sorted.
+
+Return the length of that subarray.
+
+---
+
+### Core Insight
+
+A sorted array has:
+
+```text
+nums[i] <= nums[i+1]
+```
+
+everywhere.
+
+Find:
+
+- First position from the left where order breaks → `low`
+    
+- First position from the right where order breaks → `high`
+    
+
+The segment `[low, high]` is unsorted, but some elements outside it may also belong inside after sorting.
+
+So:
+
+1. Find `min` and `max` inside `[low, high]`
+    
+2. Expand left while previous elements are larger than `min`
+    
+3. Expand right while next elements are smaller than `max`
+    
+
+---
+
+### Algorithm
+
+- Find first inversion from left:
+    
+
+```java
+nums[i] > nums[i+1]
+```
+
+→ `low`
+
+- If none found, array is already sorted → return `0`
+    
+- Find first inversion from right:
+    
+
+```java
+nums[i-1] > nums[i]
+```
+
+→ `high`
+
+- Find:
+    
+
+```java
+wMin = minimum element in [low,high]
+wMax = maximum element in [low,high]
+```
+
+- Expand:
+    
+
+```java
+while(low > 0 && nums[low-1] > wMin)
+    low--;
+
+while(high < n-1 && nums[high+1] < wMax)
+    high++;
+```
+
+Return:
+
+```java
+high - low + 1
+```
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int findUnsortedSubarray(int[] nums) {
+        int n = nums.length;
+        int low = 0, high = n - 1;
+
+        while (low < n - 1 && nums[low] <= nums[low + 1])
+            low++;
+
+        if (low == n - 1)
+            return 0;
+
+        while (high > 0 && nums[high - 1] <= nums[high])
+            high--;
+
+        int wMin = Integer.MAX_VALUE;
+        int wMax = Integer.MIN_VALUE;
+
+        for (int i = low; i <= high; i++) {
+            wMin = Math.min(wMin, nums[i]);
+            wMax = Math.max(wMax, nums[i]);
+        }
+
+        while (low > 0 && nums[low - 1] > wMin)
+            low--;
+
+        while (high < n - 1 && nums[high + 1] < wMax)
+            high++;
+
+        return high - low + 1;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input**
+
+```java
+[2,6,4,8,10,9,15]
+```
+
+Initial inversions:
+
+```text
+low = 1 (6 > 4)
+high = 5 (10 > 9)
+```
+
+Window:
+
+```text
+[6,4,8,10,9]
+```
+
+```text
+wMin = 4
+wMax = 10
+```
+
+No further expansion needed.
+
+Output:
+
+```java
+5
+```
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+    
+- Space: **O(1)**
+    
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```text
+Two Pointer (Opposite Ends) + Boundary Expansion
+```
+
+Key condition:
+
+```text
+Array is almost sorted.
+Find where order first breaks from both sides.
+Expand using min and max of the broken window.
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Compute `min` and `max` over the whole array → wrong answer.
+    
+- Forget the already sorted case → return negative length.
+    
+- Expand before finding `wMin` and `wMax` → miss elements that belong in the window.
+    
+- Sort the whole array and compare → O(n log n), misses the follow-up.
+    
+
+---
+
+### Extra Insight
+
+This is not a sliding window problem.
+
+Think of it as:
+
+```text
+Opposite-End Two Pointers
+        +
+Find Broken Region
+        +
+Boundary Expansion using min/max
+```
+
+Pattern:
+
+```text
+Pattern 4 — Boundary Expansion
+
+Use when:
+- Array is almost sorted
+- Need smallest segment to fix the entire array
+
+Core:
+Find first disorder from both ends, then expand using min and max inside that disorder.
+```
