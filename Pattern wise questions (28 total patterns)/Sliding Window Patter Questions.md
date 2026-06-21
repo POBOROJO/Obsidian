@@ -968,3 +968,131 @@ when formed == required (unique chars in t) → window is valid
 Increment `formed` when `have[c] == need[c]`, decrement when it drops below. Brings it to true **O(n)**.
 
 ---
+## 9️⃣ Permutation in String
+
+🔗 LeetCode: [https://leetcode.com/problems/permutation-in-string/](https://leetcode.com/problems/permutation-in-string/)
+
+---
+
+### Description
+
+Given two strings `s1` and `s2`, return `true` if `s2` contains a permutation of `s1` as a substring.
+
+---
+
+### Core Insight
+
+A permutation of `s1` = any substring of `s2` with the **exact same character frequency** as `s1`.
+
+Window size is fixed at `s1.length()` → **Fixed Size Sliding Window + Frequency Match**.
+
+---
+
+### Algorithm
+
+- Build `need[256]` from `s1`
+- `low = 0`, `have[256] = {}`
+- Expand `high` from `0` to `m-1`:
+    - Add `s2[high]` to `have`
+    - If window size exceeds `n` → remove `s2[low]` from `have`, `low++`
+    - If `have == need` → return `true`
+- Return `false`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public boolean fun(int[] have, int[] need) {
+        for (int i = 0; i < 256; i++) {
+            if (have[i] != need[i]) return false;
+        }
+        return true;
+    }
+
+    public boolean checkInclusion(String s1, String s2) {
+        int n = s1.length();
+        int m = s2.length();
+
+        if (n > m) return false;
+
+        int[] need = new int[256];
+        int[] have = new int[256];
+
+        for (int i = 0; i < n; i++) {
+            need[s1.charAt(i)]++;
+        }
+
+        int low = 0;
+
+        for (int high = 0; high < m; high++) {
+            have[s2.charAt(high)]++;
+
+            if (high - low + 1 > n) {
+                have[s2.charAt(low)]--;
+                low++;
+            }
+
+            if (fun(have, need)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `s1 = "ab", s2 = "eidbaooo"` **Output:** `true` **Match:** `"ba"` at index 3-4
+
+---
+
+### Complexity
+
+- Time: **O(m × 256)** → effectively **O(m)**
+- Space: **O(256)** → **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Fixed Size Sliding Window + Frequency Match
+```
+
+Key condition:
+
+```
+Window size locked to s1.length() — shrink immediately when exceeded, then compare
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Forget `n > m` early return → wastes iterations on an impossible case
+- Compare `have == need` using `equals()` on plain arrays → always false, arrays compare by reference, must loop manually (which you did correctly)
+- Use `if` instead of fixed shrink-on-exceed logic → window size drifts, comparison becomes meaningless
+- Call `fun()` every single iteration even before window reaches size `n` → wastes cycles on guaranteed-false comparisons (minor inefficiency, not a correctness bug)
+
+---
+
+### Extra Insight
+
+Same shape as **Sort Colors**' frequency idea but applied to sliding window:
+
+```
+Fixed window + exact frequency match → Permutation in String, Find All Anagrams
+At most K distinct        → Fruit Into Baskets
+Exactly K distinct        → Longest Substring with K Uniques
+```
+
+The `fun()` 256-scan can be optimized with a running `matches` counter (like Longest Repeating Character Replacement) to hit true O(m) — but for interview purposes, this version is clean and correct.
