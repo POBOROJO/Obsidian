@@ -1096,3 +1096,134 @@ Exactly K distinct        → Longest Substring with K Uniques
 ```
 
 The `fun()` 256-scan can be optimized with a running `matches` counter (like Longest Repeating Character Replacement) to hit true O(m) — but for interview purposes, this version is clean and correct.
+
+----
+## 🔟 Find All Anagrams in a String
+
+🔗 LeetCode: [https://leetcode.com/problems/find-all-anagrams-in-a-string/](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+
+---
+
+### Description
+
+Given two strings `s` and `p`, return the start indices of all anagrams of `p` in `s`.
+
+---
+
+### Core Insight
+
+Identical to **Permutation in String** — same fixed window, same frequency match.
+
+Only difference: collect ALL valid window start indices instead of returning on first match.
+
+---
+
+### Algorithm
+
+- Build `need[256]` from `p`
+- `low = 0`, `have[256] = {}`
+- Expand `high` from `0` to `m-1`:
+    - Add `s[high]` to `have`
+    - If window size exceeds `n` → remove `s[low]`, `low++`
+    - If `have == need` → add `low` to answer
+- Return answer list
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public boolean fun(int[] have, int[] need) {
+        for (int i = 0; i < 256; i++) {
+            if (have[i] != need[i]) return false;
+        }
+        return true;
+    }
+
+    public List<Integer> findAnagrams(String s, String p) {
+        int n = p.length();
+        int m = s.length();
+
+        List<Integer> ans = new ArrayList<>();
+
+        if (n > m) return ans;
+
+        int[] need = new int[256];
+        int[] have = new int[256];
+
+        for (int i = 0; i < n; i++) {
+            need[p.charAt(i)]++;
+        }
+
+        int low = 0;
+
+        for (int high = 0; high < m; high++) {
+            have[s.charAt(high)]++;
+
+            if (high - low + 1 > n) {
+                have[s.charAt(low)]--;
+                low++;
+            }
+
+            if (fun(have, need)) {
+                ans.add(low);
+            }
+        }
+        return ans;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `s = "cbaebabacd", p = "abc"` **Output:** `[0, 6]` **Matches:** `"cba"` at 0, `"bac"` at 6
+
+---
+
+### Complexity
+
+- Time: **O(m × 256)** → effectively **O(m)**
+- Space: **O(256)** → **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Fixed Size Sliding Window + Frequency Match (Collect all)
+```
+
+Key condition:
+
+```
+Same as Permutation in String — only change is collecting low instead of returning true
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Add `high` instead of `low` to answer → wrong start index, window starts at `low` not `high`
+- Forget `n > m` guard → empty list returned anyway but wastes iterations
+- Treat this as a different problem from Permutation in String → it's the same pattern, same code, same `fun()`, one line different
+
+---
+
+### Extra Insight
+
+These two problems are **twins** — same template, different output:
+
+```
+Permutation in String  → return true on first match
+Find All Anagrams      → collect low on every match
+```
+
+If you can solve one, you've solved both. In an interview, say this out loud — it shows pattern recognition.
+
