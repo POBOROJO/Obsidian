@@ -8,7 +8,7 @@ tags:
   - substring
   - sliding window
 ---
-1. **When ARRAY OR String**, NOT IN LINKED LIST
+1. **When ARRAY OR String**, ==NOT IN LINKED LIST==
 2. **[ Subarray / Substring ] -> means they are Continuous and [ Subsequence ] --> this is not cause its non continuous**
 3. **Are we finding :**
 	1. Maximum 
