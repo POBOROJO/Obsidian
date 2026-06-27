@@ -1,7 +1,5 @@
 ### **NOTE ❗❗❗ -   ==When is a question of Sliding Window**== 
 
-
----
 ---
 tags:
   - subarray
