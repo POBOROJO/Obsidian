@@ -116,3 +116,139 @@ If you:
 4. If fast hits null → no cycle
 
 ---
+## 2️⃣ Palindrome Linked List
+
+🔗 LeetCode: [https://leetcode.com/problems/palindrome-linked-list/](https://leetcode.com/problems/palindrome-linked-list/)
+
+---
+
+### Description
+
+Given the `head` of a singly linked list, return `true` if it is a palindrome, `false` otherwise. Solve in **O(n)** time and **O(1)** space.
+
+---
+
+### Core Insight
+
+Can't traverse backward in a singly linked list — so **reverse the second half in-place** and compare against the first half.
+
+Three steps:
+
+```
+Find middle → Reverse second half → Compare both halves
+```
+
+---
+
+### Algorithm
+
+- **Step 1 — Find middle:**
+    
+    - `slow = head`, `fast = head`
+    - Move until `fast` hits end → `slow` is at middle
+- **Step 2 — Reverse second half:**
+    
+    - Start from `slow`, reverse in-place using `prev/curr`
+- **Step 3 — Compare:**
+    
+    - `p1 = head`, `p2 = prev` (head of reversed half)
+    - Walk both until `p2` is null
+    - Any mismatch → `false`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) return true;
+
+        // Step 1: Find middle
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 2: Reverse second half
+        ListNode prev = null;
+        ListNode curr = slow;
+        while (curr != null) {
+            ListNode nextTemp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+
+        // Step 3: Compare
+        ListNode p1 = head;
+        ListNode p2 = prev;
+        while (p2 != null) {
+            if (p1.val != p2.val) return false;
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+        return true;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,2,2,1]` **Output:** `true`
+
+**Input:** `[1,2]` **Output:** `false`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Slow & Fast (Find Middle) + In-place Reverse + Two Pointer Compare
+```
+
+Key condition:
+
+```
+Reverse second half only — compare p2 until null, not p1 (handles odd-length lists)
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Use a stack or array to store values → O(n) space, fails the follow-up
+- Compare until `p1 == null` instead of `p2 == null` → fails on odd-length lists, middle element has no pair
+- Forget the `head == null || head.next == null` guard → NPE on empty or single node list
+- Reverse the whole list instead of second half → destroys the first half, nothing to compare against
+
+---
+
+### Extra Insight
+
+This problem combines **3 linked list sub-patterns** in sequence:
+
+```
+1. Find middle        → slow/fast pointer
+2. Reverse a list     → prev/curr/next pointer
+3. Compare two lists  → two pointer walk
+```
+
+Each of these is its own interview question too. Knowing all three and composing them is the real skill being tested here.
+
+---
