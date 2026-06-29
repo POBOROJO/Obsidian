@@ -2,10 +2,7 @@
 ----
 ## **Tags: Slow & Fast Pointer**
 
-1. **Cyclic / Loop / Repetitive**
-2. **Find Middle**
-3. **Detect where cycle begins**
-4. **Nth node from end**
+1. **Cyclic / Loop / Repetitive/ Starting point of Cycle**
 
 ---
 
