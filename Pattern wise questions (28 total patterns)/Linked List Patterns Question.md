@@ -252,3 +252,5 @@ This problem combines **3 linked list sub-patterns** in sequence:
 Each of these is its own interview question too. Knowing all three and composing them is the real skill being tested here.
 
 ---
+
+![[Pasted image 20260703013208.png]]
