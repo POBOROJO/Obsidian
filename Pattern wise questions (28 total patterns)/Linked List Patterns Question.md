@@ -254,3 +254,136 @@ Each of these is its own interview question too. Knowing all three and composing
 ---
 
 ![[Pasted image 20260703013208.png]]
+
+---
+## 3️⃣ Find the Duplicate Number
+
+🔗 LeetCode: [https://leetcode.com/problems/find-the-duplicate-number/](https://leetcode.com/problems/find-the-duplicate-number/)
+
+---
+
+### Description
+
+Given array `nums` of `n+1` integers where each integer is in range `[1,n]`, find the one repeated number. Cannot modify array, must use O(1) space.
+
+---
+
+### Core Insight
+
+Treat the array as a **linked list where index → value is a "next" pointer**.
+
+Duplicate value = two indices point to the same next node = **cycle in the implicit linked list**.
+
+Apply Floyd's — find meeting point, then find cycle entrance.
+
+```
+Same algo as Linked List Cycle II — just on an array
+```
+
+---
+
+### Algorithm
+
+- **Phase 1 — Find meeting point:**
+    
+    - `slow = nums[slow]`, `fast = nums[nums[fast]]`
+    - Loop until `slow == fast`
+- **Phase 2 — Find cycle entrance (= duplicate):**
+    
+    - Reset `slow = 0` (start of array)
+    - Move both one step at a time
+    - Where they meet = duplicate number
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int slow = 0;
+        int fast = 0;
+
+        // Phase 1: find meeting point
+        while (true) {
+            slow = nums[slow];
+            // `fast = nums[nums[fast]]` = below one
+            fast = nums[fast];
+            fast = nums[fast];
+
+            if (slow == fast) break;
+        }
+
+        // Phase 2: find cycle entrance
+        slow = 0;
+
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+
+        return slow;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,3,4,2,2]`
+
+Implicit links: `0→1→3→2→4→2` (cycle at 2)
+
+**Output:** `2`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Floyd's Cycle Detection on Array (Implicit Linked List)
+```
+
+Key condition:
+
+```
+Values in [1,n] guarantee every index has a valid next → no null, cycle must exist
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Use HashSet to track seen values → O(n) space, violates constraint
+- Sort the array → modifies array, violates constraint
+- Use `nums[i]` as index and mark negative → modifies array, violates constraint
+- Start `slow` and `fast` at `nums[0]` instead of `0` → Phase 2 reset to `0` (not `nums[0]`) is the trap — must reset to start of the "list" which is index `0`
+- Don't understand why Phase 2 reset works → distance from head to cycle entrance equals distance from meeting point to cycle entrance (mathematical proof, just remember the fact)
+
+---
+
+### Extra Insight
+
+Why reset `slow = 0` not `slow = nums[0]`:
+
+```
+Index 0 is the "head" of the implicit linked list
+nums[0] would be one step inside — that's wrong
+The reset must go back to the true start
+```
+
+This is the #1 mistake on this problem. The meeting in Phase 2 happens at the **duplicate value** which is the cycle entrance.
+
+---
