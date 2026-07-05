@@ -1,4 +1,4 @@
-**NOTE ❗❗❗ — When is a question of Linked List***
+**NOTE ❗❗❗ — When is a question of Linked List**
 ----
 ## **Tags: Slow & Fast Pointer**
 
