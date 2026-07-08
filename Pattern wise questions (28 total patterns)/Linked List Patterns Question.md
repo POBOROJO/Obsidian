@@ -387,3 +387,134 @@ The reset must go back to the true start
 This is the #1 mistake on this problem. The meeting in Phase 2 happens at the **duplicate value** which is the cycle entrance.
 
 ---
+## 4️⃣ Happy Number
+
+🔗 LeetCode: [https://leetcode.com/problems/happy-number/](https://leetcode.com/problems/happy-number/)
+
+---
+
+### Description
+
+A number is happy if repeatedly replacing it with the sum of squares of its digits eventually reaches `1`. If it loops endlessly without reaching `1`, it's not happy. Return `true` or `false`.
+
+---
+
+### Core Insight
+
+If the number is not happy, the sequence **cycles** — never reaches 1.
+
+Cycle detection = **Floyd's on the digit-square sequence**.
+
+```
+Same slow/fast pattern — just applied to a number sequence instead of a list
+```
+
+---
+
+### Algorithm
+
+- `slow = n`, `fast = n`
+- While `fast != 1`:
+    - `slow = digitSquareSum(slow)` — 1 step
+    - `fast = digitSquareSum(digitSquareSum(fast))` — 2 steps
+    - If `slow == fast` and neither is `1` → cycle → return `false`
+- Return `true`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+
+    int fun(int n) {
+        int sum = 0;
+        while (n > 0) {
+            int d = n % 10;
+            n = n / 10;
+            sum = sum + (d * d);
+        }
+        return sum;
+    }
+
+    public boolean isHappy(int n) {
+        int slow = n;
+        int fast = n;
+
+        while (fast != 1) {
+            slow = fun(slow);
+            fast = fun(fast);
+            fast = fun(fast);
+
+            if (slow == fast && slow != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `n = 19`
+
+```
+1² + 9² = 82
+8² + 2² = 68
+6² + 8² = 100
+1² + 0² + 0² = 1 ✓
+```
+
+**Output:** `true`
+
+**Input:** `n = 2` → enters cycle → **Output:** `false`
+
+---
+
+### Complexity
+
+- Time: **O(log n)** per step, bounded number of steps
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Floyd's Cycle Detection on Number Sequence
+```
+
+Key condition:
+
+```
+Happy → reaches 1. Not happy → enters cycle. Cycle = slow meets fast.
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Use HashSet to track seen numbers → works but O(n) space, misses the elegant solution
+- Forget `slow != 1` in the cycle check → returns `false` even when both pointers land on `1` simultaneously
+- Apply Floyd's Phase 2 (find entrance) → unnecessary here, we only need to detect cycle existence, not where it starts
+
+---
+
+### Extra Insight
+
+Floyd's shows up in 3 linked list problems you've solved — notice the pattern:
+
+```
+Linked List Cycle      → detect cycle in list
+Find Duplicate Number  → detect cycle in implicit array list + find entrance  
+Happy Number           → detect cycle in number sequence
+```
+
+Same algorithm, three different disguises. The moment you see "sequence that might loop" — think Floyd's.
