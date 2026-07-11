@@ -624,3 +624,130 @@ Find Duplicate Number    → same slow/fast idea on array
 Middle-finding is a building block — not just a standalone problem. In interviews, when you explain Palindrome Linked List, walk through this step explicitly — it shows you understand the composition.
 
 ---
+
+## 6️⃣ Linked List Cycle II
+
+🔗 LeetCode: [https://leetcode.com/problems/linked-list-cycle-ii/](https://leetcode.com/problems/linked-list-cycle-ii/)
+
+---
+
+### Description
+
+Given `head` of a linked list, return the **node where the cycle begins**. Return `null` if no cycle. O(1) space required.
+
+---
+
+### Core Insight
+
+Floyd's Phase 1 finds the **meeting point** inside the cycle.
+
+Floyd's Phase 2 finds the **cycle entrance** — reset slow to head, move both one step at a time, they meet exactly at the entrance.
+
+```
+Mathematical fact: distance(head → entrance) = distance(meeting point → entrance)
+```
+
+---
+
+### Algorithm
+
+- **Phase 1 — Detect cycle:**
+    
+    - `slow = slow.next`, `fast = fast.next.next`
+    - If `slow == fast` → meeting point found
+- **Phase 2 — Find entrance:**
+    
+    - Reset `slow = head`
+    - Move both one step at a time
+    - Where they meet = cycle start node
+- If `fast` hits null → no cycle, return `null`
+    
+
+---
+
+### Code (Java)
+
+```java
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow == fast) {
+                slow = head;
+
+                while (slow != fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                return slow;
+            }
+        }
+        return null;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[3,2,0,-4], pos = 1` **Output:** node with value `2` **Explanation:** tail connects back to index 1 — cycle starts at node 2
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Floyd's Cycle Detection — Phase 1 (detect) + Phase 2 (find entrance)
+```
+
+Key condition:
+
+```
+After meeting: reset slow to head only — fast stays at meeting point, both move 1 step
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Reset both pointers to head → defeats the purpose, just re-runs Phase 1
+- Move fast 2 steps in Phase 2 → math breaks, they won't meet at entrance
+- Return `fast` instead of `slow` → both are same node at meeting, but conceptually return either
+- Skip the null check → NPE on lists with no cycle
+
+---
+
+### Extra Insight
+
+Linked List problems using Floyd's so far:
+
+```
+Linked List Cycle     → Phase 1 only (does cycle exist?)
+Linked List Cycle II  → Phase 1 + Phase 2 (where does it start?)
+Find Duplicate Number → same two phases on an array
+Happy Number          → Phase 1 only (does sequence cycle?)
+```
+
+The pattern to remember:
+
+```
+Phase 1 alone  → detect cycle
+Phase 1 + 2    → find cycle entrance
+```
