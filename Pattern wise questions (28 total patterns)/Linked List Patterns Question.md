@@ -517,4 +517,110 @@ Find Duplicate Number  → detect cycle in implicit array list + find entrance
 Happy Number           → detect cycle in number sequence
 ```
 
-Same algorithm, three different disguises. The moment you see "sequence that might loop" — think Floyd's.
+Same algorithm, three different disguises. The moment you see "sequence that might loop" — think Floyd's
+
+---
+
+## 5️⃣ Middle of the Linked List
+
+🔗 LeetCode: [https://leetcode.com/problems/middle-of-the-linked-list/](https://leetcode.com/problems/middle-of-the-linked-list/)
+
+---
+
+### Description
+
+Given `head` of a singly linked list, return the middle node. If two middle nodes exist, return the **second** one.
+
+---
+
+### Core Insight
+
+Fast moves 2x speed of slow — when fast hits end, slow is exactly at the middle.
+
+Even length → slow lands on second middle automatically because fast overshoots.
+
+---
+
+### Algorithm
+
+- `slow = head`, `fast = head`
+- While `fast != null` and `fast.next != null`:
+    - `slow = slow.next`
+    - `fast = fast.next.next`
+- Return `slow`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,2,3,4,5]` → **Output:** `[3,4,5]` (middle = 3)
+
+**Input:** `[1,2,3,4,5,6]` → **Output:** `[4,5,6]` (second middle = 4)
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Slow & Fast Pointer (Find Middle)
+```
+
+Key condition:
+
+```
+fast != null && fast.next != null — both checks mandatory or NPE on even length list
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Check only `fast != null` → `fast.next.next` throws NPE when fast is at last node
+- Check only `fast.next != null` → loop exits one step early, slow lands before middle
+- Return `fast` instead of `slow` → fast is at end, not middle
+- Count nodes first then traverse to n/2 → works but two passes, O(2n)
+
+---
+
+### Extra Insight
+
+This is a **sub-step** you've already used inside two other problems:
+
+```
+Palindrome Linked List   → find middle, then reverse second half
+Find Duplicate Number    → same slow/fast idea on array
+```
+
+Middle-finding is a building block — not just a standalone problem. In interviews, when you explain Palindrome Linked List, walk through this step explicitly — it shows you understand the composition.
+
+---
