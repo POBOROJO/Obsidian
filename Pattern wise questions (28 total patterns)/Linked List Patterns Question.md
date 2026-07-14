@@ -751,3 +751,159 @@ The pattern to remember:
 Phase 1 alone  → detect cycle
 Phase 1 + 2    → find cycle entrance
 ```
+
+---
+## 7️⃣ Reorder List
+
+🔗 LeetCode: [https://leetcode.com/problems/reorder-list/](https://leetcode.com/problems/reorder-list/)
+
+---
+
+### Description
+
+Given head of a singly linked list `L0 → L1 → … → Ln`, reorder it to `L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …` in-place. No modifying values, only node pointers.
+
+---
+
+### Core Insight
+
+Three steps composed together:
+
+```
+Find middle → Reverse second half → Merge two halves alternately
+```
+
+Same building blocks as Palindrome Linked List — except instead of comparing, you **interleave**.
+
+---
+
+### Algorithm
+
+- **Step 1 — Find middle:**
+    
+    - Slow/fast pointers → `slow` lands at middle
+    - Cut list: `slow.next = null`
+- **Step 2 — Reverse second half:**
+    
+    - Reverse from `slow.next` onward using `prev/curr`
+- **Step 3 — Merge alternately:**
+    
+    - `first = head`, `second = reversed head`
+    - While `second != null`:
+        - Save `temp1 = first.next`, `temp2 = second.next`
+        - `first.next = second`, `second.next = temp1`
+        - Advance: `first = temp1`, `second = temp2`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public void reorderList(ListNode head) {
+
+        // Step 1: Find middle
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 2: Reverse second half
+        ListNode second = slow.next;
+        slow.next = null;
+
+        ListNode prev = null;
+        while (second != null) {
+            ListNode next = second.next;
+            second.next = prev;
+            prev = second;
+            second = next;
+        }
+        second = prev;
+
+        // Step 3: Merge alternately
+        ListNode first = head;
+        while (second != null) {
+            ListNode temp1 = first.next;
+            ListNode temp2 = second.next;
+
+            first.next = second;
+            second.next = temp1;
+
+            first = temp1;
+            second = temp2;
+        }
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,2,3,4,5]`
+
+```
+Find middle   → [1,2,3] | [4,5]
+Reverse 2nd   → [1,2,3] + [5,4]
+Merge         → [1,5,2,4,3]
+```
+
+**Output:** `[1,5,2,4,3]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Find Middle + Reverse Second Half + Alternate Merge
+```
+
+Key condition:
+
+```
+Cut the list at middle (slow.next = null) before reversing — else reverse runs into first half
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Forget `slow.next = null` → reverse runs through entire list, first half gets corrupted
+- Save `second = slow.next` after setting `slow.next = null` → `second` is now null, lost the reference — save it BEFORE cutting
+- Merge while `first != null` instead of `second != null` → odd length list, `first` has one extra node, causes NPE when `second` is already exhausted
+- Try to use a deque/array → O(n) space, works but misses the point entirely
+
+---
+
+### Extra Insight
+
+This is the **hardest composition** of linked list building blocks you've done:
+
+```
+Palindrome Linked List  → find middle + reverse + COMPARE
+Reorder List            → find middle + reverse + MERGE
+```
+
+Same first two steps, different third step. If you freeze in an interview, ask yourself:
+
+```
+"Can I find the middle?" → yes
+"Can I reverse a list?"  → yes  
+"What do I do with both halves?" → the problem tells you
+```
+
+Break it into 3 sub-problems, solve each independently, compose.
