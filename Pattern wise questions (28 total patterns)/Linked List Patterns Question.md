@@ -940,8 +940,8 @@ Starting state — second half is `4 → 5 → null`, `prev = null`:
 prev = null
 
 second
-  |
-  v
+|
+v
 4 ───► 5 ───► null
 ```
 
