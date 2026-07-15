@@ -924,16 +924,96 @@ Merge         → [1,5,2,4,3]
 
 ---
 
+### How Reversal Works (Visual)
+
+Three pointers you carry through the list:
+
+```
+📍 second  = "Where am I right now?"
+📍 next    = "Where should I go next?"
+📍 prev    = "What have I already reversed?"
+```
+
+Starting state — second half is `4 → 5 → null`, `prev = null`:
+
+```
+prev = null
+
+second
+  |
+  v
+4 ───► 5 ───► null
+```
+
+**Iteration 1:**
+
+```
+Step 1: next = second.next     → next = 5
+
+Step 2: second.next = prev     → 4 ───► null  (arrow reversed)
+
+Step 3: prev = second          → prev points to 4
+
+Step 4: second = next          → second points to 5
+```
+
+State after iteration 1:
+
+```
+prev          second
+ |              |
+ v              v
+4 ──► null    5 ──► null
+```
+
+**Iteration 2:**
+
+```
+Step 1: next = second.next     → next = null
+
+Step 2: second.next = prev     → 5 ───► 4  (arrow reversed)
+
+Step 3: prev = second          → prev points to 5
+
+Step 4: second = next          → second = null  (loop ends)
+```
+
+State after loop:
+
+```
+prev
+ |
+ v
+5 ───► 4 ───► null
+
+second = null
+```
+
+Final line `second = prev` hands you the reversed head:
+
+```
+second
+  |
+  v
+5 ───► 4 ───► null
+```
+
+**Memory hook — every iteration is always:**
+
+```
+Save → Reverse arrow → Move prev → Move second
+```
+
+---
+
 ### Interview Notes
 
 Pattern:
-
 ```
 Find Middle + Reverse Second Half + Alternate Merge
 ```
 
 Key condition:
-
 ```
 Cut the list at middle (slow.next = null) before reversing — else reverse runs into first half
 ```
@@ -943,11 +1023,10 @@ Cut the list at middle (slow.next = null) before reversing — else reverse runs
 ### Brutal Truth
 
 If you:
-
 - Forget `slow.next = null` → reverse runs through entire list, first half gets corrupted
-- Save `second = slow.next` after setting `slow.next = null` → `second` is now null, lost the reference — save it BEFORE cutting
-- Merge while `first != null` instead of `second != null` → odd length list, `first` has one extra node, causes NPE when `second` is already exhausted
-- Try to use a deque/array → O(n) space, works but misses the point entirely
+- Save `second = slow.next` AFTER setting `slow.next = null` → `second` is now null, lost the reference — save BEFORE cutting
+- Merge while `first != null` instead of `second != null` → odd length list causes NPE when `second` exhausts first
+- Try deque/array → O(n) space, misses the point
 
 ---
 
@@ -960,11 +1039,11 @@ Palindrome Linked List  → find middle + reverse + COMPARE
 Reorder List            → find middle + reverse + MERGE
 ```
 
-Same first two steps, different third step. If you freeze in an interview, ask yourself:
+Same first two steps, different third step. If you freeze in an interview:
 
 ```
 "Can I find the middle?" → yes
-"Can I reverse a list?"  → yes  
+"Can I reverse a list?"  → yes
 "What do I do with both halves?" → the problem tells you
 ```
 
