@@ -800,38 +800,100 @@ Same building blocks as Palindrome Linked List — except instead of comparing, 
 
 ```java
 class Solution {
+
     public void reorderList(ListNode head) {
 
-        // Step 1: Find middle
+        // If the list has 0 or 1 node, nothing to reorder
+        if (head == null || head.next == null)
+            return;
+
+        // ==========================
+        // STEP 1: Find the middle
+        // ==========================
+
         ListNode slow = head;
         ListNode fast = head;
-        while (fast != null && fast.next != null) {
+
+        // Move slow by 1 step and fast by 2 steps
+        while (fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
 
-        // Step 2: Reverse second half
-        ListNode second = slow.next;
+        // Example:
+        // 1 -> 2 -> 3 -> 4 -> 5
+        //           ^
+        //          slow
+
+        // ==========================
+        // STEP 2: Split into two lists
+        // ==========================
+
+        // Second half starts after slow
+        ListNode second = slow.next; // so 4
+
+        // Cut the list
         slow.next = null;
 
-        ListNode prev = null;
-        while (second != null) {
-            ListNode next = second.next;
-            second.next = prev;
-            prev = second;
-            second = next;
-        }
-        second = prev;
+        // Now we have:
+        //
+        // First:
+        // 1 -> 2 -> 3
+        //
+        // Second:
+        // 4 -> 5
 
-        // Step 3: Merge alternately
-        ListNode first = head;
+        // ==========================
+        // STEP 3: Reverse second half
+        // ==========================
+
+        ListNode prev = null;
+
         while (second != null) {
+
+            // Save next node
+            ListNode next = second.next; // 5
+
+            // Reverse the arrow
+            second.next = prev; // 5 -> null
+
+            // Move prev forward
+            prev = second; // prev = 4
+
+            // Move second forward
+            second = next; // second = 5
+        }
+
+        // prev is now the head of reversed list
+        second = prev; 
+
+        // Now:
+        //
+        // First:
+        // 1 -> 2 -> 3
+        //
+        // Second:
+        // 5 -> 4
+
+        // ==========================
+        // STEP 4: Merge alternately
+        // ==========================
+
+        ListNode first = head;
+
+        while (second != null) {
+
+            // Save next nodes BEFORE changing pointers
             ListNode temp1 = first.next;
             ListNode temp2 = second.next;
 
+            // Connect first node to second node
             first.next = second;
+
+            // Connect second node back to first list
             second.next = temp1;
 
+            // Move to next nodes
             first = temp1;
             second = temp2;
         }
