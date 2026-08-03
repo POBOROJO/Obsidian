@@ -1048,3 +1048,152 @@ Same first two steps, different third step. If you freeze in an interview:
 ```
 
 Break it into 3 sub-problems, solve each independently, compose.
+
+-------------
+## 8️⃣ Circular Array Loop
+
+🔗 LeetCode: [https://leetcode.com/problems/circular-array-loop/](https://leetcode.com/problems/circular-array-loop/)
+
+---
+
+### Description
+
+Given a circular array of non-zero integers, return `true` if there's a valid cycle. Valid cycle must:
+
+- Have all elements moving in the **same direction** (all positive or all negative)
+- Have length **> 1** (no self-loops)
+
+---
+
+### Core Insight
+
+Treat array indices as an implicit linked list — `next(i)` is the node `i` points to.
+
+Floyd's cycle detection — but with **two extra validity checks** at every step:
+
+```
+1. Direction must stay consistent
+2. Cycle length must be > 1
+```
+
+---
+
+### Algorithm
+
+- For each index `i` as starting point:
+    
+    - Record direction: `forward = nums[i] > 0`
+    - `slow = i`, `fast = i`
+    - Loop:
+        - Move `slow` one step → check direction matches
+        - Move `fast` one step → check direction matches
+        - Move `fast` one step → check direction matches
+        - If `slow == fast`:
+            - Check `slow != next(slow)` → else self-loop, break
+            - Return `true`
+- Return `false`
+    
+- `next(i)`:
+    
+    - `next = (i + nums[i]) % n`
+    - If `next < 0` → `next += n`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public boolean circularArrayLoop(int[] nums) {
+        int n = nums.length;
+
+        for (int i = 0; i < n; i++) {
+            boolean forward = nums[i] > 0;
+            int slow = i, fast = i;
+
+            while (true) {
+                slow = next(nums, slow);
+                if ((nums[slow] > 0) != forward) break;
+
+                fast = next(nums, fast);
+                if ((nums[fast] > 0) != forward) break;
+
+                fast = next(nums, fast);
+                if ((nums[fast] > 0) != forward) break;
+
+                if (slow == fast) {
+                    if (slow == next(nums, slow)) break; // self-loop
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private int next(int[] nums, int i) {
+        int n = nums.length;
+        int next = (i + nums[i]) % n;
+        if (next < 0) next += n;
+        return next;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[2,-1,1,2,2]` **Output:** `true` **Cycle:** `0 → 2 → 3 → 0` (all moving forward)
+
+**Input:** `[-1,-2,-3,-4,-5,6]` **Output:** `false` **Reason:** only cycle has length 1 (self-loop)
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Floyd's Cycle Detection on Circular Array (with validity constraints)
+```
+
+Key condition:
+
+```
+Check direction at every step — direction change = invalid, break immediately
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Check direction only at start → mixed-direction cycles incorrectly accepted
+- Forget `next < 0 → next += n` → negative indices crash the array access
+- Skip the self-loop check `slow == next(slow)` → single-element cycles incorrectly return `true`
+- Check direction after both fast steps together → misses direction violation on the first fast step
+- Use `%` alone for negative numbers in Java → Java `%` can return negative, always add `n` guard
+
+---
+
+### Extra Insight
+
+Floyd's family so far — notice the pattern expanding:
+
+```
+Linked List Cycle       → basic Floyd's, no constraints
+Linked List Cycle II    → Floyd's + find entrance
+Find Duplicate Number   → Floyd's on array values as pointers
+Happy Number            → Floyd's on number sequence
+Circular Array Loop     → Floyd's + direction constraint + self-loop constraint
+```
+
+Each one adds a layer on top of the same core idea. When you see **"sequence that might repeat with constraints"** → reach for Floyd's and ask what the validity conditions are.
