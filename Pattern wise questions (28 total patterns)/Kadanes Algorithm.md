@@ -387,4 +387,261 @@ Max/Min Subarray SUM      → track ONE running value (extend or restart)
 Max Product Subarray      → track TWO running values (max AND min, because negative flips them)
 ```
 
-Whenever a problem involves **multiplication** and the array can have **negative numbers**, your brain should immediately think: _"I need both max and min trackers, not just one."_
+Whenever a problem involves **multiplication** and the array can have **negative numbers**, your brain should immediately think: _"I need both max and min trackers, not just one."
+
+___
+## 4️⃣ Maximum Subarray Sum with One Deletion
+
+🔗 LeetCode: [https://leetcode.com/problems/maximum-subarray-sum-with-one-deletion/](https://leetcode.com/problems/maximum-subarray-sum-with-one-deletion/)
+
+---
+
+### Description
+
+Given an array of integers, return the maximum sum for a non-empty subarray with **at most one element deletion** allowed. The final subarray after deletion must still be non-empty.
+
+---
+
+### Core Insight
+
+At every index, you're tracking **two parallel states**:
+
+```
+noDel  = best subarray ending here, with NO deletion used
+oneDel = best subarray ending here, WITH one deletion already used
+```
+
+`oneDel[i]` can come from two places:
+
+1. Delete `arr[i]` itself → carry forward `noDel` from previous index (skip current)
+2. Deletion already used earlier → extend `oneDel` from previous index by adding `arr[i]`
+
+---
+
+### Algorithm
+
+- `noDel = arr[0]`, `oneDel = arr[0]`, `res = arr[0]`
+- From index `1` onward:
+    - Save `prevNoDel = noDel` (before overwriting)
+    - `noDel = max(noDel + arr[i], arr[i])` — standard Kadane's
+    - `oneDel = max(prevNoDel, oneDel + arr[i])` — either delete current, or extend with deletion already spent
+    - `res = max(res, noDel, oneDel)`
+- Return `res`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int maximumSum(int[] arr) {
+        int n = arr.length;
+        int noDel = arr[0];
+        int oneDel = arr[0];
+        int res = arr[0];
+
+        for (int i = 1; i < n; i++) {
+            int prevNoDel = noDel;
+
+            noDel = Math.max(noDel + arr[i], arr[i]);
+            oneDel = Math.max(prevNoDel, oneDel + arr[i]);
+            res = Math.max(res, Math.max(noDel, oneDel));
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,-2,0,3]`
+
+```
+i=0: noDel=1, oneDel=1, res=1
+i=1: prevNoDel=1
+     noDel = max(1-2, -2) = -1
+     oneDel = max(1, 1-2) = 1        (delete -2, keep prev noDel=1)
+     res = max(1, -1, 1) = 1
+i=2: prevNoDel=-1
+     noDel = max(-1+0, 0) = 0
+     oneDel = max(-1, 1+0) = 1
+     res = max(1, 0, 1) = 1
+i=3: prevNoDel=0
+     noDel = max(0+3, 3) = 3
+     oneDel = max(0, 1+3) = 4        (deletion carried forward + 3)
+     res = max(1, 3, 4) = 4
+```
+
+**Output:** `4` → subarray `[1,0,3]` after deleting `-2`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Kadane's Variant — Dual State Tracking (with/without deletion)
+```
+
+Key condition:
+
+```
+Save prevNoDel BEFORE overwriting noDel — oneDel needs the OLD noDel value,
+using the already-updated one corrupts the "delete current element" case
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Update `noDel` before computing `oneDel` → `oneDel` uses corrupted (already-advanced) value for the "delete current" case
+- Forget `prevNoDel` save entirely → same bug, silently wrong answers on inputs where deletion timing matters
+- Try to solve with a single running variable (plain Kadane's) → can't represent "one deletion used or not" as one number, fundamentally needs 2 states
+- Initialize `oneDel = 0` → wrong, must start at `arr[0]` same as `noDel` since deleting the only element isn't allowed yet
+
+---
+
+### Extra Insight
+
+Kadane's family is expanding — notice the _state count_ growing with each new twist:
+
+```
+Max/Min Subarray Sum        → 1 state  (bestEnding)
+Max Product Subarray        → 2 states (max AND min, because of sign flip)
+Max Sum with One Deletion   → 2 states (noDel AND oneDel, because of deletion choice)
+```
+
+Whenever a Kadane's-style problem adds a **new decision** (delete or not, flip or not, skip or not) — that decision usually becomes a **new parallel state** you track alongside the original running value. The core "extend or restart" logic still applies within each state.
+
+___
+## 5️⃣ Maximum Absolute Sum of Any Subarray
+
+🔗 LeetCode: [https://leetcode.com/problems/maximum-absolute-sum-of-any-subarray/](https://leetcode.com/problems/maximum-absolute-sum-of-any-subarray/)
+
+---
+
+### Description
+
+Given an integer array `nums`, return the maximum **absolute sum** of any subarray — `abs(sum of subarray)`.
+
+---
+
+### Core Insight
+
+The maximum absolute sum is either:
+
+```
+the maximum possible sum (if it's a large positive)
+OR
+the minimum possible sum, made positive (if it's a large negative)
+```
+
+So run **two Kadane's in parallel** — one for max sum, one for min sum — then return whichever has the larger absolute value.
+
+---
+
+### Algorithm
+
+- `maxEnd = maxSum = nums[0]`, `minEnd = minSum = nums[0]`
+- From index `1` onward:
+    - `maxEnd = max(maxEnd + nums[i], nums[i])` — standard Kadane's max
+    - `maxSum = max(maxSum, maxEnd)`
+    - `minEnd = min(minEnd + nums[i], nums[i])` — standard Kadane's min
+    - `minSum = min(minSum, minEnd)`
+- Return `max(abs(maxSum), abs(minSum))`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int maxAbsoluteSum(int[] nums) {
+        int maxEnd = nums[0], maxSum = nums[0];
+        int minEnd = nums[0], minSum = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            maxEnd = Math.max(maxEnd + nums[i], nums[i]);
+            maxSum = Math.max(maxSum, maxEnd);
+
+            minEnd = Math.min(minEnd + nums[i], nums[i]);
+            minSum = Math.min(minSum, minEnd);
+        }
+        return Math.max(Math.abs(maxSum), Math.abs(minSum));
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[2,-5,1,-4,3,-2]`
+
+```
+Max Kadane's tracks: best positive-leaning subarray
+Min Kadane's tracks: best negative-leaning subarray → [-5,1,-4] = -8
+```
+
+**Output:** `8` → `abs(-8) = 8`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Kadane's Variant — Run Max AND Min Kadane's Independently, Compare Absolutes
+```
+
+Key condition:
+
+```
+Unlike Max Product Subarray, max and min here don't interact —
+they're two completely separate, independent Kadane's runs
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Try to combine max/min tracking like Max Product Subarray (using each other in the update) → wrong, sum doesn't flip sign on multiplication, these are genuinely independent
+- Forget `Math.abs()` on `minSum` before comparing → minSum is negative, comparing raw values gives wrong answer
+- Only track max Kadane's → misses cases where the most negative subarray has larger absolute value
+
+---
+
+### Extra Insight
+
+Compare this to Max Product Subarray — both track two running values, but for different reasons:
+
+```
+Max Product Subarray  → min/max INTERACT (negative flips them into each other)
+Max Absolute Sum      → min/max are INDEPENDENT (two separate Kadane's, just compare at the end)
+```
+
+Don't confuse "track two values" with "the two values depend on each other." Recognizing which case you're in tells you whether to compute `v1,v2,v3` together (product) or run two clean separate loops (absolute sum).
+
+___
