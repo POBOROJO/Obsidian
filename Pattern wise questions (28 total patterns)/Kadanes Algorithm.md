@@ -1,5 +1,9 @@
 ![[Pasted image 20260808160513.png]]
 
+![[Pasted image 20260811000859.png]]
+
+
+
 ## **NOTE ❗❗❗ — When is a question of Kadane's Algorithm**
 
 **Tags: Dynamic Programming / Greedy on Subarrays**
