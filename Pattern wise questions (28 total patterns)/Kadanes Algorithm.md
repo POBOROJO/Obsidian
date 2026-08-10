@@ -649,3 +649,135 @@ Max Absolute Sum      → min/max are INDEPENDENT (two separate Kadane's, just c
 Don't confuse "track two values" with "the two values depend on each other." Recognizing which case you're in tells you whether to compute `v1,v2,v3` together (product) or run two clean separate loops (absolute sum).
 
 ___
+
+## 6️⃣ Maximum Sum Circular Subarray
+
+🔗 LeetCode: [https://leetcode.com/problems/maximum-sum-circular-subarray/](https://leetcode.com/problems/maximum-sum-circular-subarray/)
+
+---
+
+### Description
+
+Given a circular integer array `nums`, return the maximum possible sum of a non-empty subarray. The array wraps around — end connects to beginning.
+
+---
+
+### Core Insight
+
+The maximum subarray is either:
+
+```
+Case 1: Normal (non-wrapping) → plain Kadane's max
+Case 2: Wrapping around the edge → totalSum - (minimum subarray sum)
+```
+
+Why does Case 2 work? If you remove the **minimum** subarray from the total, what's left (split across the wrap) is the maximum possible wrapping sum.
+
+**Edge case:** if ALL elements are negative, `totalSum - minSum` gives `0` (empty subarray), which is invalid — so you must return plain `maxSum` in that case.
+
+---
+
+### Algorithm
+
+- Run Kadane's for both max and min simultaneously
+- Track `totalSum` alongside
+- If `maxSum < 0` (all negative) → return `maxSum` directly
+- Else → return `max(maxSum, totalSum - minSum)`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int maxSubarraySumCircular(int[] a) {
+        int totalSum = 0;
+
+        int maxSum = a[0];
+        int maxEnd = 0;
+
+        int minSum = a[0];
+        int minEnd = 0;
+
+        for (int i = 0; i < a.length; i++) {
+            totalSum += a[i];
+
+            maxEnd = Math.max(maxEnd + a[i], a[i]);
+            maxSum = Math.max(maxSum, maxEnd);
+
+            minEnd = Math.min(minEnd + a[i], a[i]);
+            minSum = Math.min(minSum, minEnd);
+        }
+
+        if (maxSum < 0) return maxSum;
+
+        return Math.max(maxSum, totalSum - minSum);
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[5,-3,5]`
+
+```
+Plain Kadane's max: [5] or [5,-3,5] → maxSum = 7
+Min subarray: [-3] → minSum = -3
+totalSum = 7
+totalSum - minSum = 7 - (-3) = 10   ← wraps around, uses [5] + [5]
+```
+
+**Output:** `10`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(1)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Kadane's Variant — Max(non-wrapping, wrapping) via totalSum - minSum
+```
+
+Key condition:
+
+```
+All-negative check is MANDATORY — without it, totalSum - minSum silently
+returns an invalid "empty subarray" result (0) instead of the correct negative answer
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Forget the `maxSum < 0` check → for `[-3,-2,-3]`, `totalSum - minSum = -8-(-8) = 0`, but `0` isn't a valid subarray sum here — answer should be `-2`
+- Confuse this with Maximum Absolute Sum → different problem, this compares `maxSum` vs `totalSum - minSum`, not `abs(maxSum)` vs `abs(minSum)`
+- Try to actually "wrap" the array (concatenate nums+nums) → works but O(n) extra space, this formula avoids it entirely
+
+---
+
+### Extra Insight
+
+The trick `totalSum - minSum` is the real insight here — it converts a **circular** problem into **two linear** Kadane's runs, no array duplication needed.
+
+Kadane's family now includes a **structural trick**, not just a state-tracking twist:
+
+```
+Max Product Subarray        → 2 interacting states (max/min flip)
+Max Sum One Deletion        → 2 parallel states (with/without deletion)
+Max Absolute Sum             → 2 independent Kadane's, compare abs()
+Max Sum Circular Subarray    → 2 Kadane's + totalSum arithmetic trick (non-wrap vs wrap)
+```
+
+Whenever "circular" or "wraps around" appears with a subarray sum question — think `totalSum - minSum` before reaching for array duplication tricks.
