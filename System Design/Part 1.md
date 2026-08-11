@@ -102,6 +102,10 @@
 
 > Client → **API Gateway → Correct Microservice**
 
+🟠 EC2 --> Elastic Compute --> (means server)
+🟣 ELB --> Elastic Load Balancer
+🩷---> API Gateway
+
 ![[Pasted image 20260812002224.png]]
 
 ----
@@ -154,6 +158,10 @@
 > Queue = **Wait somewhere else**
 
 ![[Pasted image 20260812004913.png]]
+
+![[Pasted image 20260812005749.png]]   ----> SQS -> simple Queue System
+
+
 
 ---
 ### 6. Pub/Sub + Fan-Out
