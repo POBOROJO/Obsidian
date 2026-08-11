@@ -69,6 +69,7 @@
 > Load Balancer = **Traffic Police**
 
 ![[Pasted image 20260812001608.png]]
+
 ---
 
 ### 4. Microservices + API Gateway
@@ -101,8 +102,9 @@
 
 > Client → **API Gateway → Correct Microservice**
 
----
+![[Pasted image 20260812002224.png]]
 
+----
 ### 5. Synchronous vs Asynchronous + Queue
 
 **Synchronous**
