@@ -153,8 +153,9 @@
 > Async = **Don't wait**  
 > Queue = **Wait somewhere else**
 
----
+![[Pasted image 20260812004913.png]]
 
+---
 ### 6. Pub/Sub + Fan-Out
 
 **Pub/Sub**
