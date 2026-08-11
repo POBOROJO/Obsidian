@@ -161,8 +161,6 @@
 
 ![[Pasted image 20260812005749.png]]   ----> SQS -> simple Queue System
 
-
-
 ---
 ### 6. Pub/Sub + Fan-Out
 
@@ -176,6 +174,14 @@
 **Hinglish:**
 
 > Ek service **Topic par message publish** karti hai aur multiple services us message ko receive kar sakti hain.
+
+![[Pasted image 20260812011711.png]]
+###### SNS - simple notification system 
+ 
+> ==**It is also called as an Event Driven Architecture**==
+
+
+
 
 **Fan-Out**
 
