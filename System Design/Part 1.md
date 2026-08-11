@@ -68,6 +68,7 @@
 
 > Load Balancer = **Traffic Police**
 
+![[Pasted image 20260812001608.png]]
 ---
 
 ### 4. Microservices + API Gateway
