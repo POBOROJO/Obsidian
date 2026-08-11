@@ -181,8 +181,6 @@
 > ==**It is also called as an Event Driven Architecture**==
 
 
-
-
 **Fan-Out**
 
 - One event → **multiple queues**.
@@ -209,6 +207,9 @@ Each service can process/retry independently.
 
 > Pub/Sub = **One → Many consumers**  
 > Fan-Out = **One event → Many queues**
+
+
+![[Pasted image 20260812012316.png]]
 
 ---
 
