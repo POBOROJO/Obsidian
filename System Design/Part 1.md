@@ -1,5 +1,8 @@
 # System Design — Quick Revision Notes
 
+
+Link : https://app.eraser.io/workspace/iqJpubqh27BKsgnPWQud
+
 ### 1. Server + DNS
 
 - **Server** → Machine that runs the application and serves requests.
