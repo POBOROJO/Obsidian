@@ -300,6 +300,9 @@ Read  → Read Replica
 Request → Redis → DB (if cache miss)
 ```
 
+
+![[Pasted image 20260814013140.png|420]]
+
 ---
 
 ### 9. CDN + Edge Caching
