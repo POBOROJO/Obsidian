@@ -1,4 +1,4 @@
-### **NOTE ❗❗❗ -   ==When is a question of Sliding Window**== 
+### **NOTE ❗❗❗ -   ==When is a question of Sliding Window**==  and It does not work in Negative numbers
 
 ---
 tags:
