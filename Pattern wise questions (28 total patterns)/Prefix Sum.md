@@ -124,7 +124,7 @@ If you:
 
 1. Compute total sum once
 2. Walk through array, maintaining `left` (or prefix) as you go
-or `target - k`) via subtraction — never recompute from scratch
+3. Derive whatever you need (`right`, or `target - k`) via subtraction — never recompute from scratch
 
 ---
 
