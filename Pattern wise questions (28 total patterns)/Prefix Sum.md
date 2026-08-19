@@ -124,11 +124,8 @@ If you:
 
 1. Compute total sum once
 2. Walk through array, maintaining `left` (or prefix) as you go
-3. Derive whatever you need (`right`, or `target - k`) via subtraction — never recompute from scratch
+or `target - k`) via subtraction — never recompute from scratch
 
 ---
-
-
-
 
 ![[Pasted image 20260819031213.png]]
