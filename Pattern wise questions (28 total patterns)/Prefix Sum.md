@@ -129,3 +129,126 @@ If you:
 ---
 
 ![[Pasted image 20260819031213.png]]
+
+---
+## 2️⃣ Subarray Sum Equals K
+
+🔗 LeetCode: [https://leetcode.com/problems/subarray-sum-equals-k/](https://leetcode.com/problems/subarray-sum-equals-k/)
+
+---
+
+### Description
+
+Given an array `nums` and integer `k`, return the total number of subarrays whose sum equals `k`.
+
+---
+
+### Core Insight
+
+If `prefixSum[j] - prefixSum[i] = k`, then the subarray between `i+1` and `j` sums to `k`.
+
+So for every current prefix sum, check how many times `(prefixSum - k)` has appeared before — that count tells you how many valid subarrays end here.
+
+```
+Prefix Sum + HashMap frequency lookup
+```
+
+---
+
+### Algorithm
+
+- `map = {0 → 1}` (empty prefix exists once — handles subarrays starting at index 0)
+- `sum = 0`, `count = 0`
+- For each `num` in `nums`:
+    - `sum += num`
+    - `target = sum - k`
+    - If `map.containsKey(target)` → `count += map.get(target)`
+    - `map[sum]++`
+- Return `count`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int subarraySum(int[] nums, int k) {
+        int n = nums.length;
+        int sum = 0;
+        int count = 0;
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+
+        for (int num : nums) {
+            sum += num;
+
+            int target = sum - k;
+
+            if (map.containsKey(target)) {
+                count += map.get(target);
+            }
+
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return count;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[1,1,1], k = 2` **Output:** `2`
+
+**Input:** `[1,2,3], k = 3` **Output:** `2` → subarrays `[1,2]` and `[3]`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(n)**
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Prefix Sum + HashMap (Frequency Lookup)
+```
+
+Key condition:
+
+```
+map.put(0, 1) is critical — without it, subarrays starting at index 0 are never counted
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Forget `map.put(0, 1)` → misses all subarrays that start from index 0 and equal `k` directly
+- Use `map.containsKey(target)` with `count++` instead of `count += map.get(target)` → undercounts, misses that the same prefix sum can occur multiple times
+- Try sliding window instead → fails, array has negative numbers, sum isn't monotonic
+- Update `map[sum]` BEFORE checking `target` → could self-match the current element incorrectly in edge cases
+
+---
+
+### Extra Insight
+
+This is the **template problem** for prefix sum + hashmap counting. Compare to Find Pivot Index:
+
+```
+Find Pivot Index         → running left sum, DERIVE right via subtraction (no map needed)
+Subarray Sum Equals K    → running prefix sum, LOOKUP via hashmap (map needed)
+```
+
+Use a map whenever you need to count **how many times** a certain prefix value occurred — not just derive one value from the total.
+
+---
