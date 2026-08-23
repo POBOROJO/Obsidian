@@ -252,3 +252,157 @@ Subarray Sum Equals K    → running prefix sum, LOOKUP via hashmap (map needed)
 Use a map whenever you need to count **how many times** a certain prefix value occurred — not just derive one value from the total.
 
 ---
+## 3️⃣ Subarray Sums Divisible by K
+
+🔗 LeetCode: [https://leetcode.com/problems/subarray-sums-divisible-by-k/](https://leetcode.com/problems/subarray-sums-divisible-by-k/)
+
+---
+
+### Description
+
+Given an integer array `nums` and integer `k`, return the number of non-empty subarrays whose sum is divisible by `k`.
+
+---
+
+### Core Insight
+
+Same shape as Subarray Sum Equals K — but instead of looking up an exact prefix value, you look up **prefix sums with the same remainder mod k**.
+
+```
+If prefixSum[j] % k == prefixSum[i] % k, then subarray (i+1..j) is divisible by k
+```
+
+Why? Two prefix sums with the same remainder differ by a multiple of `k` — so their difference (the subarray between them) is divisible by `k`.
+
+---
+
+### Algorithm
+
+- `map = {0 → 1}` (empty prefix has remainder 0, counted once)
+- `sum = 0`, `res = 0`
+- For each `num` in `nums`:
+    - `sum += num`
+    - `rem = sum % k`
+    - If `rem < 0` → `rem += k` (handle negative remainder)
+    - If `map.containsKey(rem)` → `res += map.get(rem)`
+    - `map[rem]++`
+- Return `res`
+
+---
+
+### Code (Java)
+
+```java
+class Solution {
+    public int subarraysDivByK(int[] nums, int k) {
+        int sum = 0;
+        int res = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        map.put(0, 1);
+
+        for (int num : nums) {
+            sum += num;
+
+            int rem = sum % k;
+            if (rem < 0) {
+                rem += k;
+            }
+
+            if (map.containsKey(rem)) {
+                res += map.get(rem);
+            }
+
+            map.put(rem, map.getOrDefault(rem, 0) + 1);
+        }
+        return res;
+    }
+}
+```
+
+---
+
+### Example
+
+**Input:** `[4,5,0,-2,-3,1], k = 5` **Output:** `7`
+
+---
+
+### Complexity
+
+- Time: **O(n)**
+- Space: **O(k)** — at most `k` distinct remainders
+
+---
+
+### Interview Notes
+
+Pattern:
+
+```
+Prefix Sum + HashMap (Remainder Frequency Lookup)
+```
+
+Key condition:
+
+```
+Group by rem = sum % k instead of exact sum — always normalize negative remainders before lookup
+```
+
+---
+
+### Brutal Truth
+
+If you:
+
+- Skip the `rem < 0 → rem += k` fix → Java's `%` can return negative, breaks map lookups entirely (two mathematically equal remainders treated as different keys)
+- Forget `map.put(0, 1)` → misses subarrays from index 0 that are already divisible by k
+- Confuse this with Subarray Sum Equals K → structurally identical, just map on `remainder` instead of `sum`
+
+---
+
+![[Pasted image 20260824024528.png|616]]
+
+### 📌 NOTE — How to Find Remainder for Negative Numbers (Java)
+
+**The problem:** Java's `%` operator does NOT behave like true mathematical modulo for negative numbers.
+
+```java
+-3 % 5   // Java gives -3, NOT 2
+```
+
+Mathematically, `-3 mod 5 = 2` (because `-3 = -1×5 + 2`). But Java's `%` is a **remainder operator**, not a modulo operator — it keeps the sign of the dividend.
+
+```
+ 7 % 5 =  2     (positive stays positive)
+-7 % 5 = -2     (Java keeps the negative sign!)
+```
+
+**The fix — always normalize:**
+
+```java
+int rem = sum % k;
+if (rem < 0) {
+    rem += k;
+}
+```
+
+This works because adding `k` to a negative remainder shifts it into the correct positive range `[0, k-1]` without changing which "bucket" it mathematically belongs to.
+
+**One-liner alternative (same effect):**
+
+```java
+int rem = ((sum % k) + k) % k;
+```
+
+**Rule to remember:**
+
+```
+Whenever you compute X % k and X can be negative,
+ALWAYS add k and take % k again (or check < 0 and add k) —
+otherwise your hashmap buckets will be wrong and silently give incorrect counts.
+```
+
+This exact bug is the #1 mistake on this problem — it compiles fine, runs fine, and gives wrong answers only on inputs with negative prefix sums.
+
+---
